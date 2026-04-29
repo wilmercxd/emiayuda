@@ -1,0 +1,2103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EMI FALCK · Asistente de Ventas v3.0</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Barlow:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,700;1,800;1,900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --r:#E8001D; --rd:#C0001A; --rl:rgba(232,0,29,.07); --rb:rgba(232,0,29,.2);
+  --k:#0C0C0C; --k8:#1A1A1A; --k7:#333; --k5:#666; --k3:#BBB; --k1:#E8E8E8; --k05:#F5F5F5;
+  --w:#FFF;
+  --g:#006B35; --gl:rgba(0,107,53,.07); --gb:rgba(0,107,53,.25);
+  --b:#0D47A1; --bl:rgba(13,71,161,.07); --bb:rgba(13,71,161,.22);
+  --y:#B06000; --yl:rgba(176,96,0,.07); --yb:rgba(176,96,0,.25);
+  --ff:'Barlow',sans-serif; --fm:'DM Mono',monospace;
+  --s0:0 1px 3px rgba(0,0,0,.07); --s1:0 2px 8px rgba(0,0,0,.09); --s2:0 6px 24px rgba(0,0,0,.12);
+  --r6:6px; --r8:8px; --r10:10px; --r12:12px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:15px;scroll-behavior:smooth}
+body{font-family:var(--ff);background:var(--k05);color:var(--k);line-height:1.5;min-height:100vh;-webkit-font-smoothing:antialiased}
+
+/* ══ TOPBAR ══ */
+.top{position:sticky;top:0;z-index:200;background:var(--w);border-bottom:1.5px solid var(--k1);
+  height:52px;display:flex;align-items:center;padding:0 20px;gap:16px}
+.top-brand{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.top-logo{background:var(--r);color:var(--w);font-weight:900;font-size:12px;font-style:italic;
+  letter-spacing:.5px;padding:4px 10px;border-radius:6px;line-height:1.3}
+.top-brand-txt .name{font-size:13px;font-weight:800;line-height:1;letter-spacing:-.3px;font-style:italic}
+.top-brand-txt .name span{color:var(--r)}
+.top-brand-txt .sub{font-size:9px;font-weight:600;color:var(--k3);letter-spacing:.12em;text-transform:uppercase}
+
+/* STEPS */
+.steps-nav{flex:1;display:flex;align-items:center;justify-content:center;gap:3px;overflow:hidden}
+.step-btn{display:flex;align-items:center;gap:6px;padding:6px 12px;border-radius:8px;
+  border:none;background:none;cursor:pointer;font-family:var(--ff);
+  font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--k3);transition:all .15s}
+.step-btn:hover{background:var(--k05);color:var(--k7)}
+.step-btn.active{background:var(--w);color:var(--r);box-shadow:var(--s0);border:1px solid var(--k1)}
+.step-btn.done{color:var(--g)}
+.step-num{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:9px;font-weight:800;flex-shrink:0;font-family:var(--fm)}
+.step-btn .step-num{background:var(--k1);color:var(--k5)}
+.step-btn.active .step-num{background:var(--r);color:var(--w)}
+.step-btn.done .step-num{background:var(--g);color:var(--w)}
+
+.top-right{display:flex;gap:8px;align-items:center;flex-shrink:0}
+.tbtn{font-family:var(--ff);font-size:11px;font-weight:700;padding:6px 14px;border-radius:7px;
+  border:1.5px solid var(--k1);color:var(--k5);background:var(--w);
+  cursor:pointer;text-decoration:none;transition:all .15s;white-space:nowrap}
+.tbtn:hover{border-color:var(--k3);color:var(--k)}
+.tbtn.obj-btn{border-color:var(--rb);color:var(--r);background:var(--rl)}
+.tbtn.obj-btn.open{background:var(--r);color:var(--w);border-color:var(--r)}
+.tbtn.red{background:var(--r);border-color:var(--r);color:var(--w)}
+.tbtn.red:hover{background:var(--rd)}
+
+/* ══ LAYOUT ══ */
+.app{display:grid;grid-template-columns:340px 1fr;min-height:calc(100vh - 52px);position:relative}
+
+/* ══ LEFT SIDEBAR ══ */
+.sidebar{background:var(--w);border-right:1.5px solid var(--k1);overflow-y:auto}
+.sidebar::-webkit-scrollbar{width:3px}
+.sidebar::-webkit-scrollbar-thumb{background:var(--k1);border-radius:2px}
+.spanel{padding:16px 18px;border-bottom:1px solid var(--k1)}
+.sh{font-size:9px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:var(--r);
+  display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.sh::after{content:'';flex:1;height:1px;background:var(--rb)}
+.flbl{display:block;font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--k5);margin-bottom:4px}
+.row2{display:grid;grid-template-columns:90px 1fr;gap:6px;margin-bottom:8px}
+.row2x{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px}
+input[type=text],input[type=date],input[type=email],input[type=tel],select,textarea{
+  width:100%;background:var(--w);border:1.5px solid var(--k1);border-radius:7px;
+  padding:8px 11px;font-family:var(--ff);font-size:13px;color:var(--k);
+  outline:none;transition:border-color .15s;box-shadow:var(--s0)}
+input:focus,select:focus,textarea:focus{border-color:var(--k)}
+select{cursor:pointer;-webkit-appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23999'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 10px center;padding-right:26px}
+textarea{resize:vertical;min-height:78px;font-size:11px;font-family:var(--fm);line-height:1.6}
+
+.btn-p{width:100%;padding:11px;background:var(--r);color:var(--w);border:none;border-radius:8px;
+  font-family:var(--ff);font-weight:800;font-size:13px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  transition:background .15s,transform .1s;letter-spacing:.02em}
+.btn-p:hover{background:var(--rd)}
+.btn-p:active{transform:scale(.98)}
+.btn-p svg{width:14px;height:14px;flex-shrink:0;fill:none;stroke:var(--w);stroke-width:2}
+.btn-g{display:block;text-align:center;text-decoration:none;width:100%;padding:9px;
+  margin-top:8px;background:var(--w);border:1.5px solid var(--k1);border-radius:8px;
+  color:var(--k5);font-family:var(--ff);font-weight:600;font-size:12px;transition:all .15s}
+.btn-g:hover{border-color:var(--k3);color:var(--k)}
+
+/* PASTE */
+.paste-box{border:1.5px dashed var(--k3);border-radius:9px;padding:10px 12px;
+  background:var(--w);transition:all .2s;box-shadow:var(--s0)}
+.paste-box.ok{border-color:var(--g);border-style:solid;background:var(--gl)}
+.paste-box.err{border-color:var(--r);border-style:solid;background:var(--rl)}
+.pz-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px}
+.pz-h{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--k5)}
+.pz-s{font-size:9px;font-family:var(--fm);color:var(--k5)}
+.pz-s.ok{color:var(--g);font-weight:600}
+.pz-s.err{color:var(--r);font-weight:600}
+.pz-ta{width:100%;border:none;background:transparent;font-family:var(--fm);
+  font-size:10px;color:var(--k7);resize:none;min-height:70px;outline:none;line-height:1.6}
+.pz-ta::placeholder{color:var(--k3)}
+.prog{height:2px;background:var(--k1);border-radius:1px;margin:8px 0;overflow:hidden}
+.prog-f{height:100%;background:var(--r);border-radius:1px;width:0;transition:width .5s ease}
+
+/* CHIPS */
+.xg{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;display:none}
+.xc{background:var(--w);border:1px solid var(--k1);border-radius:7px;padding:7px 9px;
+  box-shadow:var(--s0);animation:fu .25s ease both}
+@keyframes fu{from{opacity:0;transform:translateY(4px)}to{opacity:1}}
+.xc:nth-child(1){animation-delay:.04s}.xc:nth-child(2){animation-delay:.09s}
+.xc:nth-child(3){animation-delay:.14s}.xc:nth-child(4){animation-delay:.19s}
+.xc:nth-child(5){animation-delay:.24s}.xc:nth-child(6){animation-delay:.29s}
+.xk{font-size:8px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--k5);margin-bottom:2px}
+.xv{font-size:11px;font-weight:700;color:var(--k);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.xv.g{color:var(--g)}.xv.y{color:var(--y)}.xv.r{color:var(--r)}.xv.b{color:var(--b)}
+
+/* AFIL BUTTONS */
+.ab-row{display:flex;gap:5px;margin-top:4px}
+.ab{width:32px;height:32px;border-radius:6px;border:1.5px solid var(--k1);
+  background:var(--w);color:var(--k5);font-family:var(--fm);font-size:13px;font-weight:700;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .12s}
+.ab:hover{border-color:var(--k3);color:var(--k)}
+.ab.on{background:var(--k);border-color:var(--k);color:var(--w)}
+
+/* ══ MAIN CONTENT ══ */
+.main{overflow-y:auto;background:var(--k05)}
+.main::-webkit-scrollbar{width:3px}
+.main::-webkit-scrollbar-thumb{background:var(--k1)}
+.phase{display:none;padding:32px 36px 64px;max-width:900px}
+.phase.active{display:block}
+
+/* PHASE HEADER */
+.ph-label{font-size:9px;font-weight:800;letter-spacing:.3em;text-transform:uppercase;color:var(--r);margin-bottom:4px}
+.ph-title{font-size:38px;font-weight:900;font-style:italic;letter-spacing:-1.5px;text-transform:uppercase;
+  line-height:1;color:var(--k);margin-bottom:6px}
+.ph-desc{font-size:13px;color:var(--k5);max-width:520px;margin-bottom:28px}
+
+/* NAV BUTTONS */
+.nav-row{display:flex;justify-content:space-between;align-items:center;margin-top:32px}
+.nav-btn{display:flex;align-items:center;gap:6px;padding:12px 24px;border-radius:10px;
+  font-family:var(--ff);font-weight:800;font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+  cursor:pointer;transition:all .15s;border:none}
+.nav-prev{background:none;color:var(--k5)}
+.nav-prev:hover{color:var(--k)}
+.nav-next{background:var(--k);color:var(--w);box-shadow:var(--s1)}
+.nav-next:hover{background:var(--r)}
+.nav-btn svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.5}
+
+/* CARDS */
+.card{background:var(--w);border:1.5px solid var(--k1);border-radius:12px;
+  padding:20px 22px;box-shadow:var(--s0);transition:box-shadow .15s}
+.card:hover{box-shadow:var(--s1)}
+.card.dark{background:var(--k);border-color:transparent;color:var(--w)}
+.card.red-border{border-color:rgba(232,0,29,.3)}
+.card-grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.card-grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+
+/* ══ FASE 1: PROTOCOLO ══ */
+.recording-badge{display:flex;align-items:center;gap:8px;padding:4px 14px;
+  background:rgba(232,0,29,.07);border:1px solid var(--rb);border-radius:20px;
+  font-size:10px;font-weight:700;color:var(--r)}
+.recording-dot{width:7px;height:7px;border-radius:50%;background:var(--r);animation:pulse 1.5s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.script-box{background:var(--w);border:1.5px solid var(--k1);border-radius:12px;padding:24px;
+  font-size:22px;font-weight:700;line-height:1.6;color:var(--k);position:relative}
+.script-field{color:var(--r);font-weight:800}
+.script-alert{background:var(--rl);border-left:4px solid var(--r);border-radius:0 8px 8px 0;
+  padding:14px 18px;margin-top:16px}
+.script-alert-label{font-size:9px;font-weight:800;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--r);margin-bottom:6px;display:flex;align-items:center;gap:6px}
+.script-alert-text{font-size:16px;font-weight:700;font-style:italic;color:var(--k7);line-height:1.5}
+.alert-critical{font-size:9px;font-weight:800;color:var(--r);letter-spacing:.08em;
+  text-transform:uppercase;margin-top:8px;opacity:.7}
+.agent-card{background:var(--k);border-radius:12px;padding:20px;color:var(--w)}
+.agent-label{font-size:9px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--r);margin-bottom:8px}
+.agent-input{width:100%;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);
+  border-radius:8px;padding:10px 14px;color:var(--w);font-family:var(--ff);font-size:14px;
+  font-weight:600;outline:none;transition:background .15s}
+.agent-input:focus{background:rgba(255,255,255,.18)}
+.agent-input::placeholder{color:rgba(255,255,255,.3)}
+.checklist{background:var(--k05);border-radius:8px;padding:14px;margin-top:12px;border:1.5px solid var(--k1)}
+.checklist-title{font-size:8px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--r);margin-bottom:10px}
+.check-item{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:600;margin-bottom:6px;color:var(--k)}
+.check-item:last-child{margin-bottom:0}
+.check-dot{width:7px;height:7px;border-radius:50%;background:#4CAF50;flex-shrink:0}
+
+/* ══ FASE 2: DIAGNÓSTICO ══ */
+.persona-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.persona-btn{width:40px;height:40px;border-radius:10px;border:1.5px solid var(--k1);
+  background:var(--w);font-size:18px;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center}
+.persona-btn:hover{transform:scale(1.08)}
+.persona-btn.on{background:var(--r);border-color:var(--r);transform:scale(1.1);box-shadow:0 4px 12px rgba(232,0,29,.3)}
+.persona-banner{background:var(--k);color:var(--w);border-radius:12px;padding:16px 20px;
+  margin-bottom:20px;display:flex;align-items:flex-start;gap:12px}
+.persona-banner-label{font-size:9px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--r);margin-bottom:4px}
+.persona-banner-script{font-size:14px;font-weight:600;font-style:italic;line-height:1.6;opacity:.9}
+.spin-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.spin-card{background:var(--w);border:1.5px solid var(--k1);border-radius:12px;padding:18px;box-shadow:var(--s0)}
+.spin-ico{width:32px;height:32px;border-radius:8px;background:var(--rl);display:flex;align-items:center;justify-content:center;margin-bottom:10px}
+.spin-ico svg{width:16px;height:16px;stroke:var(--r);fill:none;stroke-width:2}
+.spin-type{font-size:9px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--k5);margin-bottom:6px}
+.spin-q{font-size:13px;font-weight:700;color:var(--k);line-height:1.55;font-style:italic}
+.adres-tip{background:var(--bl);border:1px solid var(--bb);border-radius:10px;padding:14px 18px;
+  display:flex;gap:10px;align-items:flex-start}
+.adres-tip-ico{color:var(--b);font-size:15px;flex-shrink:0;margin-top:1px}
+.adres-tip-label{font-size:9px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--b);margin-bottom:3px}
+.adres-tip-text{font-size:12.5px;color:var(--k7);line-height:1.6}
+
+/* ══ FASE 3: OFERTA ══ */
+.offer-switches{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:20px}
+.sw-group{background:var(--k05);border:1px solid var(--k1);border-radius:9px;display:flex;padding:3px;gap:2px}
+.sw{padding:7px 14px;border-radius:7px;font-size:10px;font-weight:800;letter-spacing:.1em;
+  text-transform:uppercase;border:none;background:none;cursor:pointer;font-family:var(--ff);
+  color:var(--k5);transition:all .15s}
+.sw.on{background:var(--w);color:var(--r);box-shadow:var(--s0)}
+.plan-select{height:36px;padding:0 28px 0 12px;border:1.5px solid var(--k1);
+  border-radius:8px;font-size:12px;font-weight:700;background:var(--w);
+  color:var(--k);outline:none;font-family:var(--ff)}
+.offer-dark{background:var(--k);color:var(--w);border-radius:16px;padding:32px;margin-bottom:16px;position:relative;overflow:hidden}
+.offer-dark::before{content:'';position:absolute;top:-80px;right:-80px;width:240px;height:240px;
+  background:radial-gradient(circle,rgba(232,0,29,.15),transparent 70%);pointer-events:none}
+.offer-label{font-size:9px;font-weight:800;letter-spacing:.22em;text-transform:uppercase;color:var(--r);margin-bottom:8px}
+.offer-headline{font-size:32px;font-weight:900;font-style:italic;letter-spacing:-1px;text-transform:uppercase;margin-bottom:16px;line-height:1.05}
+.offer-script{font-size:17px;font-style:italic;font-weight:600;line-height:1.65;margin-bottom:24px;opacity:.9}
+.price-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.price-box{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:20px}
+.price-box-label{font-size:9px;font-weight:800;letter-spacing:.15em;text-transform:uppercase;opacity:.5;margin-bottom:10px}
+.price-old{font-size:17px;font-weight:700;opacity:.35;text-decoration:line-through;margin-bottom:6px}
+.price-new-label{font-size:9px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--r);margin-bottom:4px}
+.price-big{font-size:40px;font-weight:900;font-family:var(--fm);color:#FFD600;line-height:1;margin-bottom:6px}
+.price-daily{display:inline-block;background:rgba(255,214,0,.15);border:1px solid rgba(255,214,0,.3);
+  border-radius:20px;padding:3px 12px;font-size:12px;font-weight:700;color:#FFD600;font-style:italic}
+.savings-row{display:flex;justify-content:space-between;align-items:center;
+  font-size:12px;margin-bottom:6px}
+.savings-row:last-of-type{margin-bottom:0}
+.savings-key{opacity:.6}
+.savings-val{font-weight:700;font-family:var(--fm)}
+.savings-total{border-top:1px solid rgba(255,255,255,.15);padding-top:12px;margin-top:12px;
+  display:flex;justify-content:space-between;align-items:center}
+.savings-total-label{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.1em}
+.savings-total-val{font-size:24px;font-weight:900;font-family:var(--fm);color:#4CAF50}
+.savings-anual{background:rgba(76,175,80,.15);border:1px solid rgba(76,175,80,.25);
+  border-radius:8px;padding:8px 14px;margin-top:12px;
+  font-size:11px;font-weight:800;text-align:center;color:#4CAF50;letter-spacing:.06em;text-transform:uppercase}
+.ben-section-label{font-size:9px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:var(--r);margin-bottom:14px;margin-top:24px;padding-top:20px;border-top:1px solid rgba(255,255,255,.1)}
+.ben-mini-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.ben-mini{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:14px;transition:background .15s}
+.ben-mini:hover{background:rgba(255,255,255,.09)}
+.ben-mini-ico{font-size:22px;margin-bottom:8px;line-height:1}
+.ben-mini-title{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.03em;margin-bottom:4px;line-height:1.2}
+.ben-mini-desc{font-size:10px;opacity:.55;line-height:1.5}
+
+/* ══ FASE 4: FRICCIÓN ══ */
+.aaa-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
+.aaa-card{border-radius:12px;padding:20px;border:1.5px solid}
+.aaa-r{background:rgba(232,0,29,.06);border-color:rgba(232,0,29,.2);color:var(--r)}
+.aaa-b{background:rgba(13,71,161,.06);border-color:rgba(13,71,161,.2);color:var(--b)}
+.aaa-g{background:rgba(0,107,53,.06);border-color:rgba(0,107,53,.2);color:var(--g)}
+.aaa-label{font-size:9px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;margin-bottom:8px;opacity:.8}
+.aaa-text{font-size:13px;font-weight:700;color:var(--k7);line-height:1.6;font-style:italic}
+.open-matrix-banner{background:var(--k);color:var(--w);border-radius:12px;padding:20px 24px;
+  display:flex;align-items:center;justify-content:space-between;gap:16px}
+.omx-text .t{font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--r);margin-bottom:4px}
+.omx-text .d{font-size:13px;font-weight:500;opacity:.75}
+
+/* ══ FASE 5: LEGALIZACIÓN ══ */
+.modality-bar{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;align-items:flex-start}
+.mod-group{display:flex;flex-direction:column;gap:4px}
+.mod-label{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--k5)}
+.mod-pills{background:var(--k05);border:1px solid var(--k1);border-radius:8px;display:flex;padding:2px;gap:2px}
+.mod-pill{padding:6px 12px;border-radius:6px;font-size:9.5px;font-weight:800;letter-spacing:.1em;
+  text-transform:uppercase;border:none;background:none;cursor:pointer;font-family:var(--ff);
+  color:var(--k5);transition:all .12s;white-space:nowrap}
+.mod-pill.on{background:var(--w);color:var(--r);box-shadow:var(--s0)}
+.form-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:20px}
+.form-grid .span2{grid-column:span 2}
+.form-field{display:flex;flex-direction:column;gap:4px}
+.bank-section{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding-top:16px;
+  border-top:1px solid var(--k1);margin-top:4px}
+.bank-section.hidden{display:none}
+.guion-wrap{background:var(--w);border:1.5px solid var(--k1);border-radius:12px;overflow:hidden;box-shadow:var(--s0);margin-top:20px}
+.guion-header{background:var(--k05);border-bottom:1px solid var(--k1);padding:12px 20px;
+  display:flex;align-items:center;justify-content:space-between}
+.guion-title{display:flex;align-items:center;gap:8px;font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--k5)}
+.guion-body{padding:24px 26px}
+.g-section-label{display:inline-block;background:var(--k);color:var(--w);font-size:8.5px;
+  font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:2px 8px;border-radius:4px;margin-bottom:10px}
+.g-section-label.blue{background:var(--b)}
+.g-section-label.red{background:var(--r)}
+.g-intro-text{font-size:12px;color:var(--k5);line-height:1.8;font-style:italic;margin-bottom:18px}
+.g-accept-box{background:var(--bl);border:1.5px solid var(--bb);border-radius:10px;padding:16px 20px;margin-bottom:14px}
+.g-accept-label{font-size:9px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--b);margin-bottom:8px;display:flex;justify-content:space-between}
+.g-accept-label span{color:var(--k5);font-weight:600}
+.g-accept-text{font-size:15px;font-weight:700;color:var(--k);line-height:1.55}
+.g-legal-box{background:var(--rl);border:1.5px solid var(--rb);border-radius:10px;padding:18px 22px;margin-bottom:14px}
+.g-legal-label{font-size:9px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--r);margin-bottom:10px;display:flex;justify-content:space-between;align-items:center}
+.g-legal-label span{color:var(--k5);font-weight:600}
+.g-legal-text{font-size:18px;font-weight:800;color:var(--k);line-height:1.55}
+.g-legal-text .campo{color:var(--r);font-family:var(--fm);font-size:15px}
+.g-legal-bottom{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+.g-legal-small{background:var(--k05);border:1px solid var(--k1);border-radius:9px;padding:14px 16px}
+.g-legal-small-label{font-size:8.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--k5);margin-bottom:6px}
+.g-legal-small-text{font-size:12px;color:var(--k7);line-height:1.65;font-style:italic;font-weight:600}
+
+/* ══ FASE 6: CIERRE ══ */
+.success-box{background:var(--w);border:1.5px solid var(--k1);border-radius:16px;
+  padding:48px 32px;text-align:center;box-shadow:var(--s2);position:relative;overflow:hidden}
+.success-top-bar{position:absolute;top:0;left:0;right:0;height:4px;
+  background:linear-gradient(90deg,#4CAF50,#2E7D32)}
+.success-icon{width:72px;height:72px;background:rgba(76,175,80,.1);border-radius:50%;
+  border:2px solid rgba(76,175,80,.3);display:flex;align-items:center;justify-content:center;margin:0 auto 20px}
+.success-icon svg{width:34px;height:34px;stroke:#4CAF50;fill:none;stroke-width:2}
+.success-title{font-size:36px;font-weight:900;font-style:italic;letter-spacing:-1px;text-transform:uppercase;margin-bottom:12px}
+.success-script{font-size:16px;color:var(--k5);max-width:440px;margin:0 auto 28px;line-height:1.65;font-style:italic}
+.success-channels{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:360px;margin:0 auto 28px}
+.channel-card{background:var(--k05);border:1px solid var(--k1);border-radius:12px;padding:20px;text-align:center}
+.channel-ico{font-size:22px;margin-bottom:6px}
+.channel-label{font-size:9px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--k5);margin-bottom:4px}
+.channel-val{font-size:13px;font-weight:700;font-family:var(--fm)}
+.success-farewell{font-size:17px;font-style:italic;color:var(--k5);margin-bottom:28px}
+
+/* ══ OBJECIONES PANEL ══ */
+.obj-overlay{position:fixed;top:52px;right:0;bottom:0;width:420px;z-index:180;
+  background:var(--w);border-left:1.5px solid var(--k1);box-shadow:-8px 0 40px rgba(0,0,0,.1);
+  display:flex;flex-direction:column;transform:translateX(100%);transition:transform .25s cubic-bezier(.4,0,.2,1)}
+.obj-overlay.open{transform:translateX(0)}
+.obj-overlay-hdr{background:var(--r);color:var(--w);padding:16px 20px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.obj-overlay-title{font-size:14px;font-weight:900;font-style:italic;letter-spacing:-.3px;text-transform:uppercase}
+.obj-close{background:rgba(255,255,255,.2);border:none;color:var(--w);width:30px;height:30px;
+  border-radius:6px;cursor:pointer;font-size:14px;transition:background .15s}
+.obj-close:hover{background:rgba(255,255,255,.3)}
+.obj-search-wrap{padding:12px 16px;border-bottom:1px solid var(--k1);flex-shrink:0}
+.obj-search{width:100%;background:var(--k05);border:1.5px solid var(--k1);border-radius:8px;
+  padding:9px 14px;font-family:var(--ff);font-size:13px;color:var(--k);outline:none}
+.obj-search:focus{border-color:var(--k)}
+.obj-list{flex:1;overflow-y:auto;padding:12px 16px}
+.obj-list::-webkit-scrollbar{width:3px}
+.obj-list::-webkit-scrollbar-thumb{background:var(--k1)}
+.obj-item{border:1.5px solid var(--k1);border-radius:10px;margin-bottom:10px;overflow:hidden;background:var(--w)}
+.obj-q{display:flex;align-items:center;justify-content:space-between;
+  padding:12px 16px;cursor:pointer;transition:background .12s}
+.obj-q:hover{background:var(--k05)}
+.obj-q-inner{display:flex;align-items:flex-start;gap:8px;flex:1}
+.obj-topic{font-size:8px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--k5);margin-bottom:3px}
+.obj-method{font-size:8px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--r)}
+.obj-q-txt{font-size:13px;font-weight:700;color:var(--k);border-left:2px solid var(--r);padding-left:10px}
+.obj-arr{font-size:10px;color:var(--k5);transition:transform .2s;flex-shrink:0}
+.obj-item.open .obj-arr{transform:rotate(180deg)}
+.obj-body{display:none;padding:0 16px 14px}
+.obj-item.open .obj-body{display:block}
+.obj-method-block{border-radius:8px;padding:10px 13px;margin-bottom:8px}
+.obj-method-block:last-child{margin-bottom:0}
+.omb-r{background:rgba(232,0,29,.06);border:1px solid rgba(232,0,29,.15)}
+.omb-b{background:rgba(13,71,161,.06);border:1px solid rgba(13,71,161,.15)}
+.omb-g{background:rgba(0,107,53,.06);border:1px solid rgba(0,107,53,.15)}
+.omb-label{font-size:8.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;margin-bottom:5px}
+.omb-r .omb-label{color:var(--r)}.omb-b .omb-label{color:var(--b)}.omb-g .omb-label{color:var(--g)}
+.omb-text{font-size:12px;color:var(--k7);line-height:1.65;font-style:italic}
+
+/* ALERT */
+.alert-box{background:var(--yl);border:1px solid var(--yb);border-radius:9px;padding:12px 16px;
+  display:flex;gap:10px;align-items:flex-start;margin-bottom:12px}
+.alert-ico{flex-shrink:0;font-size:16px}
+.alert-txt{font-size:11.5px;color:var(--y);line-height:1.55}
+.alert-txt b{font-weight:800}
+
+/* FALLECIDO overlay */
+.fallecido-overlay{display:none;position:absolute;inset:0;z-index:150;background:rgba(255,255,255,.95);
+  backdrop-filter:blur(4px);flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:40px}
+.fallecido-overlay.show{display:flex}
+
+/* TOAST */
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(80px);
+  background:var(--k);color:var(--w);border-radius:9px;padding:11px 22px;
+  font-size:12px;font-weight:600;font-family:var(--fm);letter-spacing:.02em;
+  opacity:0;transition:all .35s cubic-bezier(.34,1.56,.64,1);z-index:999;white-space:nowrap}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+
+<!-- ══ TOPBAR ══ -->
+<div class="top">
+  <div class="top-brand">
+    <div class="top-logo">EMI FALCK</div>
+    <div class="top-brand-txt">
+      <div class="name">CONEXIONES <span>Digitales</span></div>
+      <div class="sub">Aliado Estratégico Outbound / v3.0</div>
+    </div>
+  </div>
+
+  <div class="steps-nav" id="stepsNav"></div>
+
+  <div class="top-right">
+    <button class="tbtn obj-btn" id="objToggleBtn" onclick="toggleObj()">Matriz Objeciones ⓘ</button>
+    <button class="tbtn red" onclick="descargar()">⬇ Descargar</button>
+  </div>
+</div>
+
+<div class="app">
+
+<!-- ══ SIDEBAR ══ -->
+<div class="sidebar">
+
+  <!-- CONSULTA -->
+  <div class="spanel">
+    <div class="sh">Consulta de afiliado</div>
+    <div class="row2">
+      <div>
+        <label class="flbl">Tipo doc.</label>
+        <select id="docType">
+          <option value="CC">CC</option><option value="CE">CE</option>
+          <option value="TI">TI</option><option value="RC">RC</option><option value="PA">PA</option>
+        </select>
+      </div>
+      <div>
+        <label class="flbl">Número</label>
+        <input type="text" id="docNum" placeholder="Cédula" maxlength="12" oninput="this.value=this.value.replace(/\D/g,'')">
+      </div>
+    </div>
+    <button class="btn-p" onclick="abrirAdres()">
+      <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      Verificar en ADRES
+    </button>
+    <a class="btn-g" href="https://aplicaciones.adres.gov.co/BDUA_Internet/Pages/ConsultarAfiliadoWebBDEX.aspx?pag=6970" target="_blank">ADRES Especial — FF.MM / Excepción</a>
+  </div>
+
+  <!-- PEGADO -->
+  <div class="spanel">
+    <div class="sh">Pegado inteligente</div>
+    <div class="paste-box" id="pasteBox">
+      <div class="pz-top">
+        <span class="pz-h">Ctrl+A → Ctrl+C en ADRES</span>
+        <span class="pz-s" id="pzSt">listo</span>
+      </div>
+      <textarea class="pz-ta" id="pasteTA"
+        placeholder="Pega el resultado de ADRES aquí..."
+        onpaste="onPaste(event)" oninput="onInput(this)"></textarea>
+    </div>
+    <div class="prog"><div class="prog-f" id="progF"></div></div>
+    <div class="xg" id="xg">
+      <div class="xc"><div class="xk">Nombre</div><div class="xv" id="xN">—</div></div>
+      <div class="xc"><div class="xk">EPS</div><div class="xv" id="xE">—</div></div>
+      <div class="xc"><div class="xk">Estado</div><div class="xv" id="xEs">—</div></div>
+      <div class="xc"><div class="xk">Régimen</div><div class="xv" id="xR">—</div></div>
+      <div class="xc"><div class="xk">Tipo</div><div class="xv" id="xT">—</div></div>
+      <div class="xc"><div class="xk">Ciudad</div><div class="xv" id="xM">—</div></div>
+    </div>
+  </div>
+
+  <!-- REGISTRO -->
+  <div class="spanel">
+    <div class="sh">Registro de resultado</div>
+    <div class="form-field" style="margin-bottom:8px">
+      <label class="flbl">Nombre completo afiliado</label>
+      <input type="text" id="rNom" placeholder="Como aparece en ADRES" oninput="syncScripts()">
+    </div>
+    <div class="row2x">
+      <div>
+        <label class="flbl">Régimen</label>
+        <select id="rReg" onchange="onRegChange()">
+          <option value="">— Seleccionar —</option>
+          <option value="CONTRIBUTIVO">Contributivo</option>
+          <option value="SUBSIDIADO">Subsidiado</option>
+          <option value="EXCEPCION">Excepción</option>
+          <option value="ESPECIAL">Especial</option>
+        </select>
+      </div>
+      <div>
+        <label class="flbl">Estado ADRES</label>
+        <select id="rEst" onchange="onEstChange()">
+          <option value="ACTIVO">Activo</option>
+          <option value="SUSPENDIDO">Suspendido</option>
+          <option value="INACTIVO">Inactivo</option>
+          <option value="NO_REGISTRA">No registra</option>
+          <option value="FALLECIDO">Fallecido</option>
+        </select>
+      </div>
+    </div>
+    <div class="row2x">
+      <div>
+        <label class="flbl">Tipo afiliado</label>
+        <select id="rTip">
+          <option value="COTIZANTE">Cotizante</option>
+          <option value="BENEFICIARIO">Beneficiario</option>
+          <option value="SUB">Afil. subsidiado</option>
+        </select>
+      </div>
+      <div>
+        <label class="flbl">Afiliados a vincular</label>
+        <div class="ab-row">
+          <button class="ab on" onclick="setN(1,this)">1</button>
+          <button class="ab" onclick="setN(2,this)">2</button>
+          <button class="ab" onclick="setN(3,this)">3</button>
+          <button class="ab" onclick="setN(4,this)">4</button>
+          <button class="ab" onclick="setN(5,this)">5</button>
+        </div>
+      </div>
+    </div>
+    <div>
+      <label class="flbl">EPS actual</label>
+      <select id="rEps" onchange="syncScripts()">
+        <option value="">— Seleccionar —</option>
+        <option>Aliansalud</option><option>Asmet Salud</option><option>Cafesalud</option>
+        <option>Capital Salud</option><option>Colsanitas</option><option>Comfenalco Valle</option>
+        <option>Compensar</option><option>Coosalud</option><option>Coomeva</option>
+        <option>Cruz Blanca</option><option>Ecoopsos</option><option>Emssanar</option>
+        <option value="EPS Sura / Suramericana">EPS Sura / Suramericana</option>
+        <option>Famisanar</option><option>Golden Group</option><option>Medimás</option>
+        <option>Mutual Ser</option><option>Nueva EPS</option><option>Pijaos Salud</option>
+        <option>Salud Total</option><option>Sanitas EPS</option><option>Savia Salud</option>
+        <option>Otra EPS</option><option value="NINGUNA">Sin EPS / No registra</option>
+      </select>
+    </div>
+    <!-- CIUDAD CON COBERTURA -->
+    <div style="margin-top:8px">
+      <label class="flbl">Ciudad / Municipio del afiliado</label>
+      <select id="rCiudad" onchange="onCiudadChange()">
+        <optgroup label="Cundinamarca">
+          <option value="Bogotá">Bogotá</option>
+          <option value="Cajicá">Cajicá</option>
+          <option value="Chía">Chía</option>
+          <option value="Cota">Cota</option>
+        </optgroup>
+        <optgroup label="Antioquia">
+          <option value="Medellín">Medellín</option>
+          <option value="Bello">Bello</option>
+          <option value="Caldas">Caldas</option>
+          <option value="Copacabana">Copacabana</option>
+          <option value="Envigado">Envigado</option>
+          <option value="Itagüí">Itagüí</option>
+          <option value="La Ceja">La Ceja</option>
+          <option value="La Estrella">La Estrella</option>
+          <option value="Marinilla">Marinilla</option>
+          <option value="Rionegro">Rionegro</option>
+          <option value="Sabaneta">Sabaneta</option>
+          <option value="San Antonio de Pereira">San Antonio de Pereira</option>
+        </optgroup>
+        <optgroup label="Valle del Cauca">
+          <option value="Cali">Cali</option>
+          <option value="Jamundí">Jamundí</option>
+          <option value="Palmira">Palmira</option>
+          <option value="Yumbo">Yumbo</option>
+        </optgroup>
+        <optgroup label="Eje Cafetero">
+          <option value="Armenia">Armenia</option>
+          <option value="Calarcá">Calarcá</option>
+          <option value="Circasia">Circasia</option>
+          <option value="Dosquebradas">Dosquebradas</option>
+          <option value="Manizales">Manizales</option>
+          <option value="Pereira">Pereira</option>
+          <option value="Villamaría">Villamaría</option>
+        </optgroup>
+        <optgroup label="🌊 Costa Atlántica — Plan Costa">
+          <option value="Barranquilla" data-costa="true">Barranquilla</option>
+          <option value="Cartagena" data-costa="true">Cartagena</option>
+          <option value="Malambo" data-costa="true">Malambo</option>
+          <option value="Santa Marta" data-costa="true">Santa Marta</option>
+          <option value="Soledad" data-costa="true">Soledad</option>
+        </optgroup>
+        <optgroup label="Santander">
+          <option value="Bucaramanga">Bucaramanga</option>
+          <option value="Floridablanca">Floridablanca</option>
+          <option value="Girón">Girón</option>
+          <option value="Piedecuesta">Piedecuesta</option>
+        </optgroup>
+        <optgroup label="Norte de Santander">
+          <option value="Cúcuta">Cúcuta</option>
+          <option value="Los Patios">Los Patios</option>
+          <option value="Villa del Rosario">Villa del Rosario</option>
+        </optgroup>
+        </optgroup>
+        <option value="FUERA">🌐 Fuera de Cobertura Presencial</option>
+      </select>
+    </div>
+
+    <!-- BADGE PLAN COSTA -->
+    <div id="badgeCosta" style="display:none;margin-top:8px">
+      <div style="background:rgba(13,71,161,.07);border:1px solid rgba(13,71,161,.25);border-radius:8px;padding:10px 13px">
+        <div style="font-size:9px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#0D47A1;margin-bottom:6px">🌊 Plan Costa — Tarifas especiales</div>
+        <table style="width:100%;border-collapse:collapse;font-size:11px">
+          <thead><tr>
+            <th style="text-align:left;padding:4px 6px;background:#0D47A1;color:#fff;border-radius:4px 0 0 0;font-size:9px;letter-spacing:.08em;text-transform:uppercase">Modalidad</th>
+            <th style="text-align:center;padding:4px 8px;background:#6B1A2E;color:#fff;font-size:9px;letter-spacing:.08em;text-transform:uppercase">Tradicional</th>
+            <th style="text-align:center;padding:4px 8px;background:#555;color:#fff;border-radius:0 4px 0 0;font-size:9px;letter-spacing:.08em;text-transform:uppercase">Plus</th>
+          </tr></thead>
+          <tbody>
+            <tr style="border-bottom:1px solid var(--k1)">
+              <td style="padding:5px 6px;font-weight:600;color:var(--k7)">Débito autom.</td>
+              <td style="text-align:center;padding:5px;font-family:var(--fm);font-weight:700;color:#6B1A2E">$38.100</td>
+              <td style="text-align:center;padding:5px;font-family:var(--fm);font-weight:700;color:var(--k7)">$44.000</td>
+            </tr>
+            <tr>
+              <td style="padding:5px 6px;font-weight:600;color:var(--k7)">Caja y corresponsales</td>
+              <td style="text-align:center;padding:5px;font-family:var(--fm);font-weight:700;color:#6B1A2E">$43.100</td>
+              <td style="text-align:center;padding:5px;font-family:var(--fm);font-weight:700;color:var(--k7)">$49.000</td>
+            </tr>
+          </tbody>
+        </table>
+        <div style="font-size:10px;color:var(--k5);margin-top:6px;font-style:italic">* Facturación diaria · Sin cuota de adhesión</div>
+      </div>
+    </div>
+
+    <!-- BADGE SIN COBERTURA PRESENCIAL -->
+    <div id="badgeSinCobertura" style="display:none;margin-top:8px">
+      <div style="background:var(--bl);border:1px solid var(--bb);border-radius:8px;padding:10px 13px;display:flex;gap:8px;align-items:flex-start">
+        <span style="font-size:14px;flex-shrink:0">🌐</span>
+        <div style="font-size:11px;color:var(--b);line-height:1.5"><b>Zona sin cobertura presencial.</b> Ofrecer <b>EMI Virtual</b> ($26.400/mes): videoconsulta y orientación médica 24/7 desde su celular.</div>
+      </div>
+    </div>
+
+    <!-- ALERTA EPS NUEVA -->
+    <div id="alertaNuevaEps" style="display:none;margin-top:10px">
+      <div class="alert-box">
+        <span class="alert-ico">⚠️</span>
+        <div class="alert-txt"><b>ALERTA:</b> Nueva EPS está intervenida. Oportunidad real de venta por insatisfacción.</div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /sidebar -->
+
+<!-- ══ MAIN ══ -->
+<div class="main" id="main">
+
+  <!-- FALLECIDO OVERLAY -->
+  <div class="fallecido-overlay" id="fallecidoOverlay">
+    <div style="font-size:60px;margin-bottom:16px;opacity:.2">⚫</div>
+    <div style="font-size:34px;font-weight:900;font-style:italic;letter-spacing:-1px;text-transform:uppercase;margin-bottom:10px">Afiliado Fallecido</div>
+    <div style="font-size:14px;color:var(--k5);max-width:400px;line-height:1.7;margin-bottom:20px">El estado en ADRES figura como fallecido. No es posible realizar una vinculación bajo estas condiciones.</div>
+    <button class="btn-p" style="max-width:220px" onclick="document.getElementById('rEst').value='ACTIVO';onEstChange()">Restablecer consulta</button>
+  </div>
+
+  <!-- ═══ FASE 1: PROTOCOLO ═══ -->
+  <div class="phase active" id="phase-1">
+    <div class="ph-label">Fase 01</div>
+    <div class="ph-title">Protocolo de Enganche</div>
+    <div class="ph-desc">El primer contacto debe generar confianza y cumplir la normativa de protección al usuario.</div>
+
+    <!-- IDENTIDAD DEL ASESOR - PRIMERO -->
+    <div class="agent-card" style="margin-bottom:24px;background:var(--w);border:1.5px solid var(--k1);border-radius:12px;padding:20px 22px;box-shadow:var(--s0)">
+      <div class="agent-label" style="font-size:13px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--r);margin-bottom:14px">Escribe tu nombre</div>
+      <input class="agent-input" id="agentName" placeholder="Nombre Completo" oninput="syncScripts()" style="margin-bottom:14px;border:2px solid #000;background-color:#FFF;padding:12px;font-size:14px;font-weight:600">
+      <div class="checklist">
+        <div class="checklist-title">Checklist de Calidad</div>
+        <div class="check-item"><span class="check-dot"></span>Tono de voz empático</div>
+        <div class="check-item"><span class="check-dot"></span>Pronunciación clara de EMI</div>
+        <div class="check-item"><span class="check-dot"></span>Mención de grabación</div>
+      </div>
+    </div>
+
+    <!-- GUIÓN DE APERTURA LEGAL -->
+    <div style="display:grid;grid-template-columns:1fr;gap:16px">
+      <div>
+        <div class="script-box">
+          <div style="font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--k5);margin-bottom:12px">Guión de Apertura Legal</div>
+          "Buenos días/tardes, <span class="script-field" id="s1-name">[Sr/Sra]</span>, mi nombre es <span class="script-field" id="s1-agent">[Su Nombre]</span> y me comunico como Ejecutivo Comercial de <span class="script-field">Grupo EMI</span>."
+          <div class="script-alert">
+            <div class="script-alert-label">
+              <span style="width:7px;height:7px;border-radius:50%;background:var(--r);display:inline-block;animation:pulse 1.5s infinite"></span>
+              Aviso de Grabación (Obligatorio)
+            </div>
+            <div class="script-alert-text">"Le recuerdo que esta llamada es grabada y monitoreada para efectos de calidad en el servicio."</div>
+            <div class="alert-critical">* LA OMISIÓN DE ESTA FRASE ES UN FALLO CRÍTICO DE CALIDAD</div>
+          </div>
+          <div style="margin-top:16px;font-size:13px;color:var(--k5);border-top:1px solid var(--k1);padding-top:14px">
+            <span style="font-style:italic;font-weight:600">Enganche inicial: </span>
+            <span style="font-style:italic">"Veo que usted es un cliente preferencial <b>EMI</b>, ¿cómo le ha ido con nuestro servicio médico en casa?"</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav-row">
+      <div></div>
+      <button class="nav-btn nav-next" onclick="goPhase(2)">
+        Siguiente: Diagnóstico
+        <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ═══ FASE 2: DIAGNÓSTICO ═══ -->
+  <div class="phase" id="phase-2">
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:6px">
+      <div>
+        <div class="ph-label">Fase 02</div>
+        <div class="ph-title" style="margin-bottom:0">Diagnóstico Estratégico</div>
+      </div>
+      <div>
+        <div class="flbl" style="margin-bottom:6px">Avatar del Cliente</div>
+        <div class="persona-row" id="personaRow"></div>
+      </div>
+    </div>
+    <div class="persona-banner" id="personaBanner" style="margin-bottom:20px">
+      <div>
+        <div class="persona-banner-label" id="personaLabel">—</div>
+        <div class="persona-banner-script" id="personaScript">—</div>
+      </div>
+    </div>
+
+    <div class="spin-grid">
+      <div class="spin-card">
+        <div class="spin-ico"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div>
+        <div class="spin-type">Situación</div>
+        <div class="spin-q">"¿Con quiénes convive actualmente? ¿Sus hijos o padres están protegidos hoy ante una emergencia?"</div>
+      </div>
+      <div class="spin-card">
+        <div class="spin-ico"><svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
+        <div class="spin-type">Problema</div>
+        <div class="spin-q">"¿Cómo les afecta cuando tienen que esperar horas en el triaje de una clínica por una fiebre o cólico?"</div>
+      </div>
+      <div class="spin-card">
+        <div class="spin-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+        <div class="spin-type">Implicación</div>
+        <div class="spin-q">"¿Qué pasaría si hoy a las 3 a.m. ocurre algo y no tiene un médico que llegue en menos de 90 minutos?"</div>
+      </div>
+      <div class="spin-card">
+        <div class="spin-ico"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+        <div class="spin-type">Necesidad</div>
+        <div class="spin-q">"¿Cómo le ayudaría recibir atención médica inmediata en casa sin exponerse a virus en un hospital?"</div>
+      </div>
+    </div>
+
+    <div class="adres-tip">
+      <div class="adres-tip-ico">ℹ️</div>
+      <div>
+        <div class="adres-tip-label">Dato Clave ADRES</div>
+        <div class="adres-tip-text" id="adresTip">Complete el registro del afiliado para ver el dato clave personalizado.</div>
+      </div>
+    </div>
+
+    <div class="nav-row">
+      <button class="nav-btn nav-prev" onclick="goPhase(1)">
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg> Atrás
+      </button>
+      <button class="nav-btn nav-next" onclick="goPhase(3)">
+        Siguiente: Oferta de Valor
+        <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ═══ FASE 3: OFERTA ═══ -->
+  <div class="phase" id="phase-3">
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:20px">
+      <div>
+        <div class="ph-label">Fase 03</div>
+        <div class="ph-title" style="margin-bottom:0">La Oferta Irresistible</div>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+        <div class="sw-group">
+          <button class="sw on" id="sw-new" onclick="setSaleMode('NEW',this)">Venta Nueva</button>
+          <button class="sw" id="sw-cross" onclick="setSaleMode('CROSS',this)">Venta Cruzada</button>
+        </div>
+        <select class="plan-select" id="planSelect" onchange="updateOffer()">
+          <optgroup label="Débito Automático">
+            <option value="PLUS_DEB">EMI Plus Débito</option>
+            <option value="TRAD_DEB">EMI Tradicional Débito</option>
+          </optgroup>
+          <optgroup label="Domicilio">
+            <option value="PLUS_DOM">EMI Plus Domicilio</option>
+            <option value="TRAD_DOM">EMI Tradicional Domicilio</option>
+          </optgroup>
+          <optgroup label="Local Pago (Caja)">
+            <option value="PLUS_LOC">EMI Plus Local Pago</option>
+            <option value="TRAD_LOC">EMI Tradicional Local Pago</option>
+          </optgroup>
+          <optgroup label="Débito Alianzas Especiales">
+            <option value="PLUS_ALI">EMI Plus Alianzas</option>
+            <option value="TRAD_ALI">EMI Tradicional Alianzas</option>
+          </optgroup>
+          <optgroup label="Anualidad (sin adhesión)">
+            <option value="PLUS_ANUAL">EMI Plus Anualidad</option>
+            <option value="TRAD_ANUAL">EMI Tradicional Anualidad</option>
+          </optgroup>
+          <optgroup label="Especiales">
+            <option value="SUBSIDIADO">EMI Subsidiado</option>
+            <option value="VIRTUAL">EMI Virtual</option>
+          </optgroup>
+        </select>
+      </div>
+    </div>
+
+    <div class="offer-dark">
+      <div class="offer-label" id="offerLabel">Estrategia: Solución al Dolor (Hormozi Style)</div>
+      <div class="offer-headline" id="offerHeadline">Tu Médico Personal 24/7</div>
+      <div class="offer-script" id="offerScript">"..."</div>
+      <div class="price-grid">
+        <div class="price-box">
+          <div class="price-box-label">Inversión Actual Estimada (<span id="epsLabel2">tu EPS</span>)</div>
+          <div class="price-old">$100.000+ / mes</div>
+          <div style="font-size:9px;opacity:.4;font-style:italic;margin-bottom:16px">(Costo de transporte + Tiempo perdido + Copagos)</div>
+          <div class="price-new-label">Tu nueva tarifa preferencial</div>
+          <div class="price-big" id="priceBig">$0</div>
+          <div style="font-size:11px;opacity:.5;font-family:var(--fm);margin-bottom:8px">/ persona / mes</div>
+          <div class="price-daily" id="priceDaily">Solo $0 al día</div>
+        </div>
+        <div class="price-box">
+          <div class="price-box-label">Calculadora de Impacto y Ahorro</div>
+          <div class="savings-row"><span class="savings-key">Ahorro en Taxis (Ida/Vuelta)</span><span class="savings-val">+$45.000</span></div>
+          <div class="savings-row"><span class="savings-key">Valor del Tiempo (6h en EPS)</span><span class="savings-val">+$175.000</span></div>
+          <div class="savings-row"><span class="savings-key">Copagos / Medicamentos</span><span class="savings-val">+$18.000</span></div>
+          <div class="savings-total">
+            <span class="savings-total-label">Ahorro Mensual Real</span>
+            <span class="savings-total-val">$238.000</span>
+          </div>
+          <div class="savings-anual">Ahorro Anual Pro Proyectado: $930.000</div>
+        </div>
+      </div>
+      <div class="ben-section-label" id="benSectionLabel">Bondades y Valor del Plan</div>
+      <div class="ben-mini-grid" id="benMiniGrid"></div>
+    </div>
+
+    <div class="nav-row">
+      <button class="nav-btn nav-prev" onclick="goPhase(2)">
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg> Atrás
+      </button>
+      <button class="nav-btn nav-next" onclick="goPhase(4)">
+        Siguiente: Manejo Objeciones
+        <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ═══ FASE 4: FRICCIÓN ═══ -->
+  <div class="phase" id="phase-4">
+    <div class="ph-label">Fase 04</div>
+    <div class="ph-title">Gestión de Fricción</div>
+    <div class="ph-desc">Use el método AAA (Reconocer, Preguntar, AConsejar) para desarmar objeciones.</div>
+
+    <div class="aaa-grid">
+      <div class="aaa-card aaa-r">
+        <div class="aaa-label">Reconocer</div>
+        <div class="aaa-text">"Entiendo perfectamente que deba consultarlo con su familia o que el precio sea un factor importante para usted..."</div>
+      </div>
+      <div class="aaa-card aaa-b">
+        <div class="aaa-label">Preguntar</div>
+        <div class="aaa-text">"¿Qué factor es hoy el más importante para su tranquilidad: la rapidez de atención o el ahorro en especialistas?"</div>
+      </div>
+      <div class="aaa-card aaa-g">
+        <div class="aaa-label">Aconsejar</div>
+        <div class="aaa-text">"Le aconsejo aprovechar hoy que es cliente antiguo. Mañana la salud no avisa, y el bono de bienvenida expira al colgar."</div>
+      </div>
+    </div>
+
+    <div class="open-matrix-banner">
+      <div class="omx-text">
+        <div class="t">¿Sigue habiendo dudas?</div>
+        <div class="d">Abra la matriz lateral para ver guiones estilo Hormozi o Tracy con 20+ objeciones.</div>
+      </div>
+      <button class="tbtn" style="background:var(--r);color:var(--w);border-color:var(--r)" onclick="toggleObj()">Abrir Matriz</button>
+    </div>
+
+    <div class="nav-row">
+      <button class="nav-btn nav-prev" onclick="goPhase(3)">
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg> Atrás
+      </button>
+      <button class="nav-btn nav-next" onclick="goPhase(5)">
+        Siguiente: Legalización
+        <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ═══ FASE 5: LEGALIZACIÓN ═══ -->
+  <div class="phase" id="phase-5">
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:20px">
+      <div>
+        <div class="ph-label">Fase 05</div>
+        <div class="ph-title" style="margin-bottom:0">Legalización y Registro</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px;align-items:flex-end">
+        <div class="mod-group">
+          <div class="mod-label">Modalidad de pago</div>
+          <div class="mod-pills">
+            <button class="mod-pill on" id="mp-DEB" onclick="setMod('DEB',this)">Débito Automático</button>
+            <button class="mod-pill" id="mp-LOC" onclick="setMod('LOC',this)">Local Pago</button>
+            <button class="mod-pill" id="mp-DOM" onclick="setMod('DOM',this)">Cobro Domiciliario</button>
+          </div>
+        </div>
+        <div class="mod-group">
+          <div class="mod-label">Titularidad del contrato</div>
+          <div class="mod-pills">
+            <button class="mod-pill on" id="tit-MISMO" onclick="setTit('MISMO',this)">Mismo Titular</button>
+            <button class="mod-pill" id="tit-TERCERO" onclick="setTit('TERCERO',this)">Tercero Titular</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FORM DATOS -->
+    <div class="form-grid">
+      <div class="form-field span2">
+        <label class="flbl">Nombres y Apellidos Completos</label>
+        <input type="text" id="fNom" placeholder="Tal cual aparece en la cédula" oninput="syncScripts()">
+      </div>
+      <div class="form-field">
+        <label class="flbl">Fecha de Nacimiento</label>
+        <input type="date" id="fNac">
+      </div>
+      <div class="form-field">
+        <label class="flbl">Celular</label>
+        <input type="tel" id="fTel" placeholder="3xx xxxxxxx">
+      </div>
+      <div class="form-field">
+        <label class="flbl">Correo Electrónico</label>
+        <input type="email" id="fEmail" placeholder="correo@ejemplo.com">
+      </div>
+      <div class="form-field span2">
+        <label class="flbl">Dirección de Residencia</label>
+        <input type="text" id="fDir" placeholder="Calle / Carrera / Apto">
+      </div>
+      <div class="form-field">
+        <label class="flbl">Barrio</label>
+        <input type="text" id="fBarrio" placeholder="Nombre del barrio">
+      </div>
+      <div class="form-field span2">
+        <label class="flbl">Puntos de Referencia</label>
+        <input type="text" id="fRef" placeholder="Frente al parque, casa de color azul...">
+      </div>
+    </div>
+
+    <!-- DATOS BANCARIOS -->
+    <div class="bank-section" id="bankSection">
+      <div class="form-field">
+        <label class="flbl">Institución Financiera</label>
+        <select id="fBanco" onchange="syncScripts()">
+          <option>Bancolombia</option><option>Davivienda</option><option>BBVA</option>
+          <option>Banco de Bogotá</option><option>Av Villas</option><option>Banco de Occidente</option>
+          <option>Colpatria</option><option>Itaú</option><option>Popular</option>
+          <option>Caja Social</option><option>Falabella</option>
+        </select>
+      </div>
+      <div class="form-field">
+        <label class="flbl">Tipo de Cuenta</label>
+        <select id="fTipoCuenta" onchange="syncScripts()">
+          <option>Ahorros</option><option>Corriente</option><option>Tarjeta de Crédito</option>
+        </select>
+      </div>
+      <div class="form-field">
+        <label class="flbl">Últimos 4 Dígitos</label>
+        <input type="text" id="fDigitos" placeholder="X X X X" maxlength="4" oninput="syncScripts()">
+      </div>
+    </div>
+
+    <!-- GUIÓN CONFRONTA -->
+    <div class="guion-wrap">
+      <div class="guion-header">
+        <div class="guion-title">
+          <span>🛡</span> Guión Confronta EMI
+        </div>
+        <div class="recording-badge">
+          <span class="recording-dot"></span> Modo Grabación Activo
+        </div>
+      </div>
+      <div class="guion-body">
+        <!-- INTRODUCCIÓN SIEMPRE IGUAL -->
+        <div class="g-section-label">Introducción</div>
+        <div class="g-intro-text" style="font-size:12px;line-height:1.6;text-align:justify;">
+Buenos días/tardes sr/Sra. <span style="color:red;font-weight:bold">(Nombre del Usuario)</span>, mi nombre es: <span style="color:red;font-weight:bold">(Nombre Completo Asesor/a)</span> Ejecutiva Comercial del grupo emi.<br><br>
+Le recuerdo que esta llamada es grabada y monitoreada para efectos de calidad en el servicio.<br><br>
+Para continuar con el proceso de verificación, realizaré unas preguntas de confirmación y validación, donde solo deberá responder si o no.<br><br>
+<strong>Antes de iniciar quiero dejar por sentado que se informó de:</strong><br>
+• "Emi, somos su médico personal 24/7 al alcance de su mano donde estés para solucionar dudas y situaciones de salud de manera presencial o virtual"<br>
+• "Tenemos acceso multicanal: esto quiere decir, que el afiliado tiene la opción de elegir como desea acceder a nuestro servicio" (línea atención telefónica o herramientas tecnológicas como el portal clientes web, y app para el celular).<br>
+• "Por ser afiliado emi tiene beneficios: video consulta de orientación medica/pediátrica, orientación medica mediante línea telefónica o chat, atención medica domiciliaria y otros beneficios como lectura exámenes, acceso a más de 400 especialidades mediante emi especialistas con una tarifa preferencial, alianzas con establecimientos, historia clínica digital y cobertura nacional e internacional mediante la red SIEM"<br><br>
+<strong>Adicionalmente le recuerdo que tiene orientación médica para:</strong><br>
+• <strong>Emergencia</strong>, es una situación de salud en la que está comprometida la vida del paciente y debe ser atendida de forma inmediata<br>
+• <strong>Urgencia</strong>, situación de salud en la cual la vida del paciente no está comprometida, pero se requiere de atención oportuna.<br>
+• <strong>Consulta médica domiciliaria</strong> cualquier situación de salud que requiere de una valoración médica y no comprometa la vida del paciente.<br><br>
+Teniendo en cuenta lo anterior iniciaremos con el proceso de validación y verificación de identidad.
+        </div>
+
+        <!-- LEGAL 1 SEGÚN ESCENARIO -->
+        <div class="g-legal-box">
+          <div class="g-legal-label">
+            <span style="background:var(--r);color:#fff;padding:2px 8px;border-radius:4px;font-size:8.5px;letter-spacing:.1em">Legal 1</span>
+            <span>Lectura textual obligatoria</span>
+          </div>
+          <div class="g-legal-text" id="gLegal1" style="font-size:12px;line-height:1.6;text-align:justify;"></div>
+        </div>
+
+        <!-- LEGAL 2 -->
+        <div class="g-legal-bottom" style="margin-top:16px">
+          <div class="g-legal-small">
+            <div class="g-legal-small-label">Legal 2 (Términos)</div>
+            <div class="g-legal-small-text" style="font-size:12px;line-height:1.6">Señor/a <span style="color:red;font-weight:bold">(Nombre del Usuario)</span>, ¿certifica usted que conoce y acepta, todos los términos y condiciones del contrato, así como la política de tratamiento de datos personales de grupo emi s.a.s?</div>
+          </div>
+        </div>
+
+        <!-- LEGAL 3 -->
+        <div class="g-legal-bottom" style="margin-top:16px">
+          <div class="g-legal-small">
+            <div class="g-legal-small-label">Legal 3 (Validación de Identidad)</div>
+            <div class="g-legal-small-text" style="font-size:12px;line-height:1.6">Señor/a <span style="color:red;font-weight:bold">(Nombre del Usuario)</span>, autoriza usted a grupo emi s.a.s., para validar su identidad por medio de 5 preguntas.</div>
+          </div>
+        </div>
+
+        <!-- CONFRONTA EXITOSO -->
+        <div class="g-legal-bottom" style="margin-top:16px;background:#e8f5e9;padding:12px;border-radius:6px">
+          <div class="g-legal-small-label">✅ Confronta Exitoso</div>
+          <div class="g-legal-small-text" style="font-size:12px;line-height:1.6">Señor/a <span style="color:red;font-weight:bold">(Nombre del Usuario)</span>, le informo que el proceso de validación fue exitoso, cuando el servicio se encuentre activo, usted recibirá correo electrónico, en un promedio de 72 horas hábiles.</div>
+        </div>
+
+        <!-- CONFIRMACIÓN FINAL -->
+        <div class="g-legal-bottom" style="margin-top:16px;background:#fff3e0;padding:12px;border-radius:6px">
+          <div class="g-legal-small-label">📋 Confirmación Final</div>
+          <div class="g-legal-small-text" style="font-size:12px;line-height:1.6">Señor(a) <span style="color:red;font-weight:bold">(Nombre Cliente)</span>, con numero de cedula <span style="color:red;font-weight:bold">(# de cedula)</span>, le confirmo que el PLAN DE SALUD que ha contratado con EMI FALCK es el siguiente: <span style="color:red;font-weight:bold">(Describir plan: NOMBRE, BENEFICIOS, VALOR DE INSCRIPCIÓN Y VALOR DE MENSUALIDAD POR CADA AFILIADO)</span>, para las siguientes personas: <span style="color:red;font-weight:bold">(NOMBRE DE LAS PERSONAS QUE ESTA VINCULANDO EN LA LLAMADA)</span>. ¿Está de acuerdo con estas condiciones? SI/NO.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav-row">
+      <button class="nav-btn nav-prev" onclick="goPhase(4)">
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg> Atrás
+      </button>
+      <button class="nav-btn nav-next" onclick="goPhase(6)">
+        Siguiente: Cierre
+        <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ═══ FASE 6: CIERRE ═══ -->
+  <div class="phase" id="phase-6">
+    <div class="ph-label">Fase 06</div>
+    <div class="ph-title">Cierre y Bienvenida</div>
+    <div class="ph-desc">Refuerce la confianza y entregue los canales de atención inmediata.</div>
+
+    <div class="success-box">
+      <div class="success-top-bar"></div>
+      <div class="success-icon">
+        <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <div class="success-title">¡Venta Exitosa!</div>
+      <div class="success-script">"Bienvenido a la familia <b style="color:var(--r);font-style:normal">EMI</b>. Su servicio se activará en un máximo de <b style="color:var(--k);font-style:normal">72 horas hábiles</b>."</div>
+      <div class="success-channels" id="channelsSection">
+        <div class="channel-card">
+          <div class="channel-ico">📍</div>
+          <div class="channel-label">Tu Ciudad</div>
+          <div class="channel-val" id="channelCity">Cargando...</div>
+        </div>
+        <div class="channel-card">
+          <div class="channel-ico">📞</div>
+          <div class="channel-label">Líneas de Atención</div>
+          <div class="channel-val" id="channelNumbers">Cargando...</div>
+        </div>
+      </div>
+      <div class="success-farewell">"Fue un placer atenderle, le habló <span style="color:var(--r);font-weight:700" id="farewell-name">[Su Nombre]</span>, su asesor de confianza."</div>
+      <div style="display:flex;justify-content:center;gap:12px;flex-wrap:wrap">
+        <button class="nav-btn nav-prev" onclick="resetCall()">Nueva Llamada</button>
+        <button class="nav-btn nav-next" onclick="descargarTXT()">
+          Descargar Resumen
+          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        </button>
+        <button class="nav-btn nav-prev" onclick="descargarComoTexto()" style="border:1.5px solid var(--k3);color:var(--k5)">
+          Copiar Resumen
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="9" x2="9" y2="15"/><line x1="15" y1="9" x2="15" y2="15"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div style="display:flex;justify-content:center;gap:24px;flex-wrap:wrap;margin-top:28px;padding-top:24px;border-top:1px solid var(--k1)">
+      <a href="https://somosemi.com/ventas/menu" target="_blank" class="tbtn">💻 Venta Asistida</a>
+      <a href="https://aplicaciones.adres.gov.co/BDUA_Internet/Pages/ConsultarAfiliadoWeb_2.aspx" target="_blank" class="tbtn">🔍 ADRES</a>
+      <a href="https://www.grupoemi.com/colombia/personas-afiliados/emi-especialistas" target="_blank" class="tbtn">👨‍⚕️ Especialistas</a>
+      <a href="https://www.grupoemi.com/colombia/personas-afiliados/emi-beneficios" target="_blank" class="tbtn">🎁 Beneficios</a>
+      <a href="https://www.grupoemi.com/colombia/contactanos/lineas-de-atencion" target="_blank" class="tbtn">📞 Líneas</a>
+    </div>
+  </div>
+
+</div><!-- /main -->
+</div><!-- /app -->
+
+<!-- ══ MATRIZ OBJECIONES ══ -->
+<div class="obj-overlay" id="objOverlay">
+  <div class="obj-overlay-hdr">
+    <div class="obj-overlay-title">Matriz de Objeciones</div>
+    <button class="obj-close" onclick="toggleObj()">✕</button>
+  </div>
+  <div class="obj-search-wrap">
+    <input class="obj-search" id="objSearch" placeholder="Buscar objeción (ej. caro, esposo, eps)..." oninput="filterObj(this.value)">
+  </div>
+  <div class="obj-list" id="objList"></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ══════════════════════════════════════
+   DATOS
+══════════════════════════════════════ */
+/* Tarifario verificado contra Tarifario_2026_EMI.pdf
+   * A partir de 5 afiliados se usa tarifa de 4
+   * Adhesión: Tradicional $38.500 · Plus $44.400
+   * Plan Costa: facturación diaria, sin adhesión
+   * Anualidad: sin adhesión, pago completo desde mes 1          */
+const TAR = {
+  // DOMICILIO (1090) 1100107
+  PLUS_DOM:  {n:'EMI Plus Domicilio',              cod:'(1090) 1100107', t:{1:81900,2:75900,3:72200,4:68800,5:68800}, adh:44400, mod:'DOM', label:'Cobro domiciliario'},
+  TRAD_DOM:  {n:'EMI Tradicional Domicilio',        cod:'(1090) 1100107', t:{1:76000,2:70000,3:66300,4:63000,5:63000}, adh:38500, mod:'DOM', label:'Cobro domiciliario'},
+  // DÉBITO AUTOMÁTICO sin alianza (1091) 1100108
+  PLUS_DEB:  {n:'EMI Plus Débito Automático',       cod:'(1091) 1100108', t:{1:69300,2:64600,3:61700,4:59900,5:59900}, adh:44400, mod:'DEB', label:'Débito automático'},
+  TRAD_DEB:  {n:'EMI Tradicional Débito',           cod:'(1091) 1100108', t:{1:63400,2:58800,3:55800,4:54000,5:54000}, adh:38500, mod:'DEB', label:'Débito automático'},
+  // DÉBITO ALIANZAS ESPECIALES (1093) 1100112
+  PLUS_ALI:  {n:'EMI Plus Débito Alianzas',         cod:'(1093) 1100112', t:{1:66700,2:61700,3:59900,4:56200,5:56200}, adh:44400, mod:'DEB', label:'Débito alianzas'},
+  TRAD_ALI:  {n:'EMI Tradicional Débito Alianzas',  cod:'(1093) 1100112', t:{1:60900,2:55800,3:54000,4:50400,5:50400}, adh:38500, mod:'DEB', label:'Débito alianzas'},
+  // CAJA Y CORRESPONSALES — LOCAL PAGO (1998) 1110854
+  PLUS_LOC:  {n:'EMI Plus Local Pago',              cod:'(1998) 1110854', t:{1:80900,2:74700,3:70900,4:67900,5:67900}, adh:44400, mod:'LOC', label:'Caja y corresponsales'},
+  TRAD_LOC:  {n:'EMI Tradicional Local Pago',       cod:'(1998) 1110854', t:{1:75000,2:68800,3:65100,4:62000,5:62000}, adh:38500, mod:'LOC', label:'Caja y corresponsales'},
+  // SUBSIDIADO (1110853) — Sin cuota de adhesión, max 4 afiliados
+  SUBSIDIADO:{n:'EMI Subsidiado',                   cod:'(1110853)',       t:{1:67000,2:64500,3:61333,4:58625,5:58625}, adh:0,     mod:'DEB', label:'Débito automático'},
+  // VIRTUAL (1097) 1100174 — Sin adhesión, solo asegurado principal
+  VIRTUAL:   {n:'EMI Virtual',                      cod:'(1097) 1100174', t:{1:26400,2:26400,3:26400,4:24600,5:24600}, adh:0,     mod:'DEB', label:'Débito automático'},
+  // ANUALIDAD DÉBITO (1110009) — Sin adhesión, pago completo mes 1
+  PLUS_ANUAL:{n:'EMI Plus Anualidad',               cod:'(1110009)',       t:{1:69300,2:64600,3:61700,4:59900,5:59900}, adh:0,     mod:'DEB', label:'Anualidad — pago completo'},
+  TRAD_ANUAL:{n:'EMI Tradicional Anualidad',        cod:'(1110009)',       t:{1:63400,2:58800,3:55800,4:54000,5:54000}, adh:0,     mod:'DEB', label:'Anualidad — pago completo'},
+};
+
+const PERSONAS = [
+  {id:'familia',  e:'👨‍👩‍👧', n:'Padre/Madre de Familia', s:'"Como cabeza de hogar, usted sabe que la salud de sus hijos no espera. ¿Qué valor tiene para usted que un pediatra esté en su sala en minutos, sin exponer a sus pequeños al virus del hospital?"'},
+  {id:'soltero',  e:'💼', n:'Adulto Independiente',     s:'"Usted trabaja duro y sabe que el tiempo es dinero. ¿Cuántas horas ha perdido en urgencias? Con EMI eso se acabó — médico en su casa, usted sigue produciendo."'},
+  {id:'cuidador', e:'👴', n:'Hijo Cuidador',             s:'"¿Tiene a sus padres solos en casa? Una caída, un dolor de pecho, un mareo — EMI es la red de seguridad que le permite trabajar tranquilo sabiendo que un médico puede estar con ellos en minutos."'},
+  {id:'corp',     e:'🏢', n:'Perfil Corporativo',       s:'"El ausentismo laboral por salud le cuesta a su empresa. EMI reduce visitas a clínicas en un 80% al resolver los casos en casa. Es una inversión, no un gasto."'},
+  {id:'joven',    e:'🎓', n:'Adulto Joven',              s:'"¿Cuándo fue la última vez que fue a urgencias y esperó 6 horas? Con EMI hundes un botón en la app y el médico llega. Más eficiente que pedir un domicilio."'},
+];
+
+const BENEFITS = [
+  {e:'🚑', t:'Urgencias 24/7', d:'Médico en puerta <45 min'},
+  {e:'📱', t:'Videoconsulta', d:'Ilimitada, sin costo extra'},
+  {e:'💬', t:'Chat Médico', d:'Orientación inmediata'},
+  {e:'🏠', t:'Comodidad Total', d:'Sin filas ni salas de espera'},
+  {e:'👶', t:'Protección Infantil', d:'Pediatra 24/7 a domicilio'},
+  {e:'🦷', t:'Urgencias Odonto', d:'Sin dolor de muela sin solución'},
+  {e:'👨‍⚕️', t:'900+ Especialistas', d:'Tarifa preferencial VIP'},
+  {e:'🌎', t:'Red SIEM', d:'Cobertura nacional e intl.'},
+];
+
+// Beneficios específicos por plan
+const BENEFITS_BY_PLAN = {
+  // PLUS: Todos los beneficios
+  PLUS_DEB:   ['🚑','📱','💬','🏠','👶','🦷','👨‍⚕️','🌎'],
+  PLUS_LOC:   ['🚑','📱','💬','🏠','👶','🦷','👨‍⚕️','🌎'],
+  PLUS_DOM:   ['🚑','📱','💬','🏠','👶','🦷','👨‍⚕️','🌎'],
+  PLUS_ANUAL: ['🚑','📱','💬','🏠','👶','🦷','👨‍⚕️','🌎'],
+  
+  // TRADICIONAL: Sin especialistas VIP
+  TRAD_DEB:   ['🚑','📱','💬','🏠','👶','🌎'],
+  TRAD_LOC:   ['🚑','📱','💬','🏠','👶','🌎'],
+  TRAD_DOM:   ['🚑','📱','💬','🏠','👶','🌎'],
+  TRAD_ANUAL: ['🚑','📱','💬','🏠','👶','🦷','🌎'],
+  
+  // SUBSIDIADO: Básico, sin especialistas ni odonto
+  SUBSIDIADO: ['🚑','📱','💬','🏠','👶','🌎'],
+  
+  // VIRTUAL: Solo telemedicina, sin urgencias presenciales ni odonto
+  VIRTUAL:    ['📱','💬','🌎'],
+};
+
+const OBJECIONES = [
+  {topic:'Presupuesto', obj:'Es muy caro / No hay presupuesto.',
+   guion:'Entiendo que cuida su dinero. Imagine la paz mental de saber que por $2.000 diarios, menos que un café, tiene un médico en su sala sin pagar un peso más.',
+   tracy:'¿El precio es lo único que nos impide trabajar hoy? Véalo como un fondo de ahorro: una sola urgencia particular cuesta 5 meses de nuestra mensualidad.',
+   hormozi:'Si no te afilias, igual gastarás ese dinero en taxis y copagos de EPS. Aquí compras tranquilidad ilimitada por el precio de dos pizzas. Es un trato ridículo.'},
+  {topic:'Decisión', obj:'Debo consultarlo con mi esposo/a.',
+   guion:'Valoro que decidan juntos. Si pudiera sentir ahora que ante un vómito a las 3 a.m. un médico llega en minutos, ¿qué diría su pareja?',
+   tracy:'Entiendo. Si su pareja estuviera aquí, ¿qué pregunta cree que me haría? Despejémosla para que le lleve la información completa y segura.',
+   hormozi:'Entiendo, pero la salud no espera. El bono de $38.500 expira al colgar. Tienes 5 días para retractarte, pero si esperas, pierdes el ahorro hoy.'},
+  {topic:'Información', obj:'Envíeme la info al WhatsApp.',
+   guion:'Claro, ya se la envío. Pero escuche: mi sistema solo sostiene el cupo preferencial mientras estamos en línea. Validemos su cobertura rápido.',
+   tracy:'Para que la info le sea útil, ¿qué es lo más importante hoy: la rapidez de atención o el ahorro en especialistas? Así le envío solo lo vital.',
+   hormozi:'Te la envío, pero tienes 50 chats sin leer. Tardamos 3 minutos en verificar si calificas para el descuento de bienvenida. ¿Cuál es su dirección?'},
+  {topic:'Competencia', obj:'Ya tengo Plan Premium / Prepagada.',
+   guion:'Excelente que esté protegido. Su plan es de "hotelería" para cuando ya está en la clínica; EMI es la logística para que no tenga que ir allá.',
+   tracy:'Muchos clientes pensaban igual hasta que vieron que EMI resuelve el 80% de los casos en su cama. ¿Prefiere esperar horas en triaje o que el médico llegue?',
+   hormozi:'Tener Prepagada sin EMI es como un Ferrari sin llaves. Tienes salud, pero no acceso rápido. Por $2.000 al día saltas la fila de urgencias de la EPS.'},
+  {topic:'Salud', obj:'Yo casi no me enfermo.',
+   guion:'Qué buena noticia. EMI es para proteger esa salud. Nadie planea una apendicitis. Es mejor tener al médico y no necesitarlo, ¿verdad?',
+   tracy:'Usted es el perfil ideal: riesgo bajo. Pero la salud no avisa. EMI es su seguro de disponibilidad 24/7. Un solo traslado evitado y se pagó solo.',
+   hormozi:'Es como el seguro del auto: pagas para no chocar. Si hoy te da un cólico fuerte, ¿prefieres buscar un taxi o hundir un botón en tu App?'},
+  {topic:'Servicio', obj:'Las ambulancias se demoran mucho.',
+   guion:'Siento que haya escuchado eso. Por eso creamos la Telemedicina 24/7: mientras la móvil llega, usted ya está hablando con el médico por video.',
+   tracy:'Clasificamos por gravedad. En una emergencia vital somos prioridad absoluta. ¿No le daría paz saber que lo atienden en su propia cama y no en una silla?',
+   hormozi:'El tráfico es real, por eso resolvemos el 95% de casos en casa vía virtual o presencial. No te dejamos solo; estamos en tu celular en segundos.'},
+  {topic:'Trámite', obj:'El afiliado ya falleció.',
+   guion:'Lamento profundamente su pérdida. Entiendo que su prioridad es organizar todo. Queremos apoyarlos para que el resto de la familia no quede desprotegida.',
+   tracy:'Le ofrezco mis condolencias. Para apoyarla, aplicaremos el Precio de Lealtad ($58.800) para que usted mantenga su protección ahora que está sola.',
+   hormozi:'Siento mucho lo ocurrido. El trámite es enviar el acta. Pero no dejes que el resto de la familia quede expuesta. Bajemos tu tarifa para que sigas protegida.'},
+  {topic:'Seguridad', obj:'Me da inseguridad dar mi cuenta bancaria.',
+   guion:'Comprendo su cautela. Vea esto: EMI es vigilada por la Supersalud. Solo enlazamos la cuenta para su comodidad, nunca pedimos claves.',
+   tracy:'Es una duda razonable. Trabajamos con los principales bancos del país mediante enlaces cifrados. ¿Qué le daría más seguridad para proceder?',
+   hormozi:'No pedimos contraseñas, solo el número para cobrarte los $2.000 diarios. Es más seguro que pagarle a un cobrador en la calle. Hagamos el enlace.'},
+  {topic:'Régimen', obj:'Estoy en el Régimen Subsidiado.',
+   guion:'Perfecto. Tenemos un plan especial para usted sin cuota de adhesión y con bonos por hospitalización. Es protección de élite a su alcance.',
+   tracy:'Usted también merece atención rápida. Por solo $67.000 (Plan Subsidiado) evita las largas filas de la red pública en la madrugada.',
+   hormozi:'El subsidiado no cobra entrada. Son $2.200 al día por tener un pediatra 24/7 en tu celular. No dejes a tus hijos sin ese respaldo.'},
+  {topic:'Cobertura', obj:'Me mudé a una zona sin cobertura presencial.',
+   guion:'Entiendo. Aunque no llegue la móvil, usted sigue teniendo el Médico Virtual 24/7 y asistencia en viajes nacionales e internacionales.',
+   tracy:'Si viaja o se mueve, EMI lo acompaña. La Red SIEM lo protege en 14 países. ¿No le gustaría mantener la orientación médica en su celular?',
+   hormozi:'Perder el servicio físico no significa perder al médico. Tienes chats y videollamadas ilimitadas. Por la mitad del precio sigues conectado.'},
+  {topic:'Contrato', obj:'¿Hay cláusula de permanencia?',
+   guion:'Para nada. Usted es libre. Estamos tan seguros de nuestro servicio que puede retirarse cuando quiera avisando 30 días antes.',
+   tracy:'Nuestra meta es que se quede por calidad, no por contrato. Puede probar la experiencia EMI hoy y decidir mes a mes.',
+   hormozi:'Cero contratos largos. Entras hoy, si no te gusta, te vas. Pero una vez que veas que el médico llega a tu casa, no querrás volver a las filas.'},
+  {topic:'Tarifa', obj:'La tarifa me aumentó mucho este año.',
+   guion:'Veo lo que dice. Por eso lo llamo: para dejarle una tarifa fija y permanente de $58.800 al afiliar a su familiar hoy.',
+   tracy:'Entiendo su malestar. Mi labor hoy es ajustar su plan como Cliente Preferencial para que ese valor no vuelva a subir de forma inesperada.',
+   hormozi:'El sistema sube precios si no estás en plan grupal. Si agregas a tu hijo hoy, tu precio baja y el de él queda en bono. Es ganar-ganar.'},
+  {topic:'Venta Cruzada', obj:'No tengo a quién más afiliar.',
+   guion:'No hay problema. Puede afiliarse usted mismo como beneficiario para que también reciba la atención y baje el costo de su factura total.',
+   tracy:'A veces pensamos solo en los demás. Pero usted es quien paga; ¿no cree que usted también merece ser atendido en casa si se enferma?',
+   hormozi:'Afíliate tú. Pagas casi lo mismo por uno que por dos en el plan tradicional. Es como tener un segundo servicio gratis. ¿Lo activamos?'},
+  {topic:'Pago', obj:'Prefiero pagar en el banco o corresponsal.',
+   guion:'Claro, puede hacerlo por Local Pago. Es un poco más, pero le da la libertad de pagar donde quiera (Efecty, Bancolombia).',
+   tracy:'Si la comodidad es su prioridad, el débito automático le ahorra $13.000 mensuales y no tiene que hacer filas. ¿Le parece un buen ahorro?',
+   hormozi:'Pagar en caja es tirar $150.000 al año a la basura. Enlaza tu cuenta, ahorra ese dinero y olvídate de las fechas de vencimiento.'},
+  {topic:'ADRES', obj:'Mi EPS está suspendida / No aparezco.',
+   guion:'No se preocupe. Solo necesitamos que descargue el certificado de que pertenece a una EPS. Con eso legalizamos su protección hoy mismo.',
+   tracy:'Para servirle como complemento, el sistema exige estar en una entidad de salud. Si me envía el pantallazo de ADRES, procedemos de una vez.',
+   hormozi:'Sin EPS no hay EMI. Es la ley. Descarga el certificado de Sanitas en 2 minutos, me lo pasas y activamos tu médico personal hoy.'},
+  {topic:'Seguridad Hospitalaria', obj:'Me da miedo el hospital por los virus.',
+   guion:'Esa es la razón principal de EMI. Evitamos que se exponga a virus intrahospitalarios resolviendo el 95% de casos en su hogar.',
+   tracy:'Usted tiene toda la razón. Ir a urgencias es un riesgo. Con EMI, el médico va a su cama con protocolos de bioseguridad estrictos.',
+   hormozi:'Ir al hospital por una gripe es buscarse un problema mayor. Quédate en tu cama, que nosotros llevamos la clínica a tu casa.'},
+  {topic:'Cierre', obj:'Llámeme el próximo mes, estoy ocupado.',
+   guion:'Entiendo su tiempo. Pero el bono de $38.500 es solo por hoy. Validemos su dirección en 60 segundos para que no pierda el beneficio.',
+   tracy:'¿Qué va a cambiar el próximo mes? La salud no avisa. Permítame 2 minutos para explicarle por qué hoy es el día más económico para entrar.',
+   hormozi:'Si colgamos, el precio sube. Tu familia queda desprotegida 30 noches más. Hagámoslo en 3 minutos y duerme tranquilo hoy.'},
+  {topic:'Calidad', obj:'¿Cómo sé si los médicos son buenos?',
+   guion:'Gran pregunta. Todos nuestros médicos están certificados y entrenados en Soporte Vital Avanzado. Son expertos en urgencias en casa.',
+   tracy:'Somos parte de Falck (Dinamarca), líderes mundiales con 118 años de experiencia. Atendemos más de 9 millones de servicios al año.',
+   hormozi:'No mandamos practicantes. Mandamos tripulaciones con médico y paramédico equipados con tecnología de punta. Calidad garantizada.'},
+  {topic:'Especialistas', obj:'Necesito especialistas rápido.',
+   guion:'Lo entiendo. Con EMI Especialistas accede a más de 900 expertos con citas en menos de 5 días hábiles y tarifas preferenciales.',
+   tracy:'En la EPS una cita tarda meses. Con nosotros tiene prioridad. ¿Qué especialista usa más? Podemos darle la cita para la próxima semana.',
+   hormozi:'Deja de rogarle a la EPS. Por $88.000 tienes al especialista que quieras, cuando quieras. Es el acceso más rápido de Colombia.'},
+];
+
+/* ══════════════════════════════════════
+   ESTADO
+══════════════════════════════════════ */
+const fmt = v => '$' + Math.round(v).toLocaleString('es-CO');
+let numAfil=1, activePlan='PLUS_DEB', saleMode='NEW', modPago='DEB', titular='MISMO';
+let datos={}, selectedPersona=0, currentPhase=1;
+
+const STEPS = ['Protocolo','Diagnóstico','Oferta','Fricción','Legalización','Despedida'];
+
+/* ══ CIUDADES Y PLAN COSTA ══
+   Fuente: Tarifario_2026_EMI.pdf — Plan Costa
+   Débito: Tradicional $38.100 · Plus $44.000
+   Caja/Corresponsales: Tradicional $43.100 · Plus $49.000
+   * Facturación diaria · Sin cuota de adhesión             */
+const CIUDADES_COSTA = ['Barranquilla','Cartagena','Malambo','Santa Marta','Soledad'];
+const PLAN_COSTA = {
+  TRAD_DEB: 38100, PLUS_DEB: 44000,
+  TRAD_LOC: 43100, PLUS_LOC: 49000,
+};
+
+/* ══ EXTRACTOR ADRES - CLAVES ══ */
+const CLAVES=['TIPO DE IDENTIFICACIÓN','TIPO DE IDENTIFICACION',
+  'NÚMERO DE IDENTIFICACION','NUMERO DE IDENTIFICACION',
+  'NOMBRES','APELLIDOS','FECHA DE NACIMIENTO','DEPARTAMENTO','MUNICIPIO',
+  'ESTADO','ENTIDAD','REGIMEN','RÉGIMEN',
+  'FECHA DE AFILIACION EFECTIVA','FECHA DE AFILIACIÓN EFECTIVA',
+  'FECHA DE FINALIZACION DE AFILIACION','TIPO DE AFILIADO','COLUMNAS','DATOS'];
+
+/* ══ CONTACTOS POR CIUDAD ══ */
+const CONTACTOS_CIUDADES = {
+  'BOGOTA': {ciudad: 'Bogotá', numeros: ['601 745 7859', '601 482 4040']},
+  'BARRANQUILLA': {ciudad: 'Barranquilla', numeros: ['605 309 1823', '605 311 0100']},
+  'CARTAGENA': {ciudad: 'Cartagena', numeros: ['605 693 1313', '605 642 4953']},
+  'CALI': {ciudad: 'Cali', numeros: ['602 653 1313', '602 487 8995']},
+  'CHIA': {ciudad: 'Chía - Cota - Cajicá', numeros: ['601 745 7859', '601 482 4040']},
+  'COTA': {ciudad: 'Chía - Cota - Cajicá', numeros: ['601 745 7859', '601 482 4040']},
+  'CAJICA': {ciudad: 'Chía - Cota - Cajicá', numeros: ['601 745 7859', '601 482 4040']},
+  'MANIZALES': {ciudad: 'Manizales', numeros: ['604 887 9911', '604 896 8267']},
+  'MEDELLIN': {ciudad: 'Medellín', numeros: ['604 444 1330', '604 604 5853']},
+  'PALMIRA': {ciudad: 'Palmira', numeros: ['602 285 5161', '602 487 8995']},
+  'RIONEGRO': {ciudad: 'Rionegro', numeros: ['604 444 1330', '604 604 5853']},
+  'PEREIRA': {ciudad: 'Pereira', numeros: ['606 313 5911', '606 348 9141']},
+  'ARMENIA': {ciudad: 'Armenia', numeros: ['606 731 4031', '606 736 2643']},
+  'CUCUTA': {ciudad: 'Cúcuta', numeros: ['607 574 8942', '607 598 8020', '316 473 6949']},
+  'SANTA MARTA': {ciudad: 'Santa Marta', numeros: ['605 423 7201', '605 311 1150', '316 473 6949']},
+  'BUCARAMANGA': {ciudad: 'Bucaramanga', numeros: ['607 657 7171', '607 689 8020', '316 473 6949']},
+};
+
+/* ══ INIT ══ */
+(function init(){
+  // Build steps nav
+  const nav = document.getElementById('stepsNav');
+  STEPS.forEach((s,i)=>{
+    const btn = document.createElement('button');
+    btn.className = 'step-btn' + (i===0?' active':'');
+    btn.id = 'sbtn-'+(i+1);
+    btn.onclick = () => goPhase(i+1);
+    btn.innerHTML = `<span class="step-num">${i+1}</span>${s}`;
+    nav.appendChild(btn);
+  });
+
+  // Build personas
+  const pr = document.getElementById('personaRow');
+  PERSONAS.forEach((p,i)=>{
+    const b = document.createElement('button');
+    b.className = 'persona-btn'+(i===0?' on':'');
+    b.title = p.n; b.textContent = p.e;
+    b.onclick = ()=>setPersona(i,b);
+    pr.appendChild(b);
+  });
+  setPersona(0, pr.children[0]);
+
+  // Build objeciones
+  renderObjeciones('');
+
+  // Render beneficios iniciales
+  renderBenGrid();
+  updateOffer();
+  updateFarewell(); // ← Inicializar números dinámicos en despedida
+})();
+
+/* ══ NAVEGACIÓN ══ */
+function goPhase(n){
+  if(n<1||n>6) return;
+  document.querySelectorAll('.phase').forEach(p=>p.classList.remove('active'));
+  document.getElementById('phase-'+n).classList.add('active');
+  document.querySelectorAll('.step-btn').forEach((b,i)=>{
+    b.classList.remove('active','done');
+    if(i+1<n) b.classList.add('done');
+    else if(i+1===n) b.classList.add('active');
+  });
+  currentPhase = n;
+  document.getElementById('main').scrollTop = 0;
+}
+
+/* ══ PERSONA ══ */
+function setPersona(i, el){
+  document.querySelectorAll('.persona-btn').forEach(b=>b.classList.remove('on'));
+  el.classList.add('on');
+  selectedPersona = i;
+  const p = PERSONAS[i];
+  document.getElementById('personaLabel').textContent = p.n.toUpperCase();
+  document.getElementById('personaScript').textContent = p.s;
+}
+
+/* ══ AFILIADOS ══ */
+function setN(n, el){
+  numAfil = n;
+  document.querySelectorAll('.ab').forEach(b=>b.classList.remove('on'));
+  el.classList.add('on');
+  updateOffer(); syncScripts();
+}
+
+/* ══ SALE MODE ══ */
+function setSaleMode(m, el){
+  saleMode = m;
+  document.querySelectorAll('.sw').forEach(b=>b.classList.remove('on'));
+  el.classList.add('on');
+  updateOffer();
+}
+
+/* ══ MODALIDAD PAGO ══ */
+function setMod(m, el){
+  modPago = m;
+  document.querySelectorAll('.mod-pill[id^="mp-"]').forEach(b=>b.classList.remove('on'));
+  el.classList.add('on');
+  document.getElementById('bankSection').className = 'bank-section'+(m==='DEB'?'':' hidden');
+  updateLegal1();
+  syncScripts();
+}
+
+/* ══ ACTUALIZAR LEGAL 1 SEGÚN ESCENARIO ══ */
+function updateLegal1(){
+  const mod = modPago; // DEB, LOC, DOM
+  const tit = titular; // MISMO, TERCERO
+  let legal1 = '';
+  
+  if(tit === 'TERCERO'){
+    // VENTA CRUZADA - Titular No Beneficiario
+    legal1 = `• Señor/a <span style="color:red;font-weight:bold">(Nombre del Usuario)</span>, acepta usted el servicio contratado con grupo emi s.a.s. a nombre del titular <span style="color:red;font-weight:bold">(Nombre del Titular)</span>, identificado con cedula de ciudadanía <span style="color:red;font-weight:bold">(# de Cedula)</span>\n` +
+    `• Para los beneficiarios: <span style="color:red;font-weight:bold">(Nombre del Beneficiario 1)</span>, <span style="color:red;font-weight:bold">(Nombre del Beneficiario 2)</span>\n` +
+    `• En la dirección de residencia <span style="color:red;font-weight:bold">(Dirección de residencia completa, Ciudad)</span>\n` +
+    `• Donde se cobra una cuota de inscripción de <span style="color:red;font-weight:bold">(Valor Cuota de Afiliación)</span> por persona agregada a su plan emi tradicional/Plus\n` +
+    `• A partir del siguiente mes, continúa pagando una mensualidad <span style="color:red;font-weight:bold">(Valor de la mensualidad)</span> por cada afiliado.\n` +
+    `• que se debitara los 5 primeros días hábiles a partir de hoy. Si o no.`;
+  } else if(mod === 'DEB'){
+    // VENTA NUEVA - DÉBITO AUTOMÁTICO
+    legal1 = `Señor/a <span style="color:red;font-weight:bold">(Nombre del Usuario)</span>, acepta usted el servicio contratado con grupo emi s.a.s., a nombre del titular <span style="color:red;font-weight:bold">(Nombre del Titular)</span>, identificado con cedula de ciudadanía <span style="color:red;font-weight:bold">(# de Cedula)</span>, Para los beneficiarios: <span style="color:red;font-weight:bold">(Nombre del Beneficiario 1)</span>, <span style="color:red;font-weight:bold">(Nombre del Beneficiario 2)</span>, En la dirección de residencia <span style="color:red;font-weight:bold">(Dirección de residencia completa)</span>, Bajo la modalidad de pago de débito automático de su cuenta de Ahorros/Corriente/Tarjeta de Crédito <span style="color:red;font-weight:bold">(Nombre del banco)</span>, terminada en <span style="color:red;font-weight:bold">(leer los últimos 4 dígitos de la cuenta)</span>, Donde se cobra una cuota de inscripción de <span style="color:red;font-weight:bold">(Valor Cuota de Afiliación)</span> por <span style="color:red;font-weight:bold">(# de personas afiliadas)</span> en emi tradicional/Plus. A partir del siguiente mes, continua pagando una mensualidad <span style="color:red;font-weight:bold">(Valor total de la mensualidad)</span> por cada afiliado, que se debitara los 5 primeros días del mes siguiente. Si o no.`;
+  } else if(mod === 'LOC'){
+    // VENTA NUEVA - LOCAL PAGO
+    legal1 = `Señor/a <span style="color:red;font-weight:bold">(Nombre del Usuario)</span>, acepta usted el servicio contratado con grupo emi s.a.s., a nombre del titular <span style="color:red;font-weight:bold">(Nombre del Titular)</span>, identificada con cedula de ciudadanía <span style="color:red;font-weight:bold">(# de Cedula)</span>, para los beneficiarios: <span style="color:red;font-weight:bold">(Nombre del Beneficiario 1)</span>, en la dirección de residencia <span style="color:red;font-weight:bold">(Dirección de residencia completa)</span>, con una tarifa de mensual de <span style="color:red;font-weight:bold">(Descripción de Tarifa)</span>, bajo la modalidad de pago de local pago donde usted deberá realizar los pagos es cualquiera de estos medios: Opción 1: corresponsal bancario (decir el código de convenio) y su cedula de ciudadanía. Opción 2: entidad financiera autorizada, (indicar número de cuenta, código de convenio, nit de emi y aclarar que en referencia 1 es la cedula del titular), el soporte de pago deberá ser enviado a soportespago.colombia@grupoemi.com. Opción 3: Pago botón PSE (ingreso al portal afiliados emi y da la opción de pago mis facturas). Opción 4: Pago en línea ingresar a la página web https://www.grupoemi.com/colombia y dar en la opción pago en línea siguiendo las instrucciones. Opción 5: Ir a las oficina administrativa (Informar la dirección de la sede en la regional) y pagar en caja. Donde para el mes de afiliación <span style="color:red;font-weight:bold">(Mes de afiliación)</span> se cobra una cuota de inscripción de <span style="color:red;font-weight:bold">(Valor Cuota de Afiliación / convenio no tiene cobro de primer importe)</span> por <span style="color:red;font-weight:bold">(# de personas de cuota de afiliación)</span> en emi tradicional/Plus que le cubre el servicio hasta <span style="color:red;font-weight:bold">(último día del mes)</span> y a partir del siguiente mes (primer mes de pago) continua pagando una mensualidad <span style="color:red;font-weight:bold">(Valor de la mensualidad)</span> por cada afiliado y el plan <span style="color:red;font-weight:bold">(número de afiliados para cada uno de los planes)</span>, que se deberá realizar los 5 primeros días del mes. si o no`;
+  } else if(mod === 'DOM'){
+    // VENTA NUEVA - COBRO DOMICILIARIO
+    legal1 = `Señor/a <span style="color:red;font-weight:bold">(Nombre del Usuario)</span>, acepta usted el servicio contratado con grupo emi s.a.s., a nombre del titular <span style="color:red;font-weight:bold">(Nombre del Titular)</span>, identificada con cedula de ciudadanía <span style="color:red;font-weight:bold">(# de Cedula)</span>, para los beneficiarios: <span style="color:red;font-weight:bold">(Nombre del Beneficiario 1)</span>, <span style="color:red;font-weight:bold">(Nombre del Beneficiario 2)</span>, en la dirección de residencia <span style="color:red;font-weight:bold">(Dirección de residencia)</span>, con una tarifa de mensual de <span style="color:red;font-weight:bold">(Descripción de Tarifa)</span>, bajo la modalidad de pago de cobro domiciliario en la dirección de residencia indicada por el titular, donde para el mes de afiliación <span style="color:red;font-weight:bold">(Mes de afiliación)</span> se cobra una cuota de inscripción de <span style="color:red;font-weight:bold">(Valor Cuota de Afiliación Nota: convenio no tiene cobro de primer importe)</span> por <span style="color:red;font-weight:bold">(# de personas de cuota de afiliación)</span> en emi tradicional/Plus que le cubre el servicio hasta <span style="color:red;font-weight:bold">(último día del mes)</span> y a partir del siguiente mes (primer mes de pago) continua pagando una mensualidad <span style="color:red;font-weight:bold">(Valor de la mensualidad)</span> por cada afiliado y el plan <span style="color:red;font-weight:bold">(número de afiliados para cada uno de los planes)</span>, que durante los 5 primeros días uno de nuestros Cobradores los estará visitando sí o no`;
+  }
+  
+  document.getElementById('gLegal1').innerHTML = legal1;
+}
+
+/* ══ TITULARIDAD ══ */
+function setTit(t, el){
+  titular = t;
+  document.querySelectorAll('.mod-pill[id^="tit-"]').forEach(b=>b.classList.remove('on'));
+  el.classList.add('on');
+  updateLegal1();
+  syncScripts();
+}
+
+/* ══ EPS CHANGE ══ */
+function onRegChange(){ autoSelectPlan(); syncScripts(); updateOffer(); }
+function onEstChange(){
+  const est = document.getElementById('rEst').value;
+  document.getElementById('fallecidoOverlay').classList.toggle('show', est==='FALLECIDO');
+  autoSelectPlan(); syncScripts(); updateOffer();
+}
+
+function autoSelectPlan(){
+  const reg = document.getElementById('rReg').value;
+  const est = document.getElementById('rEst').value;
+  const tip = document.getElementById('rTip').value;
+  const ciudad = document.getElementById('rCiudad').value||'';
+  const isCosta = esCiudadCosta(ciudad);
+  let plan = 'PLUS_DEB';
+  if(est==='INACTIVO'||est==='NO_REGISTRA') plan='PLUS_DOM';
+  else if(est==='SUSPENDIDO')               plan='TRAD_DOM';
+  else if(reg==='SUBSIDIADO')               plan='SUBSIDIADO';
+  else if(reg==='EXCEPCION'||reg==='ESPECIAL') plan='PLUS_DEB';
+  else if(tip==='BENEFICIARIO')             plan='TRAD_DEB';
+  // Si es Costa: preferir Débito por defecto
+  if(isCosta && plan!=='SUBSIDIADO' && plan!=='VIRTUAL'){
+    plan = plan.startsWith('PLUS') ? 'PLUS_DEB' : 'TRAD_DEB';
+  }
+  activePlan = plan;
+  document.getElementById('planSelect').value = plan;
+  updateOffer();
+}
+
+/* ══ OFFER UPDATE ══ */
+function updateOffer(){
+  const key = document.getElementById('planSelect').value;
+  activePlan = key;
+  const pEfectivo = getPrecioEfectivo();
+  if(!pEfectivo) return;
+  const n = Math.min(numAfil, Object.keys(pEfectivo.t).length);
+  const vp = pEfectivo.t[n];
+  const daily = Math.round(vp/30);
+  const nom = (document.getElementById('rNom').value||'').trim();
+  const eps = document.getElementById('rEps').value||'su EPS';
+  const fn  = primerNombre(nom);
+  const ciudad = document.getElementById('rCiudad').value||'';
+  const isCosta = esCiudadCosta(ciudad);
+
+  document.getElementById('priceBig').textContent = fmt(vp);
+  document.getElementById('priceDaily').textContent = `Solo ${fmt(daily)} al día`;
+  document.getElementById('epsLabel2').textContent = eps;
+
+  // Mostrar badge Costa en sección oferta si aplica
+  let costaNote = isCosta ? `<div style="background:rgba(13,71,161,.12);border:1px solid rgba(13,71,161,.25);border-radius:7px;padding:6px 12px;font-size:11px;color:#0D47A1;font-weight:700;display:inline-block;margin-bottom:14px">🌊 Tarifa Plan Costa — ${ciudad} · Sin cuota de adhesión · Facturación diaria</div>` : '';
+
+  const scripts = {
+    NEW: {
+      headline: 'Tu Médico Personal 24/7',
+      script: `"${fn}, no le vendo un plan médico. Le devuelvo la tranquilidad de saber que si su hijo tiene fiebre a las 2 a.m., un médico estará en su puerta en minutos, evitándole el riesgo y el caos de una clínica pública."`
+    },
+    CROSS: {
+      headline: 'Protección Total para tu Círculo',
+      script: `"${fn}, usted ya conoce la paz de tener a EMI. Hoy tiene la oportunidad única de extender esta muralla de protección a [Beneficiario] con un beneficio de fidelidad que no se repetirá."`
+    }
+  };
+  const s = scripts[saleMode] || scripts.NEW;
+  document.getElementById('offerHeadline').textContent = s.headline;
+  document.getElementById('offerScript').textContent = s.script;
+  document.getElementById('benSectionLabel').textContent = `Bondades y Valor del Plan ${pEfectivo.n.replace('EMI ','')}${isCosta?' · Plan Costa':''}`;
+
+  // Insertar nota Costa antes de la sección de beneficios si aplica
+  const benSecEl = document.getElementById('benSectionLabel');
+  let costaEl = document.getElementById('costaOfertaNote');
+  if(!costaEl){ costaEl=document.createElement('div'); costaEl.id='costaOfertaNote'; benSecEl.parentNode.insertBefore(costaEl,benSecEl); }
+  costaEl.innerHTML = costaNote;
+
+  renderBenGrid();
+  syncScripts();
+}
+
+function renderBenGrid(){
+  const g = document.getElementById('benMiniGrid');
+  const planKey = document.getElementById('planSelect').value || activePlan;
+  const iconosplan = BENEFITS_BY_PLAN[planKey] || BENEFITS_BY_PLAN['PLUS_DEB'];
+  const beneficiosFiltrados = BENEFITS.filter(b => iconosplan.includes(b.e));
+  g.innerHTML = beneficiosFiltrados.map(b=>`
+    <div class="ben-mini">
+      <div class="ben-mini-ico">${b.e}</div>
+      <div class="ben-mini-title">${b.t}</div>
+      <div class="ben-mini-desc">${b.d}</div>
+    </div>`).join('');
+}
+
+/* ══ SYNC SCRIPTS ══ */
+function syncScripts(){
+  const nom   = document.getElementById('rNom').value.trim();
+  const agent = document.getElementById('agentName').value.trim() || '[Su Nombre]';
+  const fn    = primerNombre(nom) || 'Sr/Sra';
+  const eps   = document.getElementById('rEps').value || 'su EPS';
+  const pEfectivo = getPrecioEfectivo();
+  const p     = pEfectivo || TAR[activePlan];
+  const n     = Math.min(numAfil, p ? Object.keys(p.t).length : 1);
+  const vp    = p ? p.t[n] : 0;
+  const adh   = p ? p.adh : 0;
+  const banco  = document.getElementById('fBanco').value;
+  const tipoCta= document.getElementById('fTipoCuenta').value;
+  const digits = document.getElementById('fDigitos').value || 'XXXX';
+  const dirCli = document.getElementById('fDir').value||'[dirección]';
+  const cityReg= datos.municipio||'[ciudad]';
+
+  // FASE 1
+  document.getElementById('s1-name').textContent  = nom||'[Sr/Sra]';
+  document.getElementById('s1-agent').textContent = agent;
+
+  // FASE 6 farewell
+  document.getElementById('farewell-name').textContent = agent;
+
+  // DIAGNÓSTICO tip
+  if(nom||eps!=='su EPS'){
+    document.getElementById('adresTip').textContent =
+      `El cliente ${nom?'"'+nom+'"':''} está en ${eps}. Use esto para resaltar las demoras y diferenciadores de EMI frente a su entidad actual.`;
+  }
+
+  // ACEPTACIÓN TITULAR
+  const gAccept = titular==='MISMO'
+    ? `"Usted como titular del servicio contratado, acepta..."`
+    : `"Señor/a [Nombre del Titular], identificado con cédula [Cédula], como titular del servicio para ${nom||'[Usuario]'}, acepta..."`;
+  document.getElementById('gAccept').textContent = gAccept;
+
+  // LEGAL 1
+  let legal1 = '';
+  const nomDisplay = nom||'[nombre]';
+  const planNom = p?p.n.replace('EMI ',''):'[plan]';
+
+  if(modPago==='DEB'){
+    legal1 = `"Señor/a ${nomDisplay}, bajo la modalidad de pago de débito automático de su cuenta de ${tipoCta}/${banco}, terminada en ${digits}, donde se cobra una cuota de inscripción de ${fmt(adh)} en EMI ${planNom}. A partir del siguiente mes, continúa pagando una mensualidad de ${fmt(vp)} por cada afiliado, que se debitará los 5 primeros días del mes siguiente. ¿Sí o no?"`;
+  } else if(modPago==='LOC'){
+    legal1 = `"Señor/a ${nomDisplay}, bajo la modalidad de pago de local pago donde usted podrá realizar los pagos por corresponsal bancario, PSE, web o cajas de oficina. Se cobra una cuota de inscripción de ${fmt(adh)} en EMI ${planNom} que le cubre hasta el último día de este mes. A partir del siguiente continúa pagando una mensualidad de ${fmt(vp)} por cada afiliado, los 5 primeros días del mes. ¿Sí o no?"`;
+  } else {
+    legal1 = `"Señor/a ${nomDisplay}, bajo la modalidad de pago de cobro domiciliario en la dirección de residencia ${dirCli}, donde se cobra una cuota de inscripción de ${fmt(adh)} en EMI ${planNom}. A partir del siguiente mes continúa pagando una mensualidad de ${fmt(vp)} por cada afiliado, y durante los 5 primeros días uno de nuestros cobradores los estará visitando. ¿Sí o no?"`;
+  }
+  document.getElementById('gLegal1').innerHTML = legal1.replace(nomDisplay,`<span class="campo">${nomDisplay}</span>`);
+}
+
+function primerNombre(nom){
+  if(!nom) return 'señor/a';
+  const p = nom.trim().split(/\s+/);
+  return p.length>=3 ? p[2] : p[0];
+}
+
+/* ══ EXTRACTOR ADRES ══ */
+const EPS_MAP=[
+  {b:['ALIANSALUD'],v:'Aliansalud'},{b:['ASMET'],v:'Asmet Salud'},
+  {b:['CAFESALUD'],v:'Cafesalud'},{b:['CAPITAL SALUD'],v:'Capital Salud'},
+  {b:['COLSANITAS'],v:'Colsanitas'},{b:['COMFENALCO'],v:'Comfenalco Valle'},
+  {b:['COMPENSAR'],v:'Compensar'},{b:['COOSALUD'],v:'Coosalud'},
+  {b:['COOMEVA'],v:'Coomeva'},{b:['CRUZ BLANCA'],v:'Cruz Blanca'},
+  {b:['ECOOPSOS'],v:'Ecoopsos'},{b:['EMSSANAR'],v:'Emssanar'},
+  {b:['SURAMERICANA','EPS SURA','SURA EPS','SURA S.A'],v:'EPS Sura / Suramericana'},
+  {b:['FAMISANAR'],v:'Famisanar'},{b:['GOLDEN GROUP'],v:'Golden Group'},
+  {b:['MEDIMAS','MEDIMÁS'],v:'Medimás'},{b:['MUTUAL SER'],v:'Mutual Ser'},
+  {b:['NUEVA EPS'],v:'Nueva EPS'},{b:['PIJAOS'],v:'Pijaos Salud'},
+  {b:['SALUD TOTAL'],v:'Salud Total'},{b:['SANITAS'],v:'Sanitas EPS'},
+  {b:['SAVIA'],v:'Savia Salud'},
+];
+
+function esOtraClave(v){ const vu=v.toUpperCase().trim(); return CLAVES.some(c=>vu===c||vu.startsWith(c)); }
+
+function campo(txt, claves){
+  const lineas=txt.split(/\r?\n/).map(l=>l.trim());
+  for(const clave of claves){
+    const cu=clave.toUpperCase();
+    const m1=txt.match(new RegExp(clave+'\\s*\\t+\\s*([^\\t\\n\\r]+)','i'));
+    if(m1){const v=m1[1].trim();if(v&&!esOtraClave(v))return v;}
+    const m2=txt.match(new RegExp(clave+'\\s{2,}([^\\n\\r]+)','i'));
+    if(m2){const v=m2[1].trim();if(v&&!esOtraClave(v))return v;}
+    for(let i=0;i<lineas.length-1;i++){
+      if(lineas[i].toUpperCase()===cu){const s=lineas[i+1].trim();if(s&&!esOtraClave(s))return s;}
+    }
+    for(const ln of lineas){
+      if(ln.toUpperCase().startsWith(cu)&&ln.length>cu.length){
+        const r=ln.substring(cu.length).trim();if(r&&!esOtraClave(r))return r;
+      }
+    }
+  }
+  return null;
+}
+
+function parsearADRES(txt){
+  const d={};
+  const up=txt.toUpperCase();
+
+  /* ══ ESTRATEGIA PRINCIPAL: extraer la FILA DE DATOS DE AFILIACIÓN ══
+   * El resultado de ADRES tiene una tabla de cabecera con:
+   *   ESTADO | ENTIDAD | REGIMEN | FECHA_AFIL | FECHA_FIN | TIPO_AFILIADO
+   * La fila de datos comienza con ACTIVO / INACTIVO / SUSPENDIDO / FALLECIDO
+   * Debemos encontrar ESA FILA específicamente para no confundirnos con
+   * palabras como "SUBSIDIADO" en el encabezado institucional.
+   *
+   * El truco: buscar la línea que empiece con un estado válido Y que
+   * contenga también un régimen válido en la misma sección de texto.
+   */
+
+  // 1. Aislar la sección "Datos de afiliación" que viene DESPUÉS del encabezado de tabla
+  //    La tabla de afiliación empieza con las columnas: ESTADO ENTIDAD REGIMEN ...
+  let seccionAfil = txt;
+  const idxTabla = up.indexOf('DATOS DE AFILIACIÓN');
+  const idxTabla2 = up.indexOf('DATOS DE AFILIACION');
+  const idxStart = Math.max(idxTabla, idxTabla2);
+  if(idxStart > 0) seccionAfil = txt.substring(idxStart);
+
+  // 2. Buscar la fila de datos: contiene estado, EPS y régimen en líneas cercanas
+  //    Patrón: línea con ACTIVO/INACTIVO/SUSPENDIDO/FALLECIDO
+  const lineas = seccionAfil.split(/\r?\n/).map(l=>l.trim()).filter(l=>l);
+  const ESTADOS_VALIDOS = ['ACTIVO','INACTIVO','SUSPENDIDO','FALLECIDO','NOVEDAD'];
+  const REGIMENES = ['CONTRIBUTIVO','SUBSIDIADO','EXCEPCION','ESPECIAL'];
+
+  // Encontrar el índice de la línea con el estado
+  let idxEstadoLinea = -1;
+  for(let i=0;i<lineas.length;i++){
+    const l = lineas[i].toUpperCase();
+    // La fila de datos empieza exactamente con un estado válido (no parte de otra palabra)
+    if(ESTADOS_VALIDOS.some(e => l === e || l.startsWith(e+'\t') || l.startsWith(e+' '))){
+      idxEstadoLinea = i; break;
+    }
+  }
+
+  // 3. Si encontramos la fila, extraer estado, entidad y régimen de ella o líneas adyacentes
+  if(idxEstadoLinea >= 0){
+    // Puede estar todo en una línea con tabs: "ACTIVO\tEPS SURAMERICANA S.A. -CM\tCONTRIBUTIVO\t..."
+    // O en líneas separadas
+    const filaCompleta = lineas.slice(idxEstadoLinea, idxEstadoLinea+8).join('\t');
+    const fu = filaCompleta.toUpperCase();
+
+    // Estado
+    if(fu.includes('FALLECIDO')) d.estado='FALLECIDO';
+    else if(fu.includes('INACTIVO')) d.estado='INACTIVO';
+    else if(fu.includes('SUSPENDIDO')||fu.includes('NOVEDAD')) d.estado='SUSPENDIDO';
+    else if(fu.startsWith('ACTIVO')||fu.includes('\tACTIVO')) d.estado='ACTIVO';
+
+    // Régimen — buscar en la fila de afiliación, NO en el texto completo
+    if(fu.includes('CONTRIBUTIVO')) d.regimen='CONTRIBUTIVO';
+    else if(fu.includes('SUBSIDIADO')) d.regimen='SUBSIDIADO';
+    else if(fu.includes('EXCEPCI')) d.regimen='EXCEPCION';
+    else if(fu.includes('ESPECIAL')) d.regimen='ESPECIAL';
+
+    // Tipo de afiliado — buscar en la fila (COTIZANTE, BENEFICIARIO, CABEZA DE FAMILIA, etc.)
+    if(fu.includes('COTIZANTE')) d.tipo='COTIZANTE';
+    else if(fu.includes('BENEFICIARIO')) d.tipo='BENEFICIARIO';
+    else if(fu.includes('CABEZA DE FAMILIA')) d.tipo='COTIZANTE'; // equivalente a cotizante
+    else if(fu.includes('AFILIADO')) d.tipo='SUB';
+
+    // EPS — buscar en la fila de afiliación
+    const entVal2 = campo(seccionAfil,['ENTIDAD']);
+    if(entVal2&&entVal2.length>3){
+      const eu=entVal2.toUpperCase().replace(/\bS\.A\.S?\b|\bE\.S\.S\.\b|\s*-CM\b|\s*-CS\b/g,'').trim();
+      if(!['REGIMEN','RÉGIMEN','ESTADO','MUNICIPIO','TIPO','FECHA'].some(k=>eu.startsWith(k))){
+        for(const e of EPS_MAP){ if(e.b.some(b=>eu.includes(b))){ d.eps=e.v; break; } }
+        if(!d.eps&&eu.length>3) d.eps=eu;
+      }
+    }
+    // Si no encontró EPS por campo, buscar en la fila directamente
+    if(!d.eps){
+      const fuFila = filaCompleta.toUpperCase().replace(/\bS\.A\.S?\b|\bE\.S\.S\.\b|\s*-CM\b|\s*-CS\b/g,'');
+      for(const e of EPS_MAP){ if(e.b.some(b=>fuFila.includes(b))){ d.eps=e.v; break; } }
+    }
+  }
+
+  // 4. Fallback para estado si no se detectó
+  if(!d.estado){
+    if(up.includes('FALLECIDO')) d.estado='FALLECIDO';
+    else if(up.includes('INACTIVO')) d.estado='INACTIVO';
+    else if(up.includes('SUSPENDIDO')||up.includes('NOVEDAD')) d.estado='SUSPENDIDO';
+    else if(up.includes('ACTIVO')) d.estado='ACTIVO';
+  }
+  if(!d.estado&&(txt.includes('31/12/2999')||txt.includes('31-12-2999'))) d.estado='ACTIVO';
+
+  // 5. Fallback para régimen: buscar SOLO después de "REGIMEN" o "RÉGIMEN" como campo de tabla
+  if(!d.regimen){
+    const regVal = campo(txt,['REGIMEN','RÉGIMEN']);
+    if(regVal){
+      const rv = regVal.toUpperCase();
+      if(rv.includes('CONTRIBUTIVO')) d.regimen='CONTRIBUTIVO';
+      else if(rv.includes('EXCEPCI')) d.regimen='EXCEPCION';
+      else if(rv.includes('ESPECIAL')) d.regimen='ESPECIAL';
+      else if(rv.includes('SUBSIDIADO')) d.regimen='SUBSIDIADO';
+    }
+  }
+
+  // 6. Fallback EPS en texto completo
+  if(!d.eps){ for(const e of EPS_MAP){ if(e.b.some(b=>up.includes(b))){ d.eps=e.v; break; } } }
+
+  // 7. Datos del afiliado (sección superior de ADRES)
+  const nombres=campo(txt,['NOMBRES']);
+  const apellidos=campo(txt,['APELLIDOS']);
+  if(nombres&&apellidos){ d.nombres=nombres.toUpperCase().trim(); d.apellidos=apellidos.toUpperCase().trim(); d.nombre=d.apellidos+' '+d.nombres; }
+  else if(nombres) d.nombre=nombres.toUpperCase().trim();
+  const numId=campo(txt,['NÚMERO DE IDENTIFICACION','NUMERO DE IDENTIFICACION','NÚMERO DE IDENTIFICACIÓN']);
+  if(numId) d.documento=numId.replace(/\D/g,'');
+  if(!d.documento) d.documento=document.getElementById('docNum').value.trim();
+  const mun=campo(txt,['MUNICIPIO']); const dep=campo(txt,['DEPARTAMENTO']);
+  if(mun) d.municipio=mun.toUpperCase().trim();
+  if(dep) d.departamento=dep.toUpperCase().trim();
+  const fm=txt.match(/(\d{2}[\/\-]\d{2}[\/\-]\d{4})/);
+  if(fm&&!fm[1].includes('2999')) d.fechaAfil=fm[1];
+  return d;
+}
+
+function onPaste(e){ setTimeout(()=>{const t=document.getElementById('pasteTA').value;if(t.length>20)procesar(t);},100); }
+function onInput(el){ if(el.value.length>40) procesar(el.value); }
+
+function procesar(txt){
+  const d=parsearADRES(txt);
+  const ok=d.nombre||d.eps||d.estado||d.regimen;
+  const pb=document.getElementById('pasteBox'); const st=document.getElementById('pzSt');
+  if(!ok){ pb.className='paste-box err'; st.className='pz-s err'; st.textContent='no se detectaron datos'; return; }
+  datos=d; mostrarExtraccion(d);
+}
+
+function mostrarExtraccion(d){
+  const pb=document.getElementById('pasteBox'); const st=document.getElementById('pzSt');
+  pb.className='paste-box ok'; st.className='pz-s ok'; st.textContent='✓ extracción exitosa';
+  const bar=document.getElementById('progF'); bar.style.width='0';
+  setTimeout(()=>bar.style.width='100%',30);
+  setTimeout(()=>{
+    const xg=document.getElementById('xg'); xg.style.display='grid';
+    const sx=(id,v,cls)=>{ const el=document.getElementById(id); el.textContent=v||'—'; el.className='xv'+(cls?' '+cls:''); };
+    const nomD=d.nombres&&d.apellidos?`${d.nombres.split(' ')[0]} ${d.apellidos.split(' ')[0]}`:(d.nombre||'—').split(' ').slice(0,2).join(' ');
+    sx('xN',nomD); sx('xE',d.eps?(d.eps.split('/')[0].trim().split(' ').slice(0,2).join(' ')):'—');
+    sx('xEs',d.estado||'—',d.estado==='ACTIVO'?'g':d.estado==='SUSPENDIDO'?'y':d.estado==='FALLECIDO'?'r':d.estado==='INACTIVO'?'r':'');
+    sx('xR',d.regimen||'—','b'); sx('xT',d.tipo||'—'); sx('xM',d.municipio?d.municipio.split(' ')[0]:'—');
+    if(d.nombre) document.getElementById('rNom').value=d.nombre;
+    if(d.nombre) document.getElementById('fNom').value=d.nombre;
+    if(d.regimen) document.getElementById('rReg').value=d.regimen;
+    if(d.estado) document.getElementById('rEst').value=d.estado;
+    if(d.tipo) document.getElementById('rTip').value=d.tipo;
+    if(d.eps){
+      const sel=document.getElementById('rEps'); const bu=d.eps.toUpperCase();
+      for(const opt of sel.options){ const ov=opt.value.toUpperCase(),ot=opt.text.toUpperCase();
+        if(ov===bu||ot===bu){ sel.value=opt.value; break; }
+        const w=bu.split('/')[0].split(' ').filter(x=>x.length>3)[0]||'';
+        if(w&&(ov.includes(w)||ot.includes(w))){ sel.value=opt.value; break; }
+      }
+      document.getElementById('alertaNuevaEps').style.display=
+        (document.getElementById('rEps').value==='Nueva EPS')?'block':'none';
+    }
+    if(d.estado==='FALLECIDO') document.getElementById('fallecidoOverlay').classList.add('show');
+    autoSelectPlan();
+    // Auto-seleccionar ciudad si se detectó municipio
+    if(d.municipio){
+      const selC = document.getElementById('rCiudad');
+      const mu = d.municipio.trim();
+      for(const opt of selC.options){
+        if(opt.value.toUpperCase()===mu||mu.includes(opt.value.toUpperCase())||opt.value.toUpperCase().includes(mu.split(' ')[0])){
+          selC.value=opt.value; break;
+        }
+      }
+      onCiudadChange();
+    }
+    syncScripts();
+    toast('✓ Datos ADRES extraídos correctamente');
+    document.getElementById('regPanel')?.scrollIntoView({behavior:'smooth',block:'nearest'});
+  },380);
+}
+
+/* ══ OBJECIONES ══ */
+function toggleObj(){
+  const ov=document.getElementById('objOverlay');
+  const tb=document.getElementById('objToggleBtn');
+  const open=ov.classList.toggle('open');
+  tb.classList.toggle('open',open);
+}
+
+function renderObjeciones(filter){
+  const list=document.getElementById('objList');
+  const fl=filter.toLowerCase().trim();
+  const filtered=OBJECIONES.filter(o=>!fl||o.topic.toLowerCase().includes(fl)||o.obj.toLowerCase().includes(fl));
+  list.innerHTML=filtered.map((o,i)=>`
+    <div class="obj-item" id="obj${i}">
+      <div class="obj-q" onclick="togObj(${i})">
+        <div class="obj-q-inner">
+          <div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+              <span class="obj-topic">${o.topic}</span>
+              <span class="obj-method">Método AAA</span>
+            </div>
+            <div class="obj-q-txt">"${o.obj}"</div>
+          </div>
+        </div>
+        <span class="obj-arr">▼</span>
+      </div>
+      <div class="obj-body">
+        <div class="obj-method-block omb-r">
+          <div class="omb-label">Guión Ganador (PNL)</div>
+          <div class="omb-text">${o.guion}</div>
+        </div>
+        <div class="obj-method-block omb-b">
+          <div class="omb-label">Psicología (Brian Tracy)</div>
+          <div class="omb-text">${o.tracy}</div>
+        </div>
+        <div class="obj-method-block omb-g">
+          <div class="omb-label">Valor (Alex Hormozi)</div>
+          <div class="omb-text">${o.hormozi}</div>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function togObj(i){ document.getElementById('obj'+i).classList.toggle('open'); }
+function filterObj(v){ renderObjeciones(v); }
+
+function esCiudadCosta(ciudad){ return CIUDADES_COSTA.some(c=>ciudad.toUpperCase().includes(c.toUpperCase())); }
+
+function onCiudadChange(){
+  const ciudad = document.getElementById('rCiudad').value;
+  const isCosta = esCiudadCosta(ciudad);
+  const isFuera = ciudad==='FUERA';
+  document.getElementById('badgeCosta').style.display = isCosta?'block':'none';
+  document.getElementById('badgeSinCobertura').style.display = isFuera?'block':'none';
+  if(isFuera){
+    document.getElementById('planSelect').value='VIRTUAL';
+    activePlan='VIRTUAL';
+  }
+  updateOffer(); 
+  updateFarewell(); // ← Actualizar números dinámicos
+  syncScripts();
+}
+
+function getPrecioEfectivo(){
+  const ciudad = document.getElementById('rCiudad').value||'';
+  const isCosta = esCiudadCosta(ciudad);
+  const p = TAR[activePlan];
+  if(!p) return null;
+  if(!isCosta) return p;
+
+  // Plan Costa: tarifa fija única por persona independiente de número de afiliados
+  // Seleccionar precio según Plus/Tradicional y modalidad de pago
+  const esPlus = activePlan.startsWith('PLUS');
+  // Para Plan Costa, modalidad local pago = LOC (caja), el resto = DEB
+  const esLoc  = modPago==='LOC' || activePlan.endsWith('_LOC');
+  const key = (esPlus?'PLUS':'TRAD') + '_' + (esLoc?'LOC':'DEB');
+  const tarifaCosta = PLAN_COSTA[key] || PLAN_COSTA.TRAD_DEB;
+  const planNomCosta = esPlus ? 'EMI Plus' : 'EMI Tradicional';
+  const modNomCosta  = esLoc ? 'Caja y corresponsales' : 'Débito automático';
+
+  return {
+    ...p,
+    n: `${planNomCosta} Plan Costa`,
+    t: {1:tarifaCosta,2:tarifaCosta,3:tarifaCosta,4:tarifaCosta,5:tarifaCosta},
+    adh: 0,
+    mod: esLoc?'LOC':'DEB',
+    label: `Plan Costa · ${modNomCosta}`,
+    esCosta: true,
+    modNomCosta, tarifaCosta,
+  };
+}
+
+{ window.open('https://aplicaciones.adres.gov.co/BDUA_Internet/Pages/ConsultarAfiliadoWeb_2.aspx','_blank'); }
+
+function resetCall(){
+  document.getElementById('pasteTA').value='';
+  document.getElementById('pasteBox').className='paste-box';
+  document.getElementById('pzSt').className='pz-s'; document.getElementById('pzSt').textContent='listo';
+  document.getElementById('xg').style.display='none';
+  document.getElementById('progF').style.width='0';
+  document.getElementById('rNom').value='';
+  document.getElementById('rReg').value='';
+  document.getElementById('rEst').value='ACTIVO';
+  document.getElementById('agentName').value='';
+  document.getElementById('fallecidoOverlay').classList.remove('show');
+  document.getElementById('rCiudad').value='Bogotá';
+  document.getElementById('badgeCosta').style.display='none';
+  document.getElementById('badgeSinCobertura').style.display='none';
+  datos={}; goPhase(1); syncScripts();
+}
+
+function toast(m){ const t=document.getElementById('toast'); t.textContent=m; t.classList.add('on'); setTimeout(()=>t.classList.remove('on'),3600); }
+
+function descargar(){
+  const blob=new Blob([document.documentElement.outerHTML],{type:'text/html;charset=utf-8'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob);
+  a.download='EMI-FALCK-Asistente-v3.html'; a.click(); URL.revokeObjectURL(a.href);
+}
+
+function descargarTXT(){
+  try {
+    const nom = (document.getElementById('rNom').value || 'Cliente').trim();
+    const resumen = generarTextoResumen();
+    
+    // Crear blob de texto
+    const blob = new Blob([resumen], {type: 'text/plain;charset=utf-8'});
+    
+    // Crear URL del blob
+    const url = URL.createObjectURL(blob);
+    
+    // Crear elemento <a> temporal
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `Resumen-EMI-${nom.replace(/[^a-zA-Z0-9]/g, '')}-${new Date().toISOString().split('T')[0]}.txt`;
+    link.style.display = 'none';
+    
+    // Agregar al DOM, hacer click y remover
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    
+    // Liberar URL después de un pequeño delay
+    setTimeout(() => URL.revokeObjectURL(url), 100);
+    
+    toast('✓ Resumen descargado en formato TXT');
+  } catch(err) {
+    console.error('Error en descarga:', err);
+    toast('❌ Error al descargar. Intenta de nuevo.');
+  }
+}
+
+function updateChannelNumbers(){
+  const ciudad = (document.getElementById('rCiudad').value || 'BOGOTA').toUpperCase();
+  let contactInfo = 'Contacto Principal: Llamar a línea nacional';
+  
+  for(const [key, data] of Object.entries(CONTACTOS_CIUDADES)){
+    if(ciudad.includes(key) || key === ciudad){
+      const nums = data.numeros.join(' / ');
+      contactInfo = `${data.ciudad}: ${nums}`;
+      break;
+    }
+  }
+  
+  return contactInfo;
+}
+
+function updateFarewell(){
+  const ciudad = (document.getElementById('rCiudad').value || 'BOGOTA').toUpperCase();
+  const cityCard = document.getElementById('channelCity');
+  const numsCard = document.getElementById('channelNumbers');
+  
+  let contactData = CONTACTOS_CIUDADES['BOGOTA']; // default
+  
+  for(const [key, data] of Object.entries(CONTACTOS_CIUDADES)){
+    if(ciudad.includes(key) || key === ciudad){
+      contactData = data;
+      break;
+    }
+  }
+  
+  if(cityCard) cityCard.textContent = contactData.ciudad;
+  if(numsCard) numsCard.textContent = contactData.numeros.join(' · ');
+}
+
+document.addEventListener('keydown',e=>{
+  if((e.ctrlKey||e.metaKey)&&e.key==='v'&&document.activeElement!==document.getElementById('pasteTA'))
+    document.getElementById('pasteTA').focus();
+});
+
+// Watch EPS change for alerta
+document.getElementById('rEps').addEventListener('change',function(){
+  document.getElementById('alertaNuevaEps').style.display=(this.value==='Nueva EPS')?'block':'none';
+  syncScripts();
+});
+
+// Función alternativa si falla la descarga
+function descargarComoTexto(){
+  const nom = (document.getElementById('rNom').value || 'Cliente').trim();
+  const resumen = generarTextoResumen();
+  
+  // Copiar al portapapeles
+  navigator.clipboard.writeText(resumen).then(() => {
+    toast('✓ Resumen copiado al portapapeles. Pégalo en un editor de texto.');
+  }).catch(() => {
+    // Alternativa: mostrar en popup
+    const ventana = window.open('', '', 'width=600,height=400');
+    ventana.document.write('<pre style="font-family:monospace;padding:20px;white-space:pre-wrap;word-wrap:break-word;">');
+    ventana.document.write(resumen);
+    ventana.document.write('</pre>');
+    ventana.document.write('<p style="text-align:center;"><button onclick="window.print()">Imprimir</button> | <button onclick="window.close()">Cerrar</button></p>');
+    toast('✓ Resumen abierto en nueva ventana');
+  });
+}
+
+function generarTextoResumen(){
+  // INFORMACIÓN DEL CLIENTE (Sidebar)
+  const nom = (document.getElementById('rNom').value || 'No capturado').trim();
+  const regimen = (document.getElementById('rReg').value || 'No capturado').trim();
+  const estado = (document.getElementById('rEst').value || 'No capturado').trim();
+  const tipo = (document.getElementById('rTip').value || 'No capturado').trim();
+  const ciudad = (document.getElementById('rCiudad').value || 'No capturado').trim();
+  const eps = (document.getElementById('rEps').value || 'No capturado').trim();
+  
+  // INFORMACIÓN PERSONAL (Fase 5)
+  const nomPersona = (document.getElementById('fNom').value || 'No capturado').trim();
+  const fechaNac = (document.getElementById('fNac').value || 'No capturado').trim();
+  const telefono = (document.getElementById('fTel').value || 'No capturado').trim();
+  const email = (document.getElementById('fEmail').value || 'No capturado').trim();
+  const direccion = (document.getElementById('fDir').value || 'No capturado').trim();
+  const barrio = (document.getElementById('fBarrio').value || 'No capturado').trim();
+  const referencia = (document.getElementById('fRef').value || 'No capturado').trim();
+  
+  // INFORMACIÓN DE PAGO (Fase 5)
+  const banco = (document.getElementById('fBanco').value || 'No capturado').trim();
+  const tipoCuenta = (document.getElementById('fTipoCuenta').value || 'No capturado').trim();
+  const digitos = (document.getElementById('fDigitos').value || 'XXXX').trim();
+  
+  // INFORMACIÓN DE VENTA
+  const agent = (document.getElementById('agentName').value || 'Asesor').trim();
+  const plan = document.getElementById('planSelect').value || 'Pendiente';
+  const numAfiliados = document.querySelector('.ab.on')?.textContent || '1';
+  const pEfectivo = getPrecioEfectivo();
+  const tarifa = pEfectivo ? '$'+Math.round(pEfectivo.t[parseInt(numAfiliados)] || pEfectivo.t[1]).toLocaleString('es-CO') : 'Pendiente';
+  const modPagoEl = document.querySelector('.mod-pill[id^="mp-"].on');
+  const modPago = modPagoEl ? modPagoEl.textContent : 'Pendiente';
+  const titularidadEl = document.querySelector('.mod-pill[id^="tit-"].on');
+  const titularidad = titularidadEl ? titularidadEl.textContent : 'Pendiente';
+  
+  // FECHA Y HORA
+  const ahora = new Date();
+  const fecha = ahora.toLocaleDateString('es-CO', {year:'numeric', month:'long', day:'numeric'});
+  const hora = ahora.toLocaleTimeString('es-CO');
+  const numeros = updateChannelNumbers();
+  
+  return `════════════════════════════════════════════════════════════════════════
+                    RESUMEN DE VENTA EMI FALCK
+════════════════════════════════════════════════════════════════════════
+
+INFORMACIÓN DEL CLIENTE (ADRES)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Nombre ADRES:         ${nom}
+Régimen:              ${regimen}
+Estado:               ${estado}
+Tipo Afiliado:        ${tipo}
+Ciudad:               ${ciudad}
+EPS Actual:           ${eps}
+
+INFORMACIÓN PERSONAL DEL AFILIADO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Nombre Completo:      ${nomPersona}
+Fecha de Nacimiento:  ${fechaNac}
+Teléfono:             ${telefono}
+Correo Electrónico:   ${email}
+Dirección:            ${direccion}
+Barrio:               ${barrio}
+Referencia:           ${referencia}
+
+INFORMACIÓN DE PAGO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Institución Bancaria: ${banco}
+Tipo de Cuenta:       ${tipoCuenta}
+Últimos 4 Dígitos:    ${digitos}
+
+INFORMACIÓN DEL ASESOR
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Asesor:               ${agent}
+Empresa:              Grupo EMI - EMI FALCK
+Fecha de Contacto:    ${fecha} - ${hora}
+
+DETALLES DE LA OFERTA
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Plan Contratado:      ${plan}
+Número de Afiliados:  ${numAfiliados}
+Tarifa Mensual:       ${tarifa}
+Modalidad de Pago:    ${modPago}
+Titularidad:          ${titularidad}
+
+PRÓXIMOS PASOS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✓ Activación: Máximo 72 horas hábiles
+✓ Envío de bienvenida y app de usuario
+✓ Primer contacto del equipo médico
+✓ Acceso a telemedicina disponible inmediatamente
+
+LÍNEAS DE ATENCIÓN
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+${numeros}
+
+BENEFICIOS INCLUIDOS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✓ Urgencias 24/7 - Médico en puerta <45 min
+✓ Videoconsulta - Ilimitada, sin costo extra
+✓ Chat Médico - Orientación inmediata
+✓ Comodidad Total - Sin filas ni salas de espera
+✓ Protección Infantil - Pediatra 24/7 a domicilio
+✓ Red SIEM - Cobertura nacional e internacional
+
+════════════════════════════════════════════════════════════════════════
+Documento generado por EMI FALCK Asistente v3.0
+Fecha de emisión: ${fecha}
+════════════════════════════════════════════════════════════════════════`;
+}
+</script>
+</body>
+</html>
