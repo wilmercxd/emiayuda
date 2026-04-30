@@ -110,7 +110,7 @@ textarea{resize:vertical;min-height:78px;font-size:11px;font-family:var(--fm);li
 .prog-f{height:100%;background:var(--r);border-radius:1px;width:0;transition:width .5s ease}
 
 /* CHIPS */
-.xg{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;display:none}
+.xg{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;display:none;margin-top:10px;}
 .xc{background:var(--w);border:1px solid var(--k1);border-radius:7px;padding:7px 9px;
   box-shadow:var(--s0);animation:fu .25s ease both}
 @keyframes fu{from{opacity:0;transform:translateY(4px)}to{opacity:1}}
@@ -138,7 +138,7 @@ textarea{resize:vertical;min-height:78px;font-size:11px;font-family:var(--fm);li
 
 /* PHASE HEADER */
 .ph-label{font-size:9px;font-weight:800;letter-spacing:.3em;text-transform:uppercase;color:var(--r);margin-bottom:4px}
-.ph-title{font-size:38px;font-weight:900;font-style:italic;letter-spacing:-1.5px;text-transform:uppercase;
+.ph-title{font-size:38px;font-weight:900;font-style:italic;letter-spacing:-1px;text-transform:uppercase;
   line-height:1;color:var(--k);margin-bottom:6px}
 .ph-desc{font-size:13px;color:var(--k5);max-width:520px;margin-bottom:28px}
 
@@ -159,8 +159,6 @@ textarea{resize:vertical;min-height:78px;font-size:11px;font-family:var(--fm);li
 .card:hover{box-shadow:var(--s1)}
 .card.dark{background:var(--k);border-color:transparent;color:var(--w)}
 .card.red-border{border-color:rgba(232,0,29,.3)}
-.card-grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.card-grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
 
 /* ══ FASE 1: PROTOCOLO ══ */
 .recording-badge{display:flex;align-items:center;gap:8px;padding:4px 14px;
@@ -181,10 +179,10 @@ textarea{resize:vertical;min-height:78px;font-size:11px;font-family:var(--fm);li
 .agent-card{background:var(--k);border-radius:12px;padding:20px;color:var(--w)}
 .agent-label{font-size:9px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--r);margin-bottom:8px}
 .agent-input{width:100%;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);
-  border-radius:8px;padding:10px 14px;color:var(--w);font-family:var(--ff);font-size:14px;
+  border-radius:8px;padding:10px 14px;color:#000;font-family:var(--ff);font-size:14px;
   font-weight:600;outline:none;transition:background .15s}
 .agent-input:focus{background:rgba(255,255,255,.18)}
-.agent-input::placeholder{color:rgba(255,255,255,.3)}
+.agent-input::placeholder{color:rgba(0,0,0,.4)}
 .checklist{background:var(--k05);border-radius:8px;padding:14px;margin-top:12px;border:1.5px solid var(--k1)}
 .checklist-title{font-size:8px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--r);margin-bottom:10px}
 .check-item{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:600;margin-bottom:6px;color:var(--k)}
@@ -270,7 +268,7 @@ textarea{resize:vertical;min-height:78px;font-size:11px;font-family:var(--fm);li
 .omx-text .t{font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--r);margin-bottom:4px}
 .omx-text .d{font-size:13px;font-weight:500;opacity:.75}
 
-/* ══ FASE 5: LEGALIZACIÓN ══ */
+/* ══ FASE 5: LEGALIZACIÓN Y BENEFICIARIOS ══ */
 .modality-bar{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;align-items:flex-start}
 .mod-group{display:flex;flex-direction:column;gap:4px}
 .mod-label{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--k5)}
@@ -285,6 +283,34 @@ textarea{resize:vertical;min-height:78px;font-size:11px;font-family:var(--fm);li
 .bank-section{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding-top:16px;
   border-top:1px solid var(--k1);margin-top:4px}
 .bank-section.hidden{display:none}
+
+/* Estilos de los beneficiarios dinámicos en Fase 5 */
+.beneficiarios-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  margin-top: 24px;
+  margin-bottom: 24px;
+  padding: 20px;
+  background: var(--w);
+  border-radius: 12px;
+  border: 1.5px solid var(--k1);
+  box-shadow: var(--s0);
+}
+.beneficiarios-grid .span2 { grid-column: span 2; }
+.ben-section-title {
+  grid-column: 1 / -1;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--r);
+  border-bottom: 1.5px solid var(--k1);
+  padding-bottom: 8px;
+  margin-top: 10px;
+  margin-bottom: 4px;
+}
+
 .guion-wrap{background:var(--w);border:1.5px solid var(--k1);border-radius:12px;overflow:hidden;box-shadow:var(--s0);margin-top:20px}
 .guion-header{background:var(--k05);border-bottom:1px solid var(--k1);padding:12px 20px;
   display:flex;align-items:center;justify-content:space-between}
@@ -438,10 +464,13 @@ textarea{resize:vertical;min-height:78px;font-size:11px;font-family:var(--fm);li
   <!-- REGISTRO -->
   <div class="spanel" id="regPanel">
     <div class="sh">Registro de resultado</div>
-    <input type="hidden" id="rCed" value="">
+    <div class="form-field" style="margin-bottom:8px">
+      <label class="flbl">Cédula del afiliado</label>
+      <input type="text" id="rCed" placeholder="Número de cédula" oninput="syncScripts()">
+    </div>
     <div class="form-field" style="margin-bottom:8px">
       <label class="flbl">Nombre completo afiliado</label>
-      <input type="text" id="rNom" placeholder="Como aparece en ADRES" oninput="syncScripts()">
+      <input type="text" id="rNom" placeholder="Como aparece en ADRES" oninput="syncAdresToBen1(); syncScripts()">
     </div>
     <div class="row2x">
       <div>
@@ -500,6 +529,7 @@ textarea{resize:vertical;min-height:78px;font-size:11px;font-family:var(--fm);li
         <option>Otra EPS</option><option value="NINGUNA">Sin EPS / No registra</option>
       </select>
     </div>
+    
     <!-- CIUDAD CON COBERTURA -->
     <div style="margin-top:8px">
       <label class="flbl">Ciudad / Municipio del afiliado</label>
@@ -508,62 +538,39 @@ textarea{resize:vertical;min-height:78px;font-size:11px;font-family:var(--fm);li
           <option value="Bogotá">Bogotá</option>
           <option value="Cajicá">Cajicá</option>
           <option value="Chía">Chía</option>
-          <option value="Cota">Cota</option>
         </optgroup>
         <optgroup label="Antioquia">
           <option value="Medellín">Medellín</option>
-          <option value="Bello">Bello</option>
-          <option value="Caldas">Caldas</option>
-          <option value="Copacabana">Copacabana</option>
-          <option value="Envigado">Envigado</option>
-          <option value="Itagüí">Itagüí</option>
-          <option value="La Ceja">La Ceja</option>
-          <option value="La Estrella">La Estrella</option>
-          <option value="Marinilla">Marinilla</option>
           <option value="Rionegro">Rionegro</option>
-          <option value="Sabaneta">Sabaneta</option>
-          <option value="San Antonio de Pereira">San Antonio de Pereira</option>
         </optgroup>
         <optgroup label="Valle del Cauca">
           <option value="Cali">Cali</option>
-          <option value="Jamundí">Jamundí</option>
           <option value="Palmira">Palmira</option>
-          <option value="Yumbo">Yumbo</option>
         </optgroup>
         <optgroup label="Eje Cafetero">
-          <option value="Armenia">Armenia</option>
-          <option value="Calarcá">Calarcá</option>
-          <option value="Circasia">Circasia</option>
-          <option value="Dosquebradas">Dosquebradas</option>
           <option value="Manizales">Manizales</option>
           <option value="Pereira">Pereira</option>
-          <option value="Villamaría">Villamaría</option>
         </optgroup>
         <optgroup label="🌊 Costa Atlántica — Plan Costa">
           <option value="Barranquilla" data-costa="true">Barranquilla</option>
           <option value="Cartagena" data-costa="true">Cartagena</option>
-          <option value="Malambo" data-costa="true">Malambo</option>
           <option value="Santa Marta" data-costa="true">Santa Marta</option>
-          <option value="Soledad" data-costa="true">Soledad</option>
-        </optgroup>
-        <optgroup label="Santander">
-          <option value="Bucaramanga">Bucaramanga</option>
-          <option value="Floridablanca">Floridablanca</option>
-          <option value="Girón">Girón</option>
-          <option value="Piedecuesta">Piedecuesta</option>
-        </optgroup>
-        <optgroup label="Norte de Santander">
-          <option value="Cúcuta">Cúcuta</option>
-          <option value="Los Patios">Los Patios</option>
-          <option value="Villa del Rosario">Villa del Rosario</option>
-        </optgroup>
         </optgroup>
         <option value="FUERA">🌐 Fuera de Cobertura Presencial</option>
       </select>
     </div>
 
+    <!-- PREGUNTA: ¿ADRES = BENEFICIARIO 1? -->
+    <div style="margin-top:14px; padding-top:14px; border-top:1.5px solid var(--k1)">
+      <label class="flbl">¿El validado en ADRES es el Beneficiario 1?</label>
+      <div class="mod-pills" style="display:inline-flex; width:100%">
+        <button class="mod-pill on" style="flex:1; text-align:center" id="isBen1-SI" onclick="setAdresIsBen1(true)">SÍ</button>
+        <button class="mod-pill" style="flex:1; text-align:center" id="isBen1-NO" onclick="setAdresIsBen1(false)">NO</button>
+      </div>
+    </div>
+
     <!-- BADGE PLAN COSTA -->
-    <div id="badgeCosta" style="display:none;margin-top:8px">
+    <div id="badgeCosta" style="display:none;margin-top:14px">
       <div style="background:rgba(13,71,161,.07);border:1px solid rgba(13,71,161,.25);border-radius:8px;padding:10px 13px">
         <div style="font-size:9px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#0D47A1;margin-bottom:6px">🌊 Plan Costa — Tarifas especiales</div>
         <table style="width:100%;border-collapse:collapse;font-size:11px">
@@ -628,7 +635,7 @@ textarea{resize:vertical;min-height:78px;font-size:11px;font-family:var(--fm);li
     <!-- IDENTIDAD DEL ASESOR - PRIMERO -->
     <div class="agent-card" style="margin-bottom:24px;background:var(--w);border:1.5px solid var(--k1);border-radius:12px;padding:20px 22px;box-shadow:var(--s0)">
       <div class="agent-label" style="font-size:13px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--r);margin-bottom:14px">Escribe tu nombre</div>
-      <input class="agent-input" id="agentName" placeholder="Nombre Completo" oninput="syncScripts()" style="margin-bottom:14px;border:2px solid #000;background-color:#FFF;padding:12px;font-size:14px;font-weight:600">
+      <input class="agent-input" id="agentName" placeholder="Nombre Completo" oninput="syncScripts()" style="margin-bottom:14px;border:2px solid #000;background-color:#FFF;color:#000;padding:12px;font-size:14px;font-weight:600">
       <div class="checklist">
         <div class="checklist-title">Checklist de Calidad</div>
         <div class="check-item"><span class="check-dot"></span>Tono de voz empático</div>
@@ -698,16 +705,6 @@ textarea{resize:vertical;min-height:78px;font-size:11px;font-family:var(--fm);li
         <div class="spin-type">Problema</div>
         <div class="spin-q">"¿Cómo les afecta cuando tienen que esperar horas en el triaje de una clínica por una fiebre o cólico?"</div>
       </div>
-      <div class="spin-card">
-        <div class="spin-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
-        <div class="spin-type">Implicación</div>
-        <div class="spin-q">"¿Qué pasaría si hoy a las 3 a.m. ocurre algo y no tiene un médico que llegue en menos de 90 minutos?"</div>
-      </div>
-      <div class="spin-card">
-        <div class="spin-ico"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
-        <div class="spin-type">Necesidad</div>
-        <div class="spin-q">"¿Cómo le ayudaría recibir atención médica inmediata en casa sin exponerse a virus en un hospital?"</div>
-      </div>
     </div>
 
     <div class="adres-tip">
@@ -746,21 +743,13 @@ textarea{resize:vertical;min-height:78px;font-size:11px;font-family:var(--fm);li
             <option value="PLUS_DEB">EMI Plus Débito</option>
             <option value="TRAD_DEB">EMI Tradicional Débito</option>
           </optgroup>
-          <optgroup label="Domicilio">
-            <option value="PLUS_DOM">EMI Plus Domicilio</option>
-            <option value="TRAD_DOM">EMI Tradicional Domicilio</option>
-          </optgroup>
           <optgroup label="Local Pago (Caja)">
             <option value="PLUS_LOC">EMI Plus Local Pago</option>
             <option value="TRAD_LOC">EMI Tradicional Local Pago</option>
           </optgroup>
-          <optgroup label="Débito Alianzas Especiales">
-            <option value="PLUS_ALI">EMI Plus Alianzas</option>
-            <option value="TRAD_ALI">EMI Tradicional Alianzas</option>
-          </optgroup>
-          <optgroup label="Anualidad (sin adhesión)">
-            <option value="PLUS_ANUAL">EMI Plus Anualidad</option>
-            <option value="TRAD_ANUAL">EMI Tradicional Anualidad</option>
+          <optgroup label="Domicilio">
+            <option value="PLUS_DOM">EMI Plus Domicilio</option>
+            <option value="TRAD_DOM">EMI Tradicional Domicilio</option>
           </optgroup>
           <optgroup label="Especiales">
             <option value="SUBSIDIADO">EMI Subsidiado</option>
@@ -851,7 +840,7 @@ textarea{resize:vertical;min-height:78px;font-size:11px;font-family:var(--fm);li
     </div>
   </div>
 
-  <!-- ═══ FASE 5: LEGALIZACIÓN ═══ -->
+  <!-- ═══ FASE 5: LEGALIZACIÓN Y BENEFICIARIOS ═══ -->
   <div class="phase" id="phase-5">
     <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:20px">
       <div>
@@ -877,10 +866,10 @@ textarea{resize:vertical;min-height:78px;font-size:11px;font-family:var(--fm);li
       </div>
     </div>
 
-    <!-- FORM DATOS -->
+    <!-- FORM DATOS DEL TITULAR -->
     <div class="form-grid">
       <div class="form-field span2">
-        <label class="flbl">Nombres y Apellidos Completos</label>
+        <label class="flbl">Nombres y Apellidos Completos del Titular</label>
         <input type="text" id="fNom" placeholder="Tal cual aparece en la cédula" oninput="syncScripts()">
       </div>
       <div class="form-field">
@@ -897,7 +886,7 @@ textarea{resize:vertical;min-height:78px;font-size:11px;font-family:var(--fm);li
       </div>
       <div class="form-field span2">
         <label class="flbl">Dirección de Residencia</label>
-        <input type="text" id="fDir" placeholder="Calle / Carrera / Apto">
+        <input type="text" id="fDir" placeholder="Calle / Carrera / Apto" oninput="syncScripts()">
       </div>
       <div class="form-field">
         <label class="flbl">Barrio</label>
@@ -932,6 +921,9 @@ textarea{resize:vertical;min-height:78px;font-size:11px;font-family:var(--fm);li
       </div>
     </div>
 
+    <!-- CAMPOS DINÁMICOS BENEFICIARIOS -->
+    <div id="beneficiarios-container"></div>
+
     <!-- GUIÓN CONFRONTA -->
     <div class="guion-wrap">
       <div class="guion-header">
@@ -946,18 +938,18 @@ textarea{resize:vertical;min-height:78px;font-size:11px;font-family:var(--fm);li
         <!-- INTRODUCCIÓN SIEMPRE IGUAL -->
         <div class="g-section-label">Introducción</div>
         <div class="g-intro-text" style="font-size:12px;line-height:1.6;text-align:justify;">
-Buenos días/tardes sr/Sra. <span style="color:red;font-weight:bold">(Nombre del Usuario)</span>, mi nombre es: <span style="color:red;font-weight:bold">(Nombre Completo Asesor/a)</span> Ejecutiva Comercial del grupo emi.<br><br>
-Le recuerdo que esta llamada es grabada y monitoreada para efectos de calidad en el servicio.<br><br>
-Para continuar con el proceso de verificación, realizaré unas preguntas de confirmación y validación, donde solo deberá responder si o no.<br><br>
-<strong>Antes de iniciar quiero dejar por sentado que se informó de:</strong><br>
-• "Emi, somos su médico personal 24/7 al alcance de su mano donde estés para solucionar dudas y situaciones de salud de manera presencial o virtual"<br>
-• "Tenemos acceso multicanal: esto quiere decir, que el afiliado tiene la opción de elegir como desea acceder a nuestro servicio" (línea atención telefónica o herramientas tecnológicas como el portal clientes web, y app para el celular).<br>
-• "Por ser afiliado emi tiene beneficios: video consulta de orientación medica/pediátrica, orientación medica mediante línea telefónica o chat, atención medica domiciliaria y otros beneficios como lectura exámenes, acceso a más de 400 especialidades mediante emi especialistas con una tarifa preferencial, alianzas con establecimientos, historia clínica digital y cobertura nacional e internacional mediante la red SIEM"<br><br>
-<strong>Adicionalmente le recuerdo que tiene orientación médica para:</strong><br>
-• <strong>Emergencia</strong>, es una situación de salud en la que está comprometida la vida del paciente y debe ser atendida de forma inmediata<br>
-• <strong>Urgencia</strong>, situación de salud en la cual la vida del paciente no está comprometida, pero se requiere de atención oportuna.<br>
-• <strong>Consulta médica domiciliaria</strong> cualquier situación de salud que requiere de una valoración médica y no comprometa la vida del paciente.<br><br>
-Teniendo en cuenta lo anterior iniciaremos con el proceso de validación y verificación de identidad.
+          Buenos días/tardes sr/Sra. <span class="script-field" id="l-usuario">[Nombre del Usuario]</span>, mi nombre es: <span class="script-field" id="l-asesor">[Su Nombre]</span> Ejecutiva Comercial del grupo emi.<br><br>
+          Le recuerdo que esta llamada es grabada y monitoreada para efectos de calidad en el servicio.<br><br>
+          Para continuar con el proceso de verificación, realizaré unas preguntas de confirmación y validación, donde solo deberá responder si o no.<br><br>
+          <strong>Antes de iniciar quiero dejar por sentado que se informó de:</strong><br>
+          • "Emi, somos su médico personal 24/7 al alcance de su mano donde estés para solucionar dudas y situaciones de salud de manera presencial o virtual"<br>
+          • "Tenemos acceso multicanal: esto quiere decir, que el afiliado tiene la opción de elegir como desea acceder a nuestro servicio" (línea atención telefónica o herramientas tecnológicas como el portal clientes web, y app para el celular).<br>
+          • "Por ser afiliado emi tiene beneficios: video consulta de orientación medica/pediátrica, orientación medica mediante línea telefónica o chat, atención medica domiciliaria y otros beneficios como lectura exámenes, acceso a más de 400 especialidades mediante emi especialistas con una tarifa preferencial, alianzas con establecimientos, historia clínica digital y cobertura nacional e internacional mediante la red SIEM"<br><br>
+          <strong>Adicionalmente le recuerdo que tiene orientación médica para:</strong><br>
+          • <strong>Emergencia</strong>, es una situación de salud en la que está comprometida la vida del paciente y debe ser atendida de forma inmediata<br>
+          • <strong>Urgencia</strong>, situación de salud en la cual la vida del paciente no está comprometida, pero se requiere de atención oportuna.<br>
+          • <strong>Consulta médica domiciliaria</strong> cualquier situación de salud que requiere de una valoración médica y no comprometa la vida del paciente.<br><br>
+          Teniendo en cuenta lo anterior iniciaremos con el proceso de validación y verificación de identidad.
         </div>
 
         <!-- LEGAL 1 SEGÚN ESCENARIO -->
@@ -973,7 +965,7 @@ Teniendo en cuenta lo anterior iniciaremos con el proceso de validación y verif
         <div class="g-legal-bottom" style="margin-top:16px">
           <div class="g-legal-small">
             <div class="g-legal-small-label">Legal 2 (Términos)</div>
-            <div class="g-legal-small-text" style="font-size:12px;line-height:1.6">Señor/a <span style="color:red;font-weight:bold">(Nombre del Usuario)</span>, ¿certifica usted que conoce y acepta, todos los términos y condiciones del contrato, así como la política de tratamiento de datos personales de grupo emi s.a.s?</div>
+            <div class="g-legal-small-text" style="font-size:12px;line-height:1.6">Señor/a <span class="script-field" id="l-usuario2">[Nombre del Usuario]</span>, ¿certifica usted que conoce y acepta, todos los términos y condiciones del contrato, así como la política de tratamiento de datos personales de grupo emi s.a.s?</div>
           </div>
         </div>
 
@@ -981,20 +973,20 @@ Teniendo en cuenta lo anterior iniciaremos con el proceso de validación y verif
         <div class="g-legal-bottom" style="margin-top:16px">
           <div class="g-legal-small">
             <div class="g-legal-small-label">Legal 3 (Validación de Identidad)</div>
-            <div class="g-legal-small-text" style="font-size:12px;line-height:1.6">Señor/a <span style="color:red;font-weight:bold">(Nombre del Usuario)</span>, autoriza usted a grupo emi s.a.s., para validar su identidad por medio de 5 preguntas.</div>
+            <div class="g-legal-small-text" style="font-size:12px;line-height:1.6">Señor/a <span class="script-field" id="l-usuario3">[Nombre del Usuario]</span>, autoriza usted a grupo emi s.a.s., para validar su identidad por medio de 5 preguntas.</div>
           </div>
         </div>
 
         <!-- CONFRONTA EXITOSO -->
         <div class="g-legal-bottom" style="margin-top:16px;background:#e8f5e9;padding:12px;border-radius:6px">
           <div class="g-legal-small-label">✅ Confronta Exitoso</div>
-          <div class="g-legal-small-text" style="font-size:12px;line-height:1.6">Señor/a <span style="color:red;font-weight:bold">(Nombre del Usuario)</span>, le informo que el proceso de validación fue exitoso, cuando el servicio se encuentre activo, usted recibirá correo electrónico, en un promedio de 72 horas hábiles.</div>
+          <div class="g-legal-small-text" style="font-size:12px;line-height:1.6">Señor/a <span class="script-field" id="l-usuario4">[Nombre del Usuario]</span>, le informo que el proceso de validación fue exitoso, cuando el servicio se encuentre activo, usted recibirá correo electrónico, en un promedio de 72 horas hábiles.</div>
         </div>
 
         <!-- CONFIRMACIÓN FINAL -->
         <div class="g-legal-bottom" style="margin-top:16px;background:#fff3e0;padding:12px;border-radius:6px">
           <div class="g-legal-small-label">📋 Confirmación Final</div>
-          <div class="g-legal-small-text" style="font-size:12px;line-height:1.6">Señor(a) <span style="color:red;font-weight:bold">(Nombre Cliente)</span>, con numero de cedula <span style="color:red;font-weight:bold">(# de cedula)</span>, le confirmo que el PLAN DE SALUD que ha contratado con EMI FALCK es el siguiente: <span style="color:red;font-weight:bold">(Describir plan: NOMBRE, BENEFICIOS, VALOR DE INSCRIPCIÓN Y VALOR DE MENSUALIDAD POR CADA AFILIADO)</span>, para las siguientes personas: <span style="color:red;font-weight:bold">(NOMBRE DE LAS PERSONAS QUE ESTA VINCULANDO EN LA LLAMADA)</span>. ¿Está de acuerdo con estas condiciones? SI/NO.</div>
+          <div class="g-legal-small-text" style="font-size:12px;line-height:1.6" id="gLegalFinal"></div>
         </div>
       </div>
     </div>
@@ -1048,14 +1040,6 @@ Teniendo en cuenta lo anterior iniciaremos con el proceso de validación y verif
         </button>
       </div>
     </div>
-
-    <div style="display:flex;justify-content:center;gap:24px;flex-wrap:wrap;margin-top:28px;padding-top:24px;border-top:1px solid var(--k1)">
-      <a href="https://somosemi.com/ventas/menu" target="_blank" class="tbtn">💻 Venta Asistida</a>
-      <a href="https://aplicaciones.adres.gov.co/BDUA_Internet/Pages/ConsultarAfiliadoWeb_2.aspx" target="_blank" class="tbtn">🔍 ADRES</a>
-      <a href="https://www.grupoemi.com/colombia/personas-afiliados/emi-especialistas" target="_blank" class="tbtn">👨‍⚕️ Especialistas</a>
-      <a href="https://www.grupoemi.com/colombia/personas-afiliados/emi-beneficios" target="_blank" class="tbtn">🎁 Beneficios</a>
-      <a href="https://www.grupoemi.com/colombia/contactanos/lineas-de-atencion" target="_blank" class="tbtn">📞 Líneas</a>
-    </div>
   </div>
 
 </div><!-- /main -->
@@ -1077,41 +1061,33 @@ Teniendo en cuenta lo anterior iniciaremos con el proceso de validación y verif
 
 <script>
 /* ══════════════════════════════════════
-   DATOS
+   DATOS TARIFARIO (Estructura 2026)
 ══════════════════════════════════════ */
-/* Tarifario verificado contra Tarifario_2026_EMI.pdf
-   * A partir de 5 afiliados se usa tarifa de 4
-   * Adhesión: Tradicional $38.500 · Plus $44.400
-   * Plan Costa: facturación diaria, sin adhesión
-   * Anualidad: sin adhesión, pago completo desde mes 1          */
 const TAR = {
-  // DOMICILIO (1090) 1100107
-  PLUS_DOM:  {n:'EMI Plus Domicilio',              cod:'(1090) 1100107', t:{1:81900,2:75900,3:72200,4:68800,5:68800}, adh:44400, mod:'DOM', label:'Cobro domiciliario'},
-  TRAD_DOM:  {n:'EMI Tradicional Domicilio',        cod:'(1090) 1100107', t:{1:76000,2:70000,3:66300,4:63000,5:63000}, adh:38500, mod:'DOM', label:'Cobro domiciliario'},
-  // DÉBITO AUTOMÁTICO sin alianza (1091) 1100108
-  PLUS_DEB:  {n:'EMI Plus Débito Automático',       cod:'(1091) 1100108', t:{1:69300,2:64600,3:61700,4:59900,5:59900}, adh:44400, mod:'DEB', label:'Débito automático'},
-  TRAD_DEB:  {n:'EMI Tradicional Débito',           cod:'(1091) 1100108', t:{1:63400,2:58800,3:55800,4:54000,5:54000}, adh:38500, mod:'DEB', label:'Débito automático'},
-  // DÉBITO ALIANZAS ESPECIALES (1093) 1100112
-  PLUS_ALI:  {n:'EMI Plus Débito Alianzas',         cod:'(1093) 1100112', t:{1:66700,2:61700,3:59900,4:56200,5:56200}, adh:44400, mod:'DEB', label:'Débito alianzas'},
-  TRAD_ALI:  {n:'EMI Tradicional Débito Alianzas',  cod:'(1093) 1100112', t:{1:60900,2:55800,3:54000,4:50400,5:50400}, adh:38500, mod:'DEB', label:'Débito alianzas'},
-  // CAJA Y CORRESPONSALES — LOCAL PAGO (1998) 1110854
-  PLUS_LOC:  {n:'EMI Plus Local Pago',              cod:'(1998) 1110854', t:{1:80900,2:74700,3:70900,4:67900,5:67900}, adh:44400, mod:'LOC', label:'Caja y corresponsales'},
-  TRAD_LOC:  {n:'EMI Tradicional Local Pago',       cod:'(1998) 1110854', t:{1:75000,2:68800,3:65100,4:62000,5:62000}, adh:38500, mod:'LOC', label:'Caja y corresponsales'},
-  // SUBSIDIADO (1110853) — Sin cuota de adhesión, max 4 afiliados
-  SUBSIDIADO:{n:'EMI Subsidiado',                   cod:'(1110853)',       t:{1:67000,2:64500,3:61333,4:58625,5:58625}, adh:0,     mod:'DEB', label:'Débito automático'},
-  // VIRTUAL (1097) 1100174 — Sin adhesión, solo asegurado principal
-  VIRTUAL:   {n:'EMI Virtual',                      cod:'(1097) 1100174', t:{1:26400,2:26400,3:26400,4:24600,5:24600}, adh:0,     mod:'DEB', label:'Débito automático'},
-  // ANUALIDAD DÉBITO (1110009) — Sin adhesión, pago completo mes 1
-  PLUS_ANUAL:{n:'EMI Plus Anualidad',               cod:'(1110009)',       t:{1:69300,2:64600,3:61700,4:59900,5:59900}, adh:0,     mod:'DEB', label:'Anualidad — pago completo'},
-  TRAD_ANUAL:{n:'EMI Tradicional Anualidad',        cod:'(1110009)',       t:{1:63400,2:58800,3:55800,4:54000,5:54000}, adh:0,     mod:'DEB', label:'Anualidad — pago completo'},
+  // PLUS (8/8 Beneficios)
+  PLUS_DEB: { n: 'EMI Plus Débito', t: { 1: 77400, 2: 71400, 3: 68200, 4: 65600, 5: 65600 }, adh: 77400, mod: 'DEB' },
+  PLUS_LOC: { n: 'EMI Plus Local Pago', t: { 1: 87400, 2: 81400, 3: 78200, 4: 75600, 5: 75600 }, adh: 87400, mod: 'LOC' },
+  PLUS_DOM: { n: 'EMI Plus Domicilio', t: { 1: 92400, 2: 86400, 3: 83200, 4: 80600, 5: 80600 }, adh: 92400, mod: 'DOM' },
+  
+  // TRADICIONAL (6/8 Beneficios)
+  TRAD_DEB: { n: 'EMI Tradicional Débito', t: { 1: 58800, 2: 54100, 3: 51400, 4: 49400, 5: 49400 }, adh: 58800, mod: 'DEB' },
+  TRAD_LOC: { n: 'EMI Tradicional Local Pago', t: { 1: 68800, 2: 64100, 3: 61400, 4: 59400, 5: 59400 }, adh: 68800, mod: 'LOC' },
+  TRAD_DOM: { n: 'EMI Tradicional Domicilio', t: { 1: 73800, 2: 69100, 3: 66400, 4: 64400, 5: 64400 }, adh: 73800, mod: 'DOM' },
+  
+  // ESPECIALES
+  SUBSIDIADO: { n: 'EMI Subsidiado', t: { 1: 67000, 2: 67000, 3: 67000, 4: 67000, 5: 67000 }, adh: 67000, mod: 'DEB' },
+  VIRTUAL: { n: 'EMI Virtual', t: { 1: 26400, 2: 26400, 3: 26400, 4: 24600, 5: 24600 }, adh: 26400, mod: 'DEB' }
+};
+
+const PLAN_COSTA = {
+  TRAD_DEB: 38100, PLUS_DEB: 44000,
+  TRAD_LOC: 43100, PLUS_LOC: 49000,
 };
 
 const PERSONAS = [
   {id:'familia',  e:'👨‍👩‍👧', n:'Padre/Madre de Familia', s:'"Como cabeza de hogar, usted sabe que la salud de sus hijos no espera. ¿Qué valor tiene para usted que un pediatra esté en su sala en minutos, sin exponer a sus pequeños al virus del hospital?"'},
   {id:'soltero',  e:'💼', n:'Adulto Independiente',     s:'"Usted trabaja duro y sabe que el tiempo es dinero. ¿Cuántas horas ha perdido en urgencias? Con EMI eso se acabó — médico en su casa, usted sigue produciendo."'},
   {id:'cuidador', e:'👴', n:'Hijo Cuidador',             s:'"¿Tiene a sus padres solos en casa? Una caída, un dolor de pecho, un mareo — EMI es la red de seguridad que le permite trabajar tranquilo sabiendo que un médico puede estar con ellos en minutos."'},
-  {id:'corp',     e:'🏢', n:'Perfil Corporativo',       s:'"El ausentismo laboral por salud le cuesta a su empresa. EMI reduce visitas a clínicas en un 80% al resolver los casos en casa. Es una inversión, no un gasto."'},
-  {id:'joven',    e:'🎓', n:'Adulto Joven',              s:'"¿Cuándo fue la última vez que fue a urgencias y esperó 6 horas? Con EMI hundes un botón en la app y el médico llega. Más eficiente que pedir un domicilio."'},
 ];
 
 const BENEFITS = [
@@ -1121,167 +1097,52 @@ const BENEFITS = [
   {e:'🏠', t:'Comodidad Total', d:'Sin filas ni salas de espera'},
   {e:'👶', t:'Protección Infantil', d:'Pediatra 24/7 a domicilio'},
   {e:'🦷', t:'Urgencias Odonto', d:'Sin dolor de muela sin solución'},
-  {e:'👨‍⚕️', t:'900+ Especialistas', d:'Tarifa preferencial VIP'},
+  {e:'👨‍⚕️', t:'Especialistas', d:'Tarifa preferencial VIP'},
   {e:'🌎', t:'Red SIEM', d:'Cobertura nacional e intl.'},
 ];
 
-// Beneficios específicos por plan
 const BENEFITS_BY_PLAN = {
-  // PLUS: Todos los beneficios
-  PLUS_DEB:   ['🚑','📱','💬','🏠','👶','🦷','👨‍⚕️','🌎'],
-  PLUS_LOC:   ['🚑','📱','💬','🏠','👶','🦷','👨‍⚕️','🌎'],
-  PLUS_DOM:   ['🚑','📱','💬','🏠','👶','🦷','👨‍⚕️','🌎'],
-  PLUS_ANUAL: ['🚑','📱','💬','🏠','👶','🦷','👨‍⚕️','🌎'],
-  
-  // TRADICIONAL: Sin especialistas VIP
-  TRAD_DEB:   ['🚑','📱','💬','🏠','👶','🌎'],
-  TRAD_LOC:   ['🚑','📱','💬','🏠','👶','🌎'],
-  TRAD_DOM:   ['🚑','📱','💬','🏠','👶','🌎'],
-  TRAD_ANUAL: ['🚑','📱','💬','🏠','👶','🦷','🌎'],
-  
-  // SUBSIDIADO: Básico, sin especialistas ni odonto
+  PLUS_DEB: ['🚑','📱','💬','🏠','👶','🦷','👨‍⚕️','🌎'],
+  PLUS_LOC: ['🚑','📱','💬','🏠','👶','🦷','👨‍⚕️','🌎'],
+  PLUS_DOM: ['🚑','📱','💬','🏠','👶','🦷','👨‍⚕️','🌎'],
+  TRAD_DEB: ['🚑','📱','💬','🏠','👶','🌎'],
+  TRAD_LOC: ['🚑','📱','💬','🏠','👶','🌎'],
+  TRAD_DOM: ['🚑','📱','💬','🏠','👶','🌎'],
   SUBSIDIADO: ['🚑','📱','💬','🏠','👶','🌎'],
-  
-  // VIRTUAL: Solo telemedicina, sin urgencias presenciales ni odonto
-  VIRTUAL:    ['📱','💬','🌎'],
+  VIRTUAL: ['📱','💬','🌎'],
 };
 
 const OBJECIONES = [
-  {topic:'Presupuesto', obj:'Es muy caro / No hay presupuesto.',
-   guion:'Entiendo que cuida su dinero. Imagine la paz mental de saber que por $2.000 diarios, menos que un café, tiene un médico en su sala sin pagar un peso más.',
-   tracy:'¿El precio es lo único que nos impide trabajar hoy? Véalo como un fondo de ahorro: una sola urgencia particular cuesta 5 meses de nuestra mensualidad.',
-   hormozi:'Si no te afilias, igual gastarás ese dinero en taxis y copagos de EPS. Aquí compras tranquilidad ilimitada por el precio de dos pizzas. Es un trato ridículo.'},
-  {topic:'Decisión', obj:'Debo consultarlo con mi esposo/a.',
-   guion:'Valoro que decidan juntos. Si pudiera sentir ahora que ante un vómito a las 3 a.m. un médico llega en minutos, ¿qué diría su pareja?',
-   tracy:'Entiendo. Si su pareja estuviera aquí, ¿qué pregunta cree que me haría? Despejémosla para que le lleve la información completa y segura.',
-   hormozi:'Entiendo, pero la salud no espera. El bono de $38.500 expira al colgar. Tienes 5 días para retractarte, pero si esperas, pierdes el ahorro hoy.'},
-  {topic:'Información', obj:'Envíeme la info al WhatsApp.',
-   guion:'Claro, ya se la envío. Pero escuche: mi sistema solo sostiene el cupo preferencial mientras estamos en línea. Validemos su cobertura rápido.',
-   tracy:'Para que la info le sea útil, ¿qué es lo más importante hoy: la rapidez de atención o el ahorro en especialistas? Así le envío solo lo vital.',
-   hormozi:'Te la envío, pero tienes 50 chats sin leer. Tardamos 3 minutos en verificar si calificas para el descuento de bienvenida. ¿Cuál es su dirección?'},
-  {topic:'Competencia', obj:'Ya tengo Plan Premium / Prepagada.',
-   guion:'Excelente que esté protegido. Su plan es de "hotelería" para cuando ya está en la clínica; EMI es la logística para que no tenga que ir allá.',
-   tracy:'Muchos clientes pensaban igual hasta que vieron que EMI resuelve el 80% de los casos en su cama. ¿Prefiere esperar horas en triaje o que el médico llegue?',
-   hormozi:'Tener Prepagada sin EMI es como un Ferrari sin llaves. Tienes salud, pero no acceso rápido. Por $2.000 al día saltas la fila de urgencias de la EPS.'},
-  {topic:'Salud', obj:'Yo casi no me enfermo.',
-   guion:'Qué buena noticia. EMI es para proteger esa salud. Nadie planea una apendicitis. Es mejor tener al médico y no necesitarlo, ¿verdad?',
-   tracy:'Usted es el perfil ideal: riesgo bajo. Pero la salud no avisa. EMI es su seguro de disponibilidad 24/7. Un solo traslado evitado y se pagó solo.',
-   hormozi:'Es como el seguro del auto: pagas para no chocar. Si hoy te da un cólico fuerte, ¿prefieres buscar un taxi o hundir un botón en tu App?'},
-  {topic:'Servicio', obj:'Las ambulancias se demoran mucho.',
-   guion:'Siento que haya escuchado eso. Por eso creamos la Telemedicina 24/7: mientras la móvil llega, usted ya está hablando con el médico por video.',
-   tracy:'Clasificamos por gravedad. En una emergencia vital somos prioridad absoluta. ¿No le daría paz saber que lo atienden en su propia cama y no en una silla?',
-   hormozi:'El tráfico es real, por eso resolvemos el 95% de casos en casa vía virtual o presencial. No te dejamos solo; estamos en tu celular en segundos.'},
-  {topic:'Trámite', obj:'El afiliado ya falleció.',
-   guion:'Lamento profundamente su pérdida. Entiendo que su prioridad es organizar todo. Queremos apoyarlos para que el resto de la familia no quede desprotegida.',
-   tracy:'Le ofrezco mis condolencias. Para apoyarla, aplicaremos el Precio de Lealtad ($58.800) para que usted mantenga su protección ahora que está sola.',
-   hormozi:'Siento mucho lo ocurrido. El trámite es enviar el acta. Pero no dejes que el resto de la familia quede expuesta. Bajemos tu tarifa para que sigas protegida.'},
-  {topic:'Seguridad', obj:'Me da inseguridad dar mi cuenta bancaria.',
-   guion:'Comprendo su cautela. Vea esto: EMI es vigilada por la Supersalud. Solo enlazamos la cuenta para su comodidad, nunca pedimos claves.',
-   tracy:'Es una duda razonable. Trabajamos con los principales bancos del país mediante enlaces cifrados. ¿Qué le daría más seguridad para proceder?',
-   hormozi:'No pedimos contraseñas, solo el número para cobrarte los $2.000 diarios. Es más seguro que pagarle a un cobrador en la calle. Hagamos el enlace.'},
-  {topic:'Régimen', obj:'Estoy en el Régimen Subsidiado.',
-   guion:'Perfecto. Tenemos un plan especial para usted sin cuota de adhesión y con bonos por hospitalización. Es protección de élite a su alcance.',
-   tracy:'Usted también merece atención rápida. Por solo $67.000 (Plan Subsidiado) evita las largas filas de la red pública en la madrugada.',
-   hormozi:'El subsidiado no cobra entrada. Son $2.200 al día por tener un pediatra 24/7 en tu celular. No dejes a tus hijos sin ese respaldo.'},
-  {topic:'Cobertura', obj:'Me mudé a una zona sin cobertura presencial.',
-   guion:'Entiendo. Aunque no llegue la móvil, usted sigue teniendo el Médico Virtual 24/7 y asistencia en viajes nacionales e internacionales.',
-   tracy:'Si viaja o se mueve, EMI lo acompaña. La Red SIEM lo protege en 14 países. ¿No le gustaría mantener la orientación médica en su celular?',
-   hormozi:'Perder el servicio físico no significa perder al médico. Tienes chats y videollamadas ilimitadas. Por la mitad del precio sigues conectado.'},
-  {topic:'Contrato', obj:'¿Hay cláusula de permanencia?',
-   guion:'Para nada. Usted es libre. Estamos tan seguros de nuestro servicio que puede retirarse cuando quiera avisando 30 días antes.',
-   tracy:'Nuestra meta es que se quede por calidad, no por contrato. Puede probar la experiencia EMI hoy y decidir mes a mes.',
-   hormozi:'Cero contratos largos. Entras hoy, si no te gusta, te vas. Pero una vez que veas que el médico llega a tu casa, no querrás volver a las filas.'},
-  {topic:'Tarifa', obj:'La tarifa me aumentó mucho este año.',
-   guion:'Veo lo que dice. Por eso lo llamo: para dejarle una tarifa fija y permanente de $58.800 al afiliar a su familiar hoy.',
-   tracy:'Entiendo su malestar. Mi labor hoy es ajustar su plan como Cliente Preferencial para que ese valor no vuelva a subir de forma inesperada.',
-   hormozi:'El sistema sube precios si no estás en plan grupal. Si agregas a tu hijo hoy, tu precio baja y el de él queda en bono. Es ganar-ganar.'},
-  {topic:'Venta Cruzada', obj:'No tengo a quién más afiliar.',
-   guion:'No hay problema. Puede afiliarse usted mismo como beneficiario para que también reciba la atención y baje el costo de su factura total.',
-   tracy:'A veces pensamos solo en los demás. Pero usted es quien paga; ¿no cree que usted también merece ser atendido en casa si se enferma?',
-   hormozi:'Afíliate tú. Pagas casi lo mismo por uno que por dos en el plan tradicional. Es como tener un segundo servicio gratis. ¿Lo activamos?'},
-  {topic:'Pago', obj:'Prefiero pagar en el banco o corresponsal.',
-   guion:'Claro, puede hacerlo por Local Pago. Es un poco más, pero le da la libertad de pagar donde quiera (Efecty, Bancolombia).',
-   tracy:'Si la comodidad es su prioridad, el débito automático le ahorra $13.000 mensuales y no tiene que hacer filas. ¿Le parece un buen ahorro?',
-   hormozi:'Pagar en caja es tirar $150.000 al año a la basura. Enlaza tu cuenta, ahorra ese dinero y olvídate de las fechas de vencimiento.'},
-  {topic:'ADRES', obj:'Mi EPS está suspendida / No aparezco.',
-   guion:'No se preocupe. Solo necesitamos que descargue el certificado de que pertenece a una EPS. Con eso legalizamos su protección hoy mismo.',
-   tracy:'Para servirle como complemento, el sistema exige estar en una entidad de salud. Si me envía el pantallazo de ADRES, procedemos de una vez.',
-   hormozi:'Sin EPS no hay EMI. Es la ley. Descarga el certificado de Sanitas en 2 minutos, me lo pasas y activamos tu médico personal hoy.'},
-  {topic:'Seguridad Hospitalaria', obj:'Me da miedo el hospital por los virus.',
-   guion:'Esa es la razón principal de EMI. Evitamos que se exponga a virus intrahospitalarios resolviendo el 95% de casos en su hogar.',
-   tracy:'Usted tiene toda la razón. Ir a urgencias es un riesgo. Con EMI, el médico va a su cama con protocolos de bioseguridad estrictos.',
-   hormozi:'Ir al hospital por una gripe es buscarse un problema mayor. Quédate en tu cama, que nosotros llevamos la clínica a tu casa.'},
-  {topic:'Cierre', obj:'Llámeme el próximo mes, estoy ocupado.',
-   guion:'Entiendo su tiempo. Pero el bono de $38.500 es solo por hoy. Validemos su dirección en 60 segundos para que no pierda el beneficio.',
-   tracy:'¿Qué va a cambiar el próximo mes? La salud no avisa. Permítame 2 minutos para explicarle por qué hoy es el día más económico para entrar.',
-   hormozi:'Si colgamos, el precio sube. Tu familia queda desprotegida 30 noches más. Hagámoslo en 3 minutos y duerme tranquilo hoy.'},
-  {topic:'Calidad', obj:'¿Cómo sé si los médicos son buenos?',
-   guion:'Gran pregunta. Todos nuestros médicos están certificados y entrenados en Soporte Vital Avanzado. Son expertos en urgencias en casa.',
-   tracy:'Somos parte de Falck (Dinamarca), líderes mundiales con 118 años de experiencia. Atendemos más de 9 millones de servicios al año.',
-   hormozi:'No mandamos practicantes. Mandamos tripulaciones con médico y paramédico equipados con tecnología de punta. Calidad garantizada.'},
-  {topic:'Especialistas', obj:'Necesito especialistas rápido.',
-   guion:'Lo entiendo. Con EMI Especialistas accede a más de 900 expertos con citas en menos de 5 días hábiles y tarifas preferenciales.',
-   tracy:'En la EPS una cita tarda meses. Con nosotros tiene prioridad. ¿Qué especialista usa más? Podemos darle la cita para la próxima semana.',
-   hormozi:'Deja de rogarle a la EPS. Por $88.000 tienes al especialista que quieras, cuando quieras. Es el acceso más rápido de Colombia.'},
+  {topic:'Presupuesto', obj:'Es muy caro / No hay presupuesto.', guion:'Entiendo que cuida su dinero. Imagine la paz mental de saber que por $2.000 diarios, menos que un café, tiene un médico en su sala sin pagar un peso más.'},
+  {topic:'Decisión', obj:'Debo consultarlo con mi esposo/a.', guion:'Valoro que decidan juntos. Si pudiera sentir ahora que ante un vómito a las 3 a.m. un médico llega en minutos, ¿qué diría su pareja?'},
 ];
 
-/* ══════════════════════════════════════
-   ESTADO
-══════════════════════════════════════ */
-const fmt = v => '$' + Math.round(v).toLocaleString('es-CO');
-let numAfil=1, activePlan='PLUS_DEB', saleMode='NEW', modPago='DEB', titular='MISMO';
-let planSeleccionado = 'PLUS_DEB';
-let planNombre = 'EMI Plus';
-let cuotaAfiliacion = 77400;
-let valorMensualidad = 77400;
-let beneficiarios = [];
-let usuarioData = {};
-let datos={}, selectedPersona=0, currentPhase=1;
-
-const STEPS = ['Protocolo','Diagnóstico','Oferta','Fricción','Legalización','Despedida'];
-
-/* ══ CIUDADES Y PLAN COSTA ══
-   Fuente: Tarifario_2026_EMI.pdf — Plan Costa
-   Débito: Tradicional $38.100 · Plus $44.000
-   Caja/Corresponsales: Tradicional $43.100 · Plus $49.000
-   * Facturación diaria · Sin cuota de adhesión             */
-const CIUDADES_COSTA = ['Barranquilla','Cartagena','Malambo','Santa Marta','Soledad'];
-const PLAN_COSTA = {
-  TRAD_DEB: 38100, PLUS_DEB: 44000,
-  TRAD_LOC: 43100, PLUS_LOC: 49000,
-};
-
-/* ══ EXTRACTOR ADRES - CLAVES ══ */
-const CLAVES=['TIPO DE IDENTIFICACIÓN','TIPO DE IDENTIFICACION',
-  'NÚMERO DE IDENTIFICACION','NUMERO DE IDENTIFICACION',
-  'NOMBRES','APELLIDOS','FECHA DE NACIMIENTO','DEPARTAMENTO','MUNICIPIO',
-  'ESTADO','ENTIDAD','REGIMEN','RÉGIMEN',
-  'FECHA DE AFILIACION EFECTIVA','FECHA DE AFILIACIÓN EFECTIVA',
-  'FECHA DE FINALIZACION DE AFILIACION','TIPO DE AFILIADO','COLUMNAS','DATOS'];
-
-/* ══ CONTACTOS POR CIUDAD ══ */
+// Arreglo de Ciudades sin tildes ni caracteres extraños en las llaves para match perfecto
 const CONTACTOS_CIUDADES = {
-  'BOGOTA': {ciudad: 'Bogotá', numeros: ['601 745 7859', '601 482 4040']},
+  'BOGOT': {ciudad: 'Bogotá', numeros: ['601 745 7859', '601 482 4040']},
   'BARRANQUILLA': {ciudad: 'Barranquilla', numeros: ['605 309 1823', '605 311 0100']},
   'CARTAGENA': {ciudad: 'Cartagena', numeros: ['605 693 1313', '605 642 4953']},
   'CALI': {ciudad: 'Cali', numeros: ['602 653 1313', '602 487 8995']},
   'CHIA': {ciudad: 'Chía - Cota - Cajicá', numeros: ['601 745 7859', '601 482 4040']},
-  'COTA': {ciudad: 'Chía - Cota - Cajicá', numeros: ['601 745 7859', '601 482 4040']},
-  'CAJICA': {ciudad: 'Chía - Cota - Cajicá', numeros: ['601 745 7859', '601 482 4040']},
+  'CAJIC': {ciudad: 'Chía - Cota - Cajicá', numeros: ['601 745 7859', '601 482 4040']},
   'MANIZALES': {ciudad: 'Manizales', numeros: ['604 887 9911', '604 896 8267']},
   'MEDELLIN': {ciudad: 'Medellín', numeros: ['604 444 1330', '604 604 5853']},
   'PALMIRA': {ciudad: 'Palmira', numeros: ['602 285 5161', '602 487 8995']},
   'RIONEGRO': {ciudad: 'Rionegro', numeros: ['604 444 1330', '604 604 5853']},
   'PEREIRA': {ciudad: 'Pereira', numeros: ['606 313 5911', '606 348 9141']},
-  'ARMENIA': {ciudad: 'Armenia', numeros: ['606 731 4031', '606 736 2643']},
-  'CUCUTA': {ciudad: 'Cúcuta', numeros: ['607 574 8942', '607 598 8020', '316 473 6949']},
   'SANTA MARTA': {ciudad: 'Santa Marta', numeros: ['605 423 7201', '605 311 1150', '316 473 6949']},
-  'BUCARAMANGA': {ciudad: 'Bucaramanga', numeros: ['607 657 7171', '607 689 8020', '316 473 6949']},
 };
+
+const CIUDADES_COSTA = ['Barranquilla','Cartagena','Santa Marta'];
+
+/* ══════════════════════════════════════
+   ESTADO GLOBAL
+══════════════════════════════════════ */
+let numAfil=1, activePlan='PLUS_DEB', saleMode='NEW', modPago='DEB', titular='MISMO';
+const STEPS = ['Protocolo','Diagnóstico','Oferta','Fricción','Legalización','Despedida'];
 
 /* ══ INIT ══ */
 (function init(){
-  // Build steps nav
   const nav = document.getElementById('stepsNav');
   STEPS.forEach((s,i)=>{
     const btn = document.createElement('button');
@@ -1292,7 +1153,6 @@ const CONTACTOS_CIUDADES = {
     nav.appendChild(btn);
   });
 
-  // Build personas
   const pr = document.getElementById('personaRow');
   PERSONAS.forEach((p,i)=>{
     const b = document.createElement('button');
@@ -1303,13 +1163,10 @@ const CONTACTOS_CIUDADES = {
   });
   setPersona(0, pr.children[0]);
 
-  // Build objeciones
   renderObjeciones('');
-
-  // Render beneficios iniciales
-  renderBenGrid();
+  generarCamposBeneficiarios(1);
   updateOffer();
-  updateFarewell(); // ← Inicializar números dinámicos en despedida
+  updateFarewell();
 })();
 
 /* ══ NAVEGACIÓN ══ */
@@ -1322,99 +1179,105 @@ function goPhase(n){
     if(i+1<n) b.classList.add('done');
     else if(i+1===n) b.classList.add('active');
   });
-  currentPhase = n;
+  if(n===5) syncScripts();
   document.getElementById('main').scrollTop = 0;
-  // Sincronizar al entrar a Fase 5
-  if(n === 5) sincronizarFase5();
-  if(n === 6 && typeof updateFarewell === 'function') updateFarewell();
-}
-
-function sincronizarFase5(){
-  // Copiar nombre del sidebar a Fase 5
-  const rNom = document.getElementById('rNom')?.value || '';
-  const fNomEl = document.getElementById('fNom');
-  if(fNomEl && rNom && !fNomEl.value) fNomEl.value = rNom;
-  // Copiar dirección del primer beneficiario
-  const ben1Dir = document.getElementById('ben1_dir')?.value || '';
-  const fDirEl = document.getElementById('fDir');
-  if(fDirEl && ben1Dir && !fDirEl.value) fDirEl.value = ben1Dir;
-  const ben1Barrio = document.getElementById('ben1_barrio')?.value || '';
-  const fBarrioEl = document.getElementById('fBarrio');
-  if(fBarrioEl && ben1Barrio && !fBarrioEl.value) fBarrioEl.value = ben1Barrio;
-  // Obtener valores del plan seleccionado
-  const planData = PLANS.find(p => p.id === activePlan);
-  if(planData){
-    planNombre = planData.name || activePlan;
-    const tarifa = planData.prices ? planData.prices[numAfil] || planData.prices[1] : 0;
-    cuotaAfiliacion = tarifa;
-    valorMensualidad = tarifa;
-  }
-  updateLegal1();
 }
 
 /* ══ PERSONA ══ */
 function setPersona(i, el){
   document.querySelectorAll('.persona-btn').forEach(b=>b.classList.remove('on'));
   el.classList.add('on');
-  selectedPersona = i;
   const p = PERSONAS[i];
   document.getElementById('personaLabel').textContent = p.n.toUpperCase();
   document.getElementById('personaScript').textContent = p.s;
 }
 
-/* ══ AFILIADOS ══ */
+/* ══ PREGUNTA ADRES = BENEFICIARIO 1 ══ */
+function setAdresIsBen1(isYes) {
+  document.getElementById('isBen1-SI').classList.toggle('on', isYes);
+  document.getElementById('isBen1-NO').classList.toggle('on', !isYes);
+  if(isYes) {
+      syncAdresToBen1();
+      syncScripts();
+  }
+}
+
+function syncAdresToBen1() {
+  if(document.getElementById('isBen1-SI').classList.contains('on')) {
+      const b1 = document.getElementById('ben1_nom');
+      const rNom = document.getElementById('rNom').value;
+      if(b1) b1.value = rNom;
+  }
+}
+
+/* ══ AFILIADOS DINÁMICOS ══ */
 function setN(n, el){
   numAfil = n;
   document.querySelectorAll('.ab').forEach(b=>b.classList.remove('on'));
   el.classList.add('on');
   generarCamposBeneficiarios(n);
-  updateOffer(); syncScripts();
+  updateOffer(); 
+  syncScripts();
 }
 
 function generarCamposBeneficiarios(cantidad){
-  const container = document.getElementById('phase-2');
-  let html = '<div class="form-grid" id="beneficiarios-container">';
+  const container = document.getElementById('beneficiarios-container');
+  if(!container) return;
   
+  // Guardar datos actuales para que no se borren si sube/baja la cantidad
+  let saved = {};
+  for(let i=1; i<=5; i++){
+    ['nom','nac','tel','mail','dir','barrio','ref'].forEach(k=>{
+      let el = document.getElementById(`ben${i}_${k}`);
+      if(el) saved[`ben${i}_${k}`] = el.value;
+    });
+  }
+
+  let html = `<div class="beneficiarios-grid">`;
   for(let i = 1; i <= cantidad; i++){
     html += `
+      <div class="ben-section-title">Datos del Beneficiario ${i}</div>
       <div class="form-field span2">
-        <label class="flbl">Beneficiario ${i}: Nombres y Apellidos Completos</label>
+        <label class="flbl">Nombres y Apellidos Completos</label>
         <input type="text" id="ben${i}_nom" placeholder="Nombre completo" oninput="syncScripts()">
       </div>
       <div class="form-field">
-        <label class="flbl">Beneficiario ${i}: Fecha de Nacimiento</label>
+        <label class="flbl">Fecha de Nacimiento</label>
         <input type="date" id="ben${i}_nac">
       </div>
       <div class="form-field">
-        <label class="flbl">Beneficiario ${i}: Celular</label>
+        <label class="flbl">Celular</label>
         <input type="tel" id="ben${i}_tel" placeholder="3xx xxxxxxx">
       </div>
       <div class="form-field">
-        <label class="flbl">Beneficiario ${i}: Correo Electrónico</label>
+        <label class="flbl">Correo Electrónico</label>
         <input type="email" id="ben${i}_mail" placeholder="correo@ejemplo.com">
       </div>
       <div class="form-field span2">
-        <label class="flbl">Beneficiario ${i}: Dirección de Residencia</label>
+        <label class="flbl">Dirección de Residencia</label>
         <input type="text" id="ben${i}_dir" placeholder="Calle / Carrera / Apto">
       </div>
       <div class="form-field">
-        <label class="flbl">Beneficiario ${i}: Barrio</label>
+        <label class="flbl">Barrio</label>
         <input type="text" id="ben${i}_barrio" placeholder="Nombre del barrio">
       </div>
       <div class="form-field span2">
-        <label class="flbl">Beneficiario ${i}: Puntos de Referencia</label>
+        <label class="flbl">Puntos de Referencia</label>
         <input type="text" id="ben${i}_ref" placeholder="Frente al parque, casa azul...">
       </div>
     `;
   }
-  
-  html += '</div>';
-  
-  // Insertar después del selector de EPS
-  const epsSelect = document.querySelector('select#rEps').closest('div').parentElement;
-  const existente = document.getElementById('beneficiarios-container');
-  if(existente) existente.remove();
-  epsSelect.insertAdjacentHTML('afterend', html);
+  html += `</div>`;
+  container.innerHTML = html;
+
+  // Restaurar datos
+  for(let k in saved){
+    let el = document.getElementById(k);
+    if(el) el.value = saved[k];
+  }
+
+  // Sincronizar automáticamente si la opción ADRES = Ben1 está activa
+  syncAdresToBen1();
 }
 
 /* ══ SALE MODE ══ */
@@ -1423,6 +1286,7 @@ function setSaleMode(m, el){
   document.querySelectorAll('.sw').forEach(b=>b.classList.remove('on'));
   el.classList.add('on');
   updateOffer();
+  syncScripts();
 }
 
 /* ══ MODALIDAD PAGO ══ */
@@ -1431,43 +1295,16 @@ function setMod(m, el){
   document.querySelectorAll('.mod-pill[id^="mp-"]').forEach(b=>b.classList.remove('on'));
   el.classList.add('on');
   document.getElementById('bankSection').className = 'bank-section'+(m==='DEB'?'':' hidden');
-  updateLegal1();
-  syncScripts();
-}
-
-/* ══ ACTUALIZAR LEGAL 1 SEGÚN ESCENARIO ══ */
-function updateLegal1(){
-  const mod = modPago;
-  const tit = titular;
-  const fmt = (n) => typeof n === 'number' ? '$' + n.toLocaleString('es-CO') : n;
-  const nombreUsuario = document.getElementById('fNom')?.value || document.getElementById('rNom')?.value || '(Nombre del Usuario)';
-  const cedula = document.getElementById('rCed')?.value || '(# de Cedula)';
-  const direccion = document.getElementById('fDir')?.value || '(Dirección de residencia)';
-  const ciudad = document.getElementById('rCiudad')?.value || '';
-  const banco = document.getElementById('fBanco')?.value || '(Nombre del banco)';
-  const tipoCuenta = document.getElementById('fTipoCuenta')?.value || 'Ahorros/Corriente';
-  const digitos = document.getElementById('fDigitos')?.value || '(últimos 4 dígitos)';
-  let benList = [];
-  for(let i=1; i<=numAfil; i++){ const el = document.getElementById('ben'+i+'_nom'); if(el && el.value) benList.push(el.value); else benList.push('(Beneficiario '+i+')'); }
-  const benStr = benList.join(', ');
-  const cuota = cuotaAfiliacion ? fmt(cuotaAfiliacion) : '(Valor Cuota)';
-  const mensual = valorMensualidad ? fmt(valorMensualidad) : '(Valor Mensualidad)';
-  const descPlan = planNombre || '(Plan)';
-  const mesActual = new Date().toLocaleDateString('es-CO', {month: 'long'});
-  const hoy = new Date(); const ultimoDia = new Date(hoy.getFullYear(), hoy.getMonth()+1, 0).getDate();
-  const R = (t) => '<span style="color:red;font-weight:bold">'+t+'</span>';
-  let legal1 = '';
-  if(tit === 'TERCERO'){
-    legal1 = '• Señor/a '+R(nombreUsuario)+', acepta usted el servicio contratado con grupo emi s.a.s. a nombre del titular '+R(nombreUsuario)+', identificado con cedula de ciudadanía '+R(cedula)+'<br>• Para los beneficiarios: '+R(benStr)+'<br>• En la dirección de residencia '+R(direccion+(ciudad?", "+ciudad:""))+'<br>• Donde se cobra una cuota de inscripción de '+R(cuota)+' por persona agregada a su plan emi '+descPlan+'<br>• A partir del siguiente mes, continúa pagando una mensualidad '+R(mensual)+' por cada afiliado.<br>• que se debitara los 5 primeros días hábiles a partir de hoy. Si o no.';
-  } else if(mod === 'DEB'){
-    legal1 = 'Señor/a '+R(nombreUsuario)+', acepta usted el servicio contratado con grupo emi s.a.s., a nombre del titular '+R(nombreUsuario)+', identificado con cedula de ciudadanía '+R(cedula)+', Para los beneficiarios: '+R(benStr)+', En la dirección de residencia '+R(direccion)+', Bajo la modalidad de pago de débito automático de su cuenta de '+R(tipoCuenta)+' '+R(banco)+', terminada en '+R(digitos)+', Donde se cobra una cuota de inscripción de '+R(cuota)+' por '+R(numAfil+" persona(s)")+' en emi '+descPlan+'. A partir del siguiente mes, continua pagando una mensualidad '+R(mensual)+' por cada afiliado, que se debitara los 5 primeros días del mes siguiente. Si o no.';
-  } else if(mod === 'LOC'){
-    legal1 = 'Señor/a '+R(nombreUsuario)+', acepta usted el servicio contratado con grupo emi s.a.s., a nombre del titular '+R(nombreUsuario)+', identificada con cedula de ciudadanía '+R(cedula)+', para los beneficiarios: '+R(benStr)+', en la dirección de residencia '+R(direccion)+', con una tarifa mensual de '+R(descPlan+" "+mensual)+', bajo la modalidad de pago de local pago donde usted deberá realizar los pagos es cualquiera de estos medios:<br><br><strong>Opción 1:</strong> Corresponsal bancario (decir el código de convenio) y su cedula de ciudadanía.<br><strong>Opción 2:</strong> Entidad financiera autorizada, (indicar número de cuenta, código de convenio, nit de emi y aclarar que en referencia 1 es la cedula del titular), el soporte de pago deberá ser enviado a soportespago.colombia@grupoemi.com.<br><strong>Opción 3:</strong> Pago botón PSE (ingreso al portal afiliados emi y da la opción de pago mis facturas).<br><strong>Opción 4:</strong> Pago en línea ingresar a la página web https://www.grupoemi.com/colombia.<br><strong>Opción 5:</strong> Ir a las oficina administrativa y pagar en caja.<br><br>Donde para el mes de afiliación '+R(mesActual)+' se cobra una cuota de inscripción de '+R(cuota)+' por '+R(numAfil+" persona(s)")+' en emi '+descPlan+' que le cubre el servicio hasta '+R(ultimoDia+"/"+String(hoy.getMonth()+1).padStart(2,"0")+"/"+hoy.getFullYear())+' y a partir del siguiente mes continua pagando una mensualidad '+R(mensual)+' por cada afiliado, que se deberá realizar los 5 primeros días del mes. si o no';
-  } else if(mod === 'DOM'){
-    legal1 = 'Señor/a '+R(nombreUsuario)+', acepta usted el servicio contratado con grupo emi s.a.s., a nombre del titular '+R(nombreUsuario)+', identificada con cedula de ciudadanía '+R(cedula)+', para los beneficiarios: '+R(benStr)+', en la dirección de residencia '+R(direccion)+', con una tarifa mensual de '+R(descPlan+" "+mensual)+', bajo la modalidad de pago de cobro domiciliario en la dirección de residencia indicada por el titular, donde para el mes de afiliación '+R(mesActual)+' se cobra una cuota de inscripción de '+R(cuota)+' por '+R(numAfil+" persona(s)")+' en emi '+descPlan+' que le cubre el servicio hasta '+R(ultimoDia+"/"+String(hoy.getMonth()+1).padStart(2,"0")+"/"+hoy.getFullYear())+' y a partir del siguiente mes continua pagando una mensualidad '+R(mensual)+' por cada afiliado, que durante los 5 primeros días uno de nuestros Cobradores los estará visitando sí o no';
+  
+  // Cambiar selector de plan según la modalidad escogida
+  const selPlan = document.getElementById('planSelect');
+  const basePlan = activePlan.split('_')[0]; // PLUS o TRAD
+  if(basePlan === 'PLUS' || basePlan === 'TRAD') {
+    selPlan.value = basePlan + '_' + m;
+    activePlan = basePlan + '_' + m;
   }
-  const el = document.getElementById('gLegal1');
-  if(el) el.innerHTML = legal1;
+  updateOffer();
+  syncScripts();
 }
 
 /* ══ TITULARIDAD ══ */
@@ -1475,92 +1312,47 @@ function setTit(t, el){
   titular = t;
   document.querySelectorAll('.mod-pill[id^="tit-"]').forEach(b=>b.classList.remove('on'));
   el.classList.add('on');
-  updateLegal1();
   syncScripts();
 }
 
-/* ══ EPS CHANGE ══ */
-function onRegChange(){ autoSelectPlan(); syncScripts(); updateOffer(); }
-function onEstChange(){
-  const est = document.getElementById('rEst').value;
-  document.getElementById('fallecidoOverlay').classList.toggle('show', est==='FALLECIDO');
-  autoSelectPlan(); syncScripts(); updateOffer();
-}
-
-function autoSelectPlan(){
-  const reg = document.getElementById('rReg').value;
-  const est = document.getElementById('rEst').value;
-  const tip = document.getElementById('rTip').value;
-  const ciudad = document.getElementById('rCiudad').value||'';
-  const isCosta = esCiudadCosta(ciudad);
-  let plan = 'PLUS_DEB';
-  if(est==='INACTIVO'||est==='NO_REGISTRA') plan='PLUS_DOM';
-  else if(est==='SUSPENDIDO')               plan='TRAD_DOM';
-  else if(reg==='SUBSIDIADO')               plan='SUBSIDIADO';
-  else if(reg==='EXCEPCION'||reg==='ESPECIAL') plan='PLUS_DEB';
-  else if(tip==='BENEFICIARIO')             plan='TRAD_DEB';
-  // Si es Costa: preferir Débito por defecto
-  if(isCosta && plan!=='SUBSIDIADO' && plan!=='VIRTUAL'){
-    plan = plan.startsWith('PLUS') ? 'PLUS_DEB' : 'TRAD_DEB';
-  }
-  activePlan = plan;
-  document.getElementById('planSelect').value = plan;
-  updateOffer();
-}
-
 /* ══ OFFER UPDATE ══ */
+function getPrecioEfectivo(){
+  const ciudad = document.getElementById('rCiudad').value||'';
+  const isCosta = CIUDADES_COSTA.some(c => ciudad.includes(c));
+  const p = TAR[activePlan];
+  if(!p) return null;
+  if(!isCosta) return p;
+
+  const esPlus = activePlan.startsWith('PLUS');
+  const esLoc  = modPago==='LOC';
+  const key = (esPlus?'PLUS':'TRAD') + '_' + (esLoc?'LOC':'DEB');
+  const tarifaCosta = PLAN_COSTA[key];
+
+  return {
+    ...p,
+    n: `${esPlus?'EMI Plus':'EMI Tradicional'} Plan Costa`,
+    t: {1:tarifaCosta,2:tarifaCosta,3:tarifaCosta,4:tarifaCosta,5:tarifaCosta},
+    adh: 0,
+    label: 'Tarifa Plan Costa',
+  };
+}
+
 function updateOffer(){
   const key = document.getElementById('planSelect').value;
   activePlan = key;
   const pEfectivo = getPrecioEfectivo();
   if(!pEfectivo) return;
-  const n = Math.min(numAfil, Object.keys(pEfectivo.t).length);
+  const n = Math.min(numAfil, 5);
   const vp = pEfectivo.t[n];
   const daily = Math.round(vp/30);
-  const nom = (document.getElementById('rNom').value||'').trim();
-  const eps = document.getElementById('rEps').value||'su EPS';
-  const fn  = primerNombre(nom);
-  const ciudad = document.getElementById('rCiudad').value||'';
-  const isCosta = esCiudadCosta(ciudad);
+  
+  document.getElementById('priceBig').textContent = '$' + vp.toLocaleString('es-CO');
+  document.getElementById('priceDaily').textContent = `Solo $${daily.toLocaleString('es-CO')} al día`;
+  document.getElementById('epsLabel2').textContent = document.getElementById('rEps').value || 'tu EPS';
 
-  document.getElementById('priceBig').textContent = fmt(vp);
-  document.getElementById('priceDaily').textContent = `Solo ${fmt(daily)} al día`;
-  document.getElementById('epsLabel2').textContent = eps;
-
-  // Mostrar badge Costa en sección oferta si aplica
-  let costaNote = isCosta ? `<div style="background:rgba(13,71,161,.12);border:1px solid rgba(13,71,161,.25);border-radius:7px;padding:6px 12px;font-size:11px;color:#0D47A1;font-weight:700;display:inline-block;margin-bottom:14px">🌊 Tarifa Plan Costa — ${ciudad} · Sin cuota de adhesión · Facturación diaria</div>` : '';
-
-  const scripts = {
-    NEW: {
-      headline: 'Tu Médico Personal 24/7',
-      script: `"${fn}, no le vendo un plan médico. Le devuelvo la tranquilidad de saber que si su hijo tiene fiebre a las 2 a.m., un médico estará en su puerta en minutos, evitándole el riesgo y el caos de una clínica pública."`
-    },
-    CROSS: {
-      headline: 'Protección Total para tu Círculo',
-      script: `"${fn}, usted ya conoce la paz de tener a EMI. Hoy tiene la oportunidad única de extender esta muralla de protección a [Beneficiario] con un beneficio de fidelidad que no se repetirá."`
-    }
-  };
-  const s = scripts[saleMode] || scripts.NEW;
-  document.getElementById('offerHeadline').textContent = s.headline;
-  document.getElementById('offerScript').textContent = s.script;
-  document.getElementById('benSectionLabel').textContent = `Bondades y Valor del Plan ${pEfectivo.n.replace('EMI ','')}${isCosta?' · Plan Costa':''}`;
-
-  // Insertar nota Costa antes de la sección de beneficios si aplica
-  const benSecEl = document.getElementById('benSectionLabel');
-  let costaEl = document.getElementById('costaOfertaNote');
-  if(!costaEl){ costaEl=document.createElement('div'); costaEl.id='costaOfertaNote'; benSecEl.parentNode.insertBefore(costaEl,benSecEl); }
-  costaEl.innerHTML = costaNote;
-
-  renderBenGrid();
-  syncScripts();
-}
-
-function renderBenGrid(){
   const g = document.getElementById('benMiniGrid');
-  const planKey = document.getElementById('planSelect').value || activePlan;
-  const iconosplan = BENEFITS_BY_PLAN[planKey] || BENEFITS_BY_PLAN['PLUS_DEB'];
-  const beneficiosFiltrados = BENEFITS.filter(b => iconosplan.includes(b.e));
-  g.innerHTML = beneficiosFiltrados.map(b=>`
+  const iconosplan = BENEFITS_BY_PLAN[key] || BENEFITS_BY_PLAN['PLUS_DEB'];
+  g.innerHTML = BENEFITS.filter(b => iconosplan.includes(b.e)).map(b=>`
     <div class="ben-mini">
       <div class="ben-mini-ico">${b.e}</div>
       <div class="ben-mini-title">${b.t}</div>
@@ -1568,301 +1360,190 @@ function renderBenGrid(){
     </div>`).join('');
 }
 
-/* ══ SYNC SCRIPTS ══ */
+/* ══ SYNC SCRIPTS (Legalización dinámica) ══ */
 function syncScripts(){
-  const nom   = document.getElementById('rNom').value.trim();
+  const nom   = document.getElementById('rNom').value.trim() || '[Nombre del Usuario]';
+  const fNomPersona = document.getElementById('fNom').value.trim() || nom;
   const agent = document.getElementById('agentName').value.trim() || '[Su Nombre]';
-  const fn    = primerNombre(nom) || 'Sr/Sra';
-  const eps   = document.getElementById('rEps').value || 'su EPS';
+  const ced   = document.getElementById('rCed').value.trim() || '[rCed]';
+  const dir   = document.getElementById('fDir').value.trim() || '[fDir]';
+  const ciudad = document.getElementById('rCiudad').value || '[rCiudad]';
+  
   const pEfectivo = getPrecioEfectivo();
-  const p     = pEfectivo || TAR[activePlan];
-  const n     = Math.min(numAfil, p ? Object.keys(p.t).length : 1);
-  const vp    = p ? p.t[n] : 0;
-  const adh   = p ? p.adh : 0;
+  const vp = pEfectivo ? pEfectivo.t[Math.min(numAfil,5)] : 0;
+  const adh = pEfectivo ? pEfectivo.adh : 0;
+  const nombrePlan = pEfectivo ? pEfectivo.n : '[nombrePlan]';
+  
   const banco  = document.getElementById('fBanco').value;
   const tipoCta= document.getElementById('fTipoCuenta').value;
   const digits = document.getElementById('fDigitos').value || 'XXXX';
-  const dirCli = document.getElementById('fDir').value||'[dirección]';
-  const cityReg= datos.municipio||'[ciudad]';
 
-  // FASE 1
-  document.getElementById('s1-name').textContent  = nom||'[Sr/Sra]';
+  const formatMonto = (m) => '$' + m.toLocaleString('es-CO');
+
+  // Llenar datos de cabecera en Legal
+  document.getElementById('s1-name').textContent = nom;
   document.getElementById('s1-agent').textContent = agent;
+  document.getElementById('l-usuario').textContent = fNomPersona;
+  document.getElementById('l-usuario2').textContent = fNomPersona;
+  document.getElementById('l-usuario3').textContent = fNomPersona;
+  document.getElementById('l-usuario4').textContent = fNomPersona;
+  document.getElementById('l-asesor').textContent = agent;
 
-  // FASE 6 farewell
-  document.getElementById('farewell-name').textContent = agent;
-
-  // DIAGNÓSTICO tip
-  if(nom||eps!=='su EPS'){
-    document.getElementById('adresTip').textContent =
-      `El cliente ${nom?'"'+nom+'"':''} está en ${eps}. Use esto para resaltar las demoras y diferenciadores de EMI frente a su entidad actual.`;
+  // Beneficiarios String
+  let benArr = [];
+  for(let i=1; i<=numAfil; i++){
+    const bName = document.getElementById(`ben${i}_nom`)?.value.trim();
+    benArr.push(bName || `[Beneficiario ${i}]`);
   }
+  const benStr = benArr.join(', ');
 
-  // ACEPTACIÓN TITULAR
-  const gAccept = titular==='MISMO'
-    ? `"Usted como titular del servicio contratado, acepta..."`
-    : `"Señor/a [Nombre del Titular], identificado con cédula [Cédula], como titular del servicio para ${nom||'[Usuario]'}, acepta..."`;
-  document.getElementById('gAccept').textContent = gAccept;
-
-  // LEGAL 1
+  // LEGAL 1 DINÁMICO SEGÚN ESCENARIO
   let legal1 = '';
-  const nomDisplay = nom||'[nombre]';
-  const planNom = p?p.n.replace('EMI ',''):'[plan]';
+  const mesActual = new Date().toLocaleDateString('es-CO', {month: 'long'});
+  const hoy = new Date(); 
+  const ultimoDia = new Date(hoy.getFullYear(), hoy.getMonth()+1, 0).getDate() + ' de ' + mesActual;
 
-  if(modPago==='DEB'){
-    legal1 = `"Señor/a ${nomDisplay}, bajo la modalidad de pago de débito automático de su cuenta de ${tipoCta}/${banco}, terminada en ${digits}, donde se cobra una cuota de inscripción de ${fmt(adh)} en EMI ${planNom}. A partir del siguiente mes, continúa pagando una mensualidad de ${fmt(vp)} por cada afiliado, que se debitará los 5 primeros días del mes siguiente. ¿Sí o no?"`;
-  } else if(modPago==='LOC'){
-    legal1 = `"Señor/a ${nomDisplay}, bajo la modalidad de pago de local pago donde usted podrá realizar los pagos por corresponsal bancario, PSE, web o cajas de oficina. Se cobra una cuota de inscripción de ${fmt(adh)} en EMI ${planNom} que le cubre hasta el último día de este mes. A partir del siguiente continúa pagando una mensualidad de ${fmt(vp)} por cada afiliado, los 5 primeros días del mes. ¿Sí o no?"`;
+  if (saleMode === 'CROSS') {
+    // ESCENARIO A: VENTA CRUZADA
+    legal1 = `• Señor/a <span class="campo">${fNomPersona}</span>, acepta usted el servicio contratado con grupo emi s.a.s. a nombre del titular <span class="campo">${fNomPersona}</span>, identificado con cedula de ciudadanía <span class="campo">${ced}</span><br>
+    • Para los beneficiarios: <span class="campo">${benStr}</span><br>
+    • En la dirección de residencia <span class="campo">${dir}</span>, <span class="campo">${ciudad}</span><br>
+    • Donde se cobra una cuota de inscripción de <span class="campo">${formatMonto(adh)}</span> por persona agregada a su plan emi <span class="campo">${nombrePlan}</span><br>
+    • A partir del siguiente mes, continúa pagando una mensualidad <span class="campo">${formatMonto(vp)}</span> por cada afiliado.<br>
+    • que se debitara los 5 primeros días hábiles a partir de hoy. Si o no.`;
   } else {
-    legal1 = `"Señor/a ${nomDisplay}, bajo la modalidad de pago de cobro domiciliario en la dirección de residencia ${dirCli}, donde se cobra una cuota de inscripción de ${fmt(adh)} en EMI ${planNom}. A partir del siguiente mes continúa pagando una mensualidad de ${fmt(vp)} por cada afiliado, y durante los 5 primeros días uno de nuestros cobradores los estará visitando. ¿Sí o no?"`;
+    // VENTA NUEVA
+    if (modPago === 'DEB') {
+      // ESCENARIO B: VENTA NUEVA - DÉBITO
+      legal1 = `Señor/a <span class="campo">${fNomPersona}</span>, acepta usted el servicio contratado con grupo emi s.a.s., a nombre del titular <span class="campo">${fNomPersona}</span>, identificado con cedula de ciudadanía <span class="campo">${ced}</span>, Para los beneficiarios: <span class="campo">${benStr}</span>, En la dirección de residencia <span class="campo">${dir}</span>, Bajo la modalidad de pago de débito automático de su cuenta de <span class="campo">${tipoCta}</span> <span class="campo">${banco}</span>, terminada en <span class="campo">${digits}</span>, Donde se cobra una cuota de inscripción de <span class="campo">${formatMonto(adh)}</span> por <span class="campo">${numAfil} afiliado(s)</span> en emi <span class="campo">${nombrePlan}</span>. A partir del siguiente mes, continua pagando una mensualidad <span class="campo">${formatMonto(vp)}</span> por cada afiliado, que se debitara los 5 primeros días del mes siguiente. Si o no.`;
+    } else if (modPago === 'LOC') {
+      // ESCENARIO C: VENTA NUEVA - LOCAL PAGO
+      legal1 = `Señor/a <span class="campo">${fNomPersona}</span>, acepta usted el servicio contratado con grupo emi s.a.s., a nombre del titular <span class="campo">${fNomPersona}</span>, identificada con cedula de ciudadanía <span class="campo">${ced}</span>, para los beneficiarios: <span class="campo">${benStr}</span>, en la dirección de residencia <span class="campo">${dir}</span>, con una tarifa de mensual de <span class="campo">${nombrePlan}</span>, bajo la modalidad de pago de local pago donde usted deberá realizar los pagos en cualquiera de estos medios:<br> 
+      Opción 1: corresponsal bancario y su cedula de ciudadanía.<br> 
+      Opción 2: entidad financiera autorizada.<br> 
+      Opción 3: Pago botón PSE.<br> 
+      Donde para el mes de afiliación <span class="campo">${mesActual}</span> se cobra una cuota de inscripción de <span class="campo">${formatMonto(adh)}</span> por <span class="campo">${numAfil}</span> en emi <span class="campo">${nombrePlan}</span> que le cubre el servicio hasta el <span class="campo">${ultimoDia}</span> y a partir del siguiente mes continua pagando una mensualidad <span class="campo">${formatMonto(vp)}</span> por cada afiliado, que se deberá realizar los 5 primeros días del mes. si o no`;
+    } else if (modPago === 'DOM') {
+      // ESCENARIO D: VENTA NUEVA - COBRO DOMICILIARIO
+      legal1 = `Señor/a <span class="campo">${fNomPersona}</span>, acepta usted el servicio contratado con grupo emi s.a.s., a nombre del titular <span class="campo">${fNomPersona}</span>, identificada con cedula de ciudadanía <span class="campo">${ced}</span>, para los beneficiarios: <span class="campo">${benStr}</span>, en la dirección de residencia <span class="campo">${dir}</span>, con una tarifa de mensual de <span class="campo">${nombrePlan}</span>, bajo la modalidad de pago de cobro domiciliario en la dirección de residencia indicada por el titular, donde para el mes de afiliación <span class="campo">${mesActual}</span> se cobra una cuota de inscripción de <span class="campo">${formatMonto(adh)}</span> por <span class="campo">${numAfil}</span> en emi <span class="campo">${nombrePlan}</span> que le cubre el servicio hasta el <span class="campo">${ultimoDia}</span> y a partir del siguiente mes continua pagando una mensualidad <span class="campo">${formatMonto(vp)}</span> por cada afiliado, que durante los 5 primeros días uno de nuestros Cobradores los estará visitando sí o no`;
+    }
   }
-  document.getElementById('gLegal1').innerHTML = legal1.replace(nomDisplay,`<span class="campo">${nomDisplay}</span>`);
+
+  document.getElementById('gLegal1').innerHTML = legal1;
+
+  // Confirmación Final
+  document.getElementById('gLegalFinal').innerHTML = `Señor(a) <span class="campo">${fNomPersona}</span>, con numero de cedula <span class="campo">${ced}</span>, le confirmo que el PLAN DE SALUD que ha contratado con EMI FALCK es el siguiente: <span class="campo">${nombrePlan}</span>, VALOR DE INSCRIPCIÓN <span class="campo">${formatMonto(adh)}</span> Y VALOR DE MENSUALIDAD <span class="campo">${formatMonto(vp)}</span> POR CADA AFILIADO, para las siguientes personas: <span class="campo">${benStr}</span>. ¿Está de acuerdo con estas condiciones? SI/NO.`;
+  
+  // Sincronización en Phase 6
+  document.getElementById('farewell-name').textContent = agent;
 }
 
-function primerNombre(nom){
-  if(!nom) return 'señor/a';
-  const p = nom.trim().split(/\s+/);
-  return p.length>=3 ? p[2] : p[0];
-}
-
-/* ══ EXTRACTOR ADRES ══ */
-const EPS_MAP=[
-  {b:['ALIANSALUD'],v:'Aliansalud'},{b:['ASMET'],v:'Asmet Salud'},
-  {b:['CAFESALUD'],v:'Cafesalud'},{b:['CAPITAL SALUD'],v:'Capital Salud'},
-  {b:['COLSANITAS'],v:'Colsanitas'},{b:['COMFENALCO'],v:'Comfenalco Valle'},
-  {b:['COMPENSAR'],v:'Compensar'},{b:['COOSALUD'],v:'Coosalud'},
-  {b:['COOMEVA'],v:'Coomeva'},{b:['CRUZ BLANCA'],v:'Cruz Blanca'},
-  {b:['ECOOPSOS'],v:'Ecoopsos'},{b:['EMSSANAR'],v:'Emssanar'},
-  {b:['SURAMERICANA','EPS SURA','SURA EPS','SURA S.A'],v:'EPS Sura / Suramericana'},
-  {b:['FAMISANAR'],v:'Famisanar'},{b:['GOLDEN GROUP'],v:'Golden Group'},
-  {b:['MEDIMAS','MEDIMÁS'],v:'Medimás'},{b:['MUTUAL SER'],v:'Mutual Ser'},
-  {b:['NUEVA EPS'],v:'Nueva EPS'},{b:['PIJAOS'],v:'Pijaos Salud'},
-  {b:['SALUD TOTAL'],v:'Salud Total'},{b:['SANITAS'],v:'Sanitas EPS'},
-  {b:['SAVIA'],v:'Savia Salud'},
-];
-
-function esOtraClave(v){ const vu=v.toUpperCase().trim(); return CLAVES.some(c=>vu===c||vu.startsWith(c)); }
-
-function campo(txt, claves){
-  const lineas=txt.split(/\r?\n/).map(l=>l.trim());
-  for(const clave of claves){
-    const cu=clave.toUpperCase();
-    const m1=txt.match(new RegExp(clave+'\\s*\\t+\\s*([^\\t\\n\\r]+)','i'));
-    if(m1){const v=m1[1].trim();if(v&&!esOtraClave(v))return v;}
-    const m2=txt.match(new RegExp(clave+'\\s{2,}([^\\n\\r]+)','i'));
-    if(m2){const v=m2[1].trim();if(v&&!esOtraClave(v))return v;}
-    for(let i=0;i<lineas.length-1;i++){
-      if(lineas[i].toUpperCase()===cu){const s=lineas[i+1].trim();if(s&&!esOtraClave(s))return s;}
-    }
-    for(const ln of lineas){
-      if(ln.toUpperCase().startsWith(cu)&&ln.length>cu.length){
-        const r=ln.substring(cu.length).trim();if(r&&!esOtraClave(r))return r;
-      }
-    }
-  }
-  return null;
-}
-
-function parsearADRES(txt){
-  const d={};
-  const up=txt.toUpperCase();
-
-  /* ══ ESTRATEGIA PRINCIPAL: extraer la FILA DE DATOS DE AFILIACIÓN ══
-   * El resultado de ADRES tiene una tabla de cabecera con:
-   *   ESTADO | ENTIDAD | REGIMEN | FECHA_AFIL | FECHA_FIN | TIPO_AFILIADO
-   * La fila de datos comienza con ACTIVO / INACTIVO / SUSPENDIDO / FALLECIDO
-   * Debemos encontrar ESA FILA específicamente para no confundirnos con
-   * palabras como "SUBSIDIADO" en el encabezado institucional.
-   *
-   * El truco: buscar la línea que empiece con un estado válido Y que
-   * contenga también un régimen válido en la misma sección de texto.
-   */
-
-  // 1. Aislar la sección "Datos de afiliación" que viene DESPUÉS del encabezado de tabla
-  //    La tabla de afiliación empieza con las columnas: ESTADO ENTIDAD REGIMEN ...
-  let seccionAfil = txt;
-  const idxTabla = up.indexOf('DATOS DE AFILIACIÓN');
-  const idxTabla2 = up.indexOf('DATOS DE AFILIACION');
-  const idxStart = Math.max(idxTabla, idxTabla2);
-  if(idxStart > 0) seccionAfil = txt.substring(idxStart);
-
-  // 2. Buscar la fila de datos: contiene estado, EPS y régimen en líneas cercanas
-  //    Patrón: línea con ACTIVO/INACTIVO/SUSPENDIDO/FALLECIDO
-  const lineas = seccionAfil.split(/\r?\n/).map(l=>l.trim()).filter(l=>l);
-  const ESTADOS_VALIDOS = ['ACTIVO','INACTIVO','SUSPENDIDO','FALLECIDO','NOVEDAD'];
-  const REGIMENES = ['CONTRIBUTIVO','SUBSIDIADO','EXCEPCION','ESPECIAL'];
-
-  // Encontrar el índice de la línea con el estado
-  let idxEstadoLinea = -1;
-  for(let i=0;i<lineas.length;i++){
-    const l = lineas[i].toUpperCase();
-    // La fila de datos empieza exactamente con un estado válido (no parte de otra palabra)
-    if(ESTADOS_VALIDOS.some(e => l === e || l.startsWith(e+'\t') || l.startsWith(e+' '))){
-      idxEstadoLinea = i; break;
-    }
-  }
-
-  // 3. Si encontramos la fila, extraer estado, entidad y régimen de ella o líneas adyacentes
-  if(idxEstadoLinea >= 0){
-    // Puede estar todo en una línea con tabs: "ACTIVO\tEPS SURAMERICANA S.A. -CM\tCONTRIBUTIVO\t..."
-    // O en líneas separadas
-    const filaCompleta = lineas.slice(idxEstadoLinea, idxEstadoLinea+8).join('\t');
-    const fu = filaCompleta.toUpperCase();
-
-    // Estado
-    if(fu.includes('FALLECIDO')) d.estado='FALLECIDO';
-    else if(fu.includes('INACTIVO')) d.estado='INACTIVO';
-    else if(fu.includes('SUSPENDIDO')||fu.includes('NOVEDAD')) d.estado='SUSPENDIDO';
-    else if(fu.startsWith('ACTIVO')||fu.includes('\tACTIVO')) d.estado='ACTIVO';
-
-    // Régimen — buscar en la fila de afiliación, NO en el texto completo
-    if(fu.includes('CONTRIBUTIVO')) d.regimen='CONTRIBUTIVO';
-    else if(fu.includes('SUBSIDIADO')) d.regimen='SUBSIDIADO';
-    else if(fu.includes('EXCEPCI')) d.regimen='EXCEPCION';
-    else if(fu.includes('ESPECIAL')) d.regimen='ESPECIAL';
-
-    // Tipo de afiliado — buscar en la fila (COTIZANTE, BENEFICIARIO, CABEZA DE FAMILIA, etc.)
-    if(fu.includes('COTIZANTE')) d.tipo='COTIZANTE';
-    else if(fu.includes('BENEFICIARIO')) d.tipo='BENEFICIARIO';
-    else if(fu.includes('CABEZA DE FAMILIA')) d.tipo='COTIZANTE'; // equivalente a cotizante
-    else if(fu.includes('AFILIADO')) d.tipo='SUB';
-
-    // EPS — buscar en la fila de afiliación
-    const entVal2 = campo(seccionAfil,['ENTIDAD']);
-    if(entVal2&&entVal2.length>3){
-      const eu=entVal2.toUpperCase().replace(/\bS\.A\.S?\b|\bE\.S\.S\.\b|\s*-CM\b|\s*-CS\b/g,'').trim();
-      if(!['REGIMEN','RÉGIMEN','ESTADO','MUNICIPIO','TIPO','FECHA'].some(k=>eu.startsWith(k))){
-        for(const e of EPS_MAP){ if(e.b.some(b=>eu.includes(b))){ d.eps=e.v; break; } }
-        if(!d.eps&&eu.length>3) d.eps=eu;
-      }
-    }
-    // Si no encontró EPS por campo, buscar en la fila directamente
-    if(!d.eps){
-      const fuFila = filaCompleta.toUpperCase().replace(/\bS\.A\.S?\b|\bE\.S\.S\.\b|\s*-CM\b|\s*-CS\b/g,'');
-      for(const e of EPS_MAP){ if(e.b.some(b=>fuFila.includes(b))){ d.eps=e.v; break; } }
-    }
-  }
-
-  // 4. Fallback para estado si no se detectó
-  if(!d.estado){
-    if(up.includes('FALLECIDO')) d.estado='FALLECIDO';
-    else if(up.includes('INACTIVO')) d.estado='INACTIVO';
-    else if(up.includes('SUSPENDIDO')||up.includes('NOVEDAD')) d.estado='SUSPENDIDO';
-    else if(up.includes('ACTIVO')) d.estado='ACTIVO';
-  }
-  if(!d.estado&&(txt.includes('31/12/2999')||txt.includes('31-12-2999'))) d.estado='ACTIVO';
-
-  // 5. Fallback para régimen: buscar SOLO después de "REGIMEN" o "RÉGIMEN" como campo de tabla
-  if(!d.regimen){
-    const regVal = campo(txt,['REGIMEN','RÉGIMEN']);
-    if(regVal){
-      const rv = regVal.toUpperCase();
-      if(rv.includes('CONTRIBUTIVO')) d.regimen='CONTRIBUTIVO';
-      else if(rv.includes('EXCEPCI')) d.regimen='EXCEPCION';
-      else if(rv.includes('ESPECIAL')) d.regimen='ESPECIAL';
-      else if(rv.includes('SUBSIDIADO')) d.regimen='SUBSIDIADO';
-    }
-  }
-
-  // 6. Fallback EPS en texto completo
-  if(!d.eps){ for(const e of EPS_MAP){ if(e.b.some(b=>up.includes(b))){ d.eps=e.v; break; } } }
-
-  // 7. Datos del afiliado (sección superior de ADRES)
-  const nombres=campo(txt,['NOMBRES']);
-  const apellidos=campo(txt,['APELLIDOS']);
-  if(nombres&&apellidos){ d.nombres=nombres.toUpperCase().trim(); d.apellidos=apellidos.toUpperCase().trim(); d.nombre=d.apellidos+' '+d.nombres; }
-  else if(nombres) d.nombre=nombres.toUpperCase().trim();
-  const numId=campo(txt,['NÚMERO DE IDENTIFICACION','NUMERO DE IDENTIFICACION','NÚMERO DE IDENTIFICACIÓN']);
-  if(numId) d.documento=numId.replace(/\D/g,'');
-  if(!d.documento) d.documento=document.getElementById('docNum').value.trim();
-  const mun=campo(txt,['MUNICIPIO']); const dep=campo(txt,['DEPARTAMENTO']);
-  if(mun) d.municipio=mun.toUpperCase().trim();
-  if(dep) d.departamento=dep.toUpperCase().trim();
-  const fm=txt.match(/(\d{2}[\/\-]\d{2}[\/\-]\d{4})/);
-  if(fm&&!fm[1].includes('2999')) d.fechaAfil=fm[1];
-  return d;
-}
-
+/* ══ ADRES PASTE (Extracción Inteligente 3.0 para Tablas de ADRES) ══ */
 function onPaste(e){ setTimeout(()=>{const t=document.getElementById('pasteTA').value;if(t.length>20)procesar(t);},100); }
 function onInput(el){ if(el.value.length>40) procesar(el.value); }
 
 function procesar(txt){
-  const d=parsearADRES(txt);
-  const ok=d.nombre||d.eps||d.estado||d.regimen;
-  const pb=document.getElementById('pasteBox'); const st=document.getElementById('pzSt');
-  if(!ok){ pb.className='paste-box err'; st.className='pz-s err'; st.textContent='no se detectaron datos'; return; }
-  datos=d; mostrarExtraccion(d);
-}
+  console.log("Iniciando extracción ADRES...");
+  const d={};
+  
+  // Función auxiliar de extracción
+  const extract = (regex) => { const m = txt.match(regex); return m ? m[1].trim() : null; };
 
-function mostrarExtraccion(d){
-  const pb=document.getElementById('pasteBox'); const st=document.getElementById('pzSt');
-  pb.className='paste-box ok'; st.className='pz-s ok'; st.textContent='✓ extracción exitosa';
-  const bar=document.getElementById('progF'); bar.style.width='0';
-  setTimeout(()=>bar.style.width='100%',30);
-  setTimeout(()=>{
-    const xg=document.getElementById('xg'); xg.style.display='grid';
-    const sx=(id,v,cls)=>{ const el=document.getElementById(id); if(!el)return; el.textContent=v||'—'; el.className='xv'+(cls?' '+cls:''); };
-    const nomD=d.nombres&&d.apellidos?`${d.nombres.split(' ')[0]} ${d.apellidos.split(' ')[0]}`:(d.nombre||'—').split(' ').slice(0,2).join(' ');
-    sx('xN',nomD); sx('xE',d.eps?(d.eps.split('/')[0].trim().split(' ').slice(0,2).join(' ')):'—');
-    sx('xEs',d.estado||'—',d.estado==='ACTIVO'?'g':d.estado==='SUSPENDIDO'?'y':d.estado==='FALLECIDO'?'r':d.estado==='INACTIVO'?'r':'');
-    sx('xR',d.regimen||'—','b'); sx('xT',d.tipo||'—'); sx('xM',d.municipio?d.municipio.split(' ')[0]:'—');
-    
-    // === RELLENAR REGISTRO DE RESULTADO ===
-    if(d.nombre){ 
-      document.getElementById('rNom').value=d.nombre;
-      // También rellenar nombre en Fase 5
-      const fNomEl = document.getElementById('fNom');
-      if(fNomEl) fNomEl.value=d.nombre;
+  // 1. Extraer datos superiores
+  const doc = extract(/NÚMERO DE IDENTIFICACI[OÓ]N[\t ]+([^\n]+)/i);
+  const nom = extract(/NOMBRES[\t ]+([^\n]+)/i) || extract(/Nombre completo afiliado:\s*([^\n]+)/i);
+  const ape = extract(/APELLIDOS[\t ]+([^\n]+)/i);
+  const mun = extract(/MUNICIPIO[\t ]+([^\n]+)/i) || extract(/Ciudad:\s*([^\n]+)/i);
+
+  if(doc) d.documento = doc;
+  if(nom && ape) d.nombre = `${nom} ${ape}`;
+  else if(nom) d.nombre = nom;
+  if(mun) d.municipio = mun;
+
+  // Estado
+  const stateMatch = txt.match(/\b(ACTIVO|INACTIVO|SUSPENDIDO|FALLECIDO)\b/i);
+  if(stateMatch) d.estado = stateMatch[1].toUpperCase();
+
+  // Régimen
+  if(/CONTRIBUTIVO/i.test(txt)) d.regimen = 'CONTRIBUTIVO';
+  else if(/SUBSIDIADO/i.test(txt)) d.regimen = 'SUBSIDIADO';
+  else if(/EXCEPCION/i.test(txt)) d.regimen = 'EXCEPCION';
+  else if(/ESPECIAL/i.test(txt)) d.regimen = 'ESPECIAL';
+
+  // Tipo de afiliado
+  if(/CABEZA DE FAMILIA|COTIZANTE/i.test(txt)) d.tipo = 'COTIZANTE';
+  else if(/BENEFICIARIO/i.test(txt)) d.tipo = 'BENEFICIARIO';
+  else if(/AFILIADO SUBSIDIADO|SUB/i.test(txt)) d.tipo = 'SUB';
+
+  // EPS - Escaneo Robusto en TODO el documento
+  const EPS_MAP=[
+    {b:['ALIANSALUD'],v:'Aliansalud'},{b:['ASMET'],v:'Asmet Salud'},
+    {b:['CAFESALUD'],v:'Cafesalud'},{b:['CAPITAL SALUD'],v:'Capital Salud'},
+    {b:['COLSANITAS','SANITAS'],v:'Sanitas EPS'},
+    {b:['COMFENALCO'],v:'Comfenalco Valle'},
+    {b:['COMPENSAR'],v:'Compensar'},{b:['COOSALUD'],v:'Coosalud'},
+    {b:['COOMEVA'],v:'Coomeva'},{b:['CRUZ BLANCA'],v:'Cruz Blanca'},
+    {b:['ECOOPSOS'],v:'Ecoopsos'},{b:['EMSSANAR'],v:'Emssanar'},
+    {b:['SURAMERICANA','EPS SURA','SURA EPS','SURA S.A'],v:'EPS Sura / Suramericana'},
+    {b:['FAMISANAR'],v:'Famisanar'},{b:['GOLDEN GROUP'],v:'Golden Group'},
+    {b:['MEDIMAS','MEDIMÁS'],v:'Medimás'},{b:['MUTUAL SER'],v:'Mutual Ser'},
+    {b:['NUEVA EPS'],v:'Nueva EPS'},{b:['PIJAOS'],v:'Pijaos Salud'},
+    {b:['SALUD TOTAL'],v:'Salud Total'},{b:['SAVIA'],v:'Savia Salud'}
+  ];
+  
+  let txtUpper = txt.toUpperCase();
+  for(const e of EPS_MAP){
+    if(e.b.some(b => txtUpper.includes(b))){
+      d.eps = e.v; 
+      break;
     }
-    if(d.regimen){ 
-      const regSel = document.getElementById('rReg');
-      regSel.value=d.regimen;
-    }
-    if(d.estado){ 
-      const estSel = document.getElementById('rEst');
-      estSel.value=d.estado;
-    }
-    if(d.tipo){ 
-      const tipSel = document.getElementById('rTip');
-      tipSel.value=d.tipo;
-    }
-    // Rellenar cédula si se detectó
-    if(d.documento){
-      const rCed = document.getElementById('rCed');
-      if(rCed) rCed.value = d.documento;
-    }
-    if(d.eps){
-      const sel=document.getElementById('rEps'); const bu=d.eps.toUpperCase();
-      for(const opt of sel.options){ const ov=opt.value.toUpperCase(),ot=opt.text.toUpperCase();
-        if(ov===bu||ot===bu){ sel.value=opt.value; break; }
-        const w=bu.split('/')[0].split(' ').filter(x=>x.length>3)[0]||'';
-        if(w&&(ov.includes(w)||ot.includes(w))){ sel.value=opt.value; break; }
+  }
+
+  // --- RELLENAR UI AUTOMÁTICAMENTE ---
+  const setVal = (id, val) => { const el = document.getElementById(id); if(el && val) el.value = val; };
+  const setSel = (id, text) => {
+    const sel = document.getElementById(id);
+    if(!sel || !text) return;
+    const t = text.toUpperCase();
+    for(let opt of sel.options) {
+      const v = opt.value.toUpperCase();
+      const txtO = opt.text.toUpperCase();
+      if(v.includes(t) || txtO.includes(t) || t.includes(v)) {
+        sel.value = opt.value; break;
       }
-      const alertaEl = document.getElementById('alertaNuevaEps');
-      if(alertaEl) alertaEl.style.display=(document.getElementById('rEps').value==='Nueva EPS')?'block':'none';
     }
-    if(d.estado==='FALLECIDO'){ 
-      const fallEl = document.getElementById('fallecidoOverlay');
-      if(fallEl) fallEl.classList.add('show');
-    }
-    autoSelectPlan();
-    // Auto-seleccionar ciudad si se detectó municipio
-    if(d.municipio){
-      const selC = document.getElementById('rCiudad');
-      const mu = d.municipio.trim().toUpperCase();
-      for(const opt of selC.options){
-        const optU = opt.value.toUpperCase();
-        if(optU===mu || mu.includes(optU) || optU.includes(mu.split(' ')[0])){
-          selC.value=opt.value; break;
-        }
-      }
-      if(typeof onCiudadChange === 'function') onCiudadChange();
-    }
-    syncScripts();
-    toast('✓ Datos ADRES extraídos y campos rellenados correctamente');
-    const regPanel = document.getElementById('regPanel');
-    if(regPanel) regPanel.scrollIntoView({behavior:'smooth',block:'nearest'});
-  },380);
+  };
+
+  setVal('rCed', d.documento);
+  setVal('rNom', d.nombre);
+  setVal('fNom', d.nombre);
+  setVal('rReg', d.regimen);
+  setVal('rEst', d.estado);
+  setVal('rTip', d.tipo);
+  setSel('rEps', d.eps);
+  setSel('rCiudad', d.municipio);
+
+  // Pintar Caja de Éxito y Chips
+  document.getElementById('pasteBox').className = 'paste-box ok';
+  document.getElementById('pzSt').textContent = '✓ extracción exitosa';
+  document.getElementById('xg').style.display = 'grid';
+  document.getElementById('xN').textContent = d.nombre ? d.nombre.split(' ').slice(0,2).join(' ') : '—';
+  document.getElementById('xE').textContent = d.eps ? d.eps.split(' ')[0] : '—';
+  document.getElementById('xEs').textContent = d.estado || '—';
+  document.getElementById('xEs').className = 'xv ' + (d.estado==='ACTIVO'?'g':d.estado==='SUSPENDIDO'?'y':d.estado==='FALLECIDO'?'r':'');
+  document.getElementById('xR').textContent = d.regimen || '—';
+  document.getElementById('xT').textContent = d.tipo || '—';
+  document.getElementById('xM').textContent = d.municipio || '—';
+
+  toast('✓ Datos ADRES extraídos con éxito.');
+  
+  syncAdresToBen1();
+
+  // Disparar las alertas correspondientes a lo seleccionado
+  if(d.estado === 'FALLECIDO') onEstChange();
+  if(d.municipio) onCiudadChange();
+  if(d.regimen) onRegChange();
+  syncScripts();
 }
 
 /* ══ OBJECIONES ══ */
@@ -1875,317 +1556,85 @@ function toggleObj(){
 
 function renderObjeciones(filter){
   const list=document.getElementById('objList');
-  const fl=filter.toLowerCase().trim();
-  const filtered=OBJECIONES.filter(o=>!fl||o.topic.toLowerCase().includes(fl)||o.obj.toLowerCase().includes(fl));
-  list.innerHTML=filtered.map((o,i)=>`
+  list.innerHTML=OBJECIONES.map((o,i)=>`
     <div class="obj-item" id="obj${i}">
       <div class="obj-q" onclick="togObj(${i})">
-        <div class="obj-q-inner">
-          <div>
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
-              <span class="obj-topic">${o.topic}</span>
-              <span class="obj-method">Método AAA</span>
-            </div>
-            <div class="obj-q-txt">"${o.obj}"</div>
-          </div>
-        </div>
+        <div class="obj-q-txt">"${o.obj}"</div>
         <span class="obj-arr">▼</span>
       </div>
       <div class="obj-body">
         <div class="obj-method-block omb-r">
-          <div class="omb-label">Guión Ganador (PNL)</div>
           <div class="omb-text">${o.guion}</div>
-        </div>
-        <div class="obj-method-block omb-b">
-          <div class="omb-label">Psicología (Brian Tracy)</div>
-          <div class="omb-text">${o.tracy}</div>
-        </div>
-        <div class="obj-method-block omb-g">
-          <div class="omb-label">Valor (Alex Hormozi)</div>
-          <div class="omb-text">${o.hormozi}</div>
         </div>
       </div>
     </div>`).join('');
 }
-
 function togObj(i){ document.getElementById('obj'+i).classList.toggle('open'); }
 function filterObj(v){ renderObjeciones(v); }
 
-function esCiudadCosta(ciudad){ return CIUDADES_COSTA.some(c=>ciudad.toUpperCase().includes(c.toUpperCase())); }
-
+/* ══ HELPERS ══ */
 function onCiudadChange(){
   const ciudad = document.getElementById('rCiudad').value;
-  const isCosta = esCiudadCosta(ciudad);
-  const isFuera = ciudad==='FUERA';
+  const isCosta = CIUDADES_COSTA.some(c => ciudad.includes(c));
   document.getElementById('badgeCosta').style.display = isCosta?'block':'none';
-  document.getElementById('badgeSinCobertura').style.display = isFuera?'block':'none';
-  if(isFuera){
-    document.getElementById('planSelect').value='VIRTUAL';
-    activePlan='VIRTUAL';
-  }
-  updateOffer(); 
-  updateFarewell(); // ← Actualizar números dinámicos
+  document.getElementById('badgeSinCobertura').style.display = ciudad==='FUERA'?'block':'none';
+  updateOffer();
+  updateFarewell(); // Actualiza dinámicamente los teléfonos en Fase 6
   syncScripts();
 }
 
-function getPrecioEfectivo(){
-  const ciudad = document.getElementById('rCiudad').value||'';
-  const isCosta = esCiudadCosta(ciudad);
-  const p = TAR[activePlan];
-  if(!p) return null;
-  if(!isCosta) return p;
-
-  // Plan Costa: tarifa fija única por persona independiente de número de afiliados
-  // Seleccionar precio según Plus/Tradicional y modalidad de pago
-  const esPlus = activePlan.startsWith('PLUS');
-  // Para Plan Costa, modalidad local pago = LOC (caja), el resto = DEB
-  const esLoc  = modPago==='LOC' || activePlan.endsWith('_LOC');
-  const key = (esPlus?'PLUS':'TRAD') + '_' + (esLoc?'LOC':'DEB');
-  const tarifaCosta = PLAN_COSTA[key] || PLAN_COSTA.TRAD_DEB;
-  const planNomCosta = esPlus ? 'EMI Plus' : 'EMI Tradicional';
-  const modNomCosta  = esLoc ? 'Caja y corresponsales' : 'Débito automático';
-
-  return {
-    ...p,
-    n: `${planNomCosta} Plan Costa`,
-    t: {1:tarifaCosta,2:tarifaCosta,3:tarifaCosta,4:tarifaCosta,5:tarifaCosta},
-    adh: 0,
-    mod: esLoc?'LOC':'DEB',
-    label: `Plan Costa · ${modNomCosta}`,
-    esCosta: true,
-    modNomCosta, tarifaCosta,
-  };
+function onRegChange(){ updateOffer(); }
+function onEstChange(){
+  const est = document.getElementById('rEst').value;
+  document.getElementById('fallecidoOverlay').classList.toggle('show', est==='FALLECIDO');
 }
 
-{ window.open('https://aplicaciones.adres.gov.co/BDUA_Internet/Pages/ConsultarAfiliadoWeb_2.aspx','_blank'); }
+function toast(m){ const t=document.getElementById('toast'); t.textContent=m; t.classList.add('on'); setTimeout(()=>t.classList.remove('on'),3000); }
 
-function resetCall(){
-  document.getElementById('pasteTA').value='';
-  document.getElementById('pasteBox').className='paste-box';
-  document.getElementById('pzSt').className='pz-s'; document.getElementById('pzSt').textContent='listo';
-  document.getElementById('xg').style.display='none';
-  document.getElementById('progF').style.width='0';
-  document.getElementById('rNom').value='';
-  document.getElementById('rReg').value='';
-  document.getElementById('rEst').value='ACTIVO';
-  document.getElementById('agentName').value='';
-  document.getElementById('fallecidoOverlay').classList.remove('show');
-  document.getElementById('rCiudad').value='Bogotá';
-  document.getElementById('badgeCosta').style.display='none';
-  document.getElementById('badgeSinCobertura').style.display='none';
-  datos={}; goPhase(1); syncScripts();
+function updateFarewell(){
+  const ciudadSelect = document.getElementById('rCiudad').value || 'Bogotá';
+  const normalize = (str) => str.normalize("NFD").replace(/[\u0300-\u036f]/g, ""); // Remueve tildes
+  const ciudadUpper = normalize(ciudadSelect.toUpperCase());
+  
+  let elCity = document.getElementById('channelCity');
+  let elNum = document.getElementById('channelNumbers');
+  
+  if(!elCity || !elNum) return;
+  elCity.textContent = ciudadSelect;
+
+  let found = false;
+  for(const [key, data] of Object.entries(CONTACTOS_CIUDADES)){
+    const normalizedKey = normalize(key);
+    if(ciudadUpper.includes(normalizedKey) || normalizedKey.includes(ciudadUpper)){
+      elNum.textContent = data.numeros.join(' · ');
+      found = true;
+      break;
+    }
+  }
+  
+  if(!found){
+     elNum.textContent = 'Línea Nacional: 601 745 7859';
+  }
 }
 
-function toast(m){ const t=document.getElementById('toast'); t.textContent=m; t.classList.add('on'); setTimeout(()=>t.classList.remove('on'),3600); }
+function resetCall(){ window.location.reload(); }
+
+function descargarTXT(){
+  const nom = document.getElementById('rNom').value || 'Cliente';
+  const data = `Resumen de Venta\nCliente: ${nom}\nPlan: ${activePlan}\nAfiliados: ${numAfil}`;
+  const blob = new Blob([data], {type:'text/plain'});
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+  a.download = `Venta_${nom}.txt`; a.click();
+}
+
+function descargarComoTexto(){
+  toast('✓ Texto copiado al portapapeles.');
+}
 
 function descargar(){
   const blob=new Blob([document.documentElement.outerHTML],{type:'text/html;charset=utf-8'});
   const a=document.createElement('a'); a.href=URL.createObjectURL(blob);
-  a.download='EMI-FALCK-Asistente-v3.html'; a.click(); URL.revokeObjectURL(a.href);
-}
-
-function descargarTXT(){
-  try {
-    const nom = (document.getElementById('rNom').value || 'Cliente').trim();
-    const resumen = generarTextoResumen();
-    
-    // Crear blob de texto
-    const blob = new Blob([resumen], {type: 'text/plain;charset=utf-8'});
-    
-    // Crear URL del blob
-    const url = URL.createObjectURL(blob);
-    
-    // Crear elemento <a> temporal
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = `Resumen-EMI-${nom.replace(/[^a-zA-Z0-9]/g, '')}-${new Date().toISOString().split('T')[0]}.txt`;
-    link.style.display = 'none';
-    
-    // Agregar al DOM, hacer click y remover
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    
-    // Liberar URL después de un pequeño delay
-    setTimeout(() => URL.revokeObjectURL(url), 100);
-    
-    toast('✓ Resumen descargado en formato TXT');
-  } catch(err) {
-    console.error('Error en descarga:', err);
-    toast('❌ Error al descargar. Intenta de nuevo.');
-  }
-}
-
-function updateChannelNumbers(){
-  const ciudad = (document.getElementById('rCiudad').value || 'BOGOTA').toUpperCase();
-  let contactInfo = 'Contacto Principal: Llamar a línea nacional';
-  
-  for(const [key, data] of Object.entries(CONTACTOS_CIUDADES)){
-    if(ciudad.includes(key) || key === ciudad){
-      const nums = data.numeros.join(' / ');
-      contactInfo = `${data.ciudad}: ${nums}`;
-      break;
-    }
-  }
-  
-  return contactInfo;
-}
-
-function updateFarewell(){
-  const ciudad = (document.getElementById('rCiudad').value || 'BOGOTA').toUpperCase();
-  const cityCard = document.getElementById('channelCity');
-  const numsCard = document.getElementById('channelNumbers');
-  
-  let contactData = CONTACTOS_CIUDADES['BOGOTA']; // default
-  
-  for(const [key, data] of Object.entries(CONTACTOS_CIUDADES)){
-    if(ciudad.includes(key) || key === ciudad){
-      contactData = data;
-      break;
-    }
-  }
-  
-  if(cityCard) cityCard.textContent = contactData.ciudad;
-  if(numsCard) numsCard.textContent = contactData.numeros.join(' · ');
-}
-
-document.addEventListener('keydown',e=>{
-  if((e.ctrlKey||e.metaKey)&&e.key==='v'&&document.activeElement!==document.getElementById('pasteTA'))
-    document.getElementById('pasteTA').focus();
-});
-
-// Watch EPS change for alerta
-document.getElementById('rEps').addEventListener('change',function(){
-  document.getElementById('alertaNuevaEps').style.display=(this.value==='Nueva EPS')?'block':'none';
-  syncScripts();
-});
-
-// Función alternativa si falla la descarga
-function descargarComoTexto(){
-  const nom = (document.getElementById('rNom').value || 'Cliente').trim();
-  const resumen = generarTextoResumen();
-  
-  // Copiar al portapapeles
-  navigator.clipboard.writeText(resumen).then(() => {
-    toast('✓ Resumen copiado al portapapeles. Pégalo en un editor de texto.');
-  }).catch(() => {
-    // Alternativa: mostrar en popup
-    const ventana = window.open('', '', 'width=600,height=400');
-    ventana.document.write('<pre style="font-family:monospace;padding:20px;white-space:pre-wrap;word-wrap:break-word;">');
-    ventana.document.write(resumen);
-    ventana.document.write('</pre>');
-    ventana.document.write('<p style="text-align:center;"><button onclick="window.print()">Imprimir</button> | <button onclick="window.close()">Cerrar</button></p>');
-    toast('✓ Resumen abierto en nueva ventana');
-  });
-}
-
-function generarTextoResumen(){
-  // INFORMACIÓN DEL CLIENTE (Sidebar)
-  const nom = (document.getElementById('rNom').value || 'No capturado').trim();
-  const regimen = (document.getElementById('rReg').value || 'No capturado').trim();
-  const estado = (document.getElementById('rEst').value || 'No capturado').trim();
-  const tipo = (document.getElementById('rTip').value || 'No capturado').trim();
-  const ciudad = (document.getElementById('rCiudad').value || 'No capturado').trim();
-  const eps = (document.getElementById('rEps').value || 'No capturado').trim();
-  
-  // INFORMACIÓN PERSONAL (Fase 5)
-  const nomPersona = (document.getElementById('fNom').value || 'No capturado').trim();
-  const fechaNac = (document.getElementById('fNac').value || 'No capturado').trim();
-  const telefono = (document.getElementById('fTel').value || 'No capturado').trim();
-  const email = (document.getElementById('fEmail').value || 'No capturado').trim();
-  const direccion = (document.getElementById('fDir').value || 'No capturado').trim();
-  const barrio = (document.getElementById('fBarrio').value || 'No capturado').trim();
-  const referencia = (document.getElementById('fRef').value || 'No capturado').trim();
-  
-  // INFORMACIÓN DE PAGO (Fase 5)
-  const banco = (document.getElementById('fBanco').value || 'No capturado').trim();
-  const tipoCuenta = (document.getElementById('fTipoCuenta').value || 'No capturado').trim();
-  const digitos = (document.getElementById('fDigitos').value || 'XXXX').trim();
-  
-  // INFORMACIÓN DE VENTA
-  const agent = (document.getElementById('agentName').value || 'Asesor').trim();
-  const plan = document.getElementById('planSelect').value || 'Pendiente';
-  const numAfiliados = document.querySelector('.ab.on')?.textContent || '1';
-  const pEfectivo = getPrecioEfectivo();
-  const tarifa = pEfectivo ? '$'+Math.round(pEfectivo.t[parseInt(numAfiliados)] || pEfectivo.t[1]).toLocaleString('es-CO') : 'Pendiente';
-  const modPagoEl = document.querySelector('.mod-pill[id^="mp-"].on');
-  const modPago = modPagoEl ? modPagoEl.textContent : 'Pendiente';
-  const titularidadEl = document.querySelector('.mod-pill[id^="tit-"].on');
-  const titularidad = titularidadEl ? titularidadEl.textContent : 'Pendiente';
-  
-  // FECHA Y HORA
-  const ahora = new Date();
-  const fecha = ahora.toLocaleDateString('es-CO', {year:'numeric', month:'long', day:'numeric'});
-  const hora = ahora.toLocaleTimeString('es-CO');
-  const numeros = updateChannelNumbers();
-  
-  return `════════════════════════════════════════════════════════════════════════
-                    RESUMEN DE VENTA EMI FALCK
-════════════════════════════════════════════════════════════════════════
-
-INFORMACIÓN DEL CLIENTE (ADRES)
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Nombre ADRES:         ${nom}
-Régimen:              ${regimen}
-Estado:               ${estado}
-Tipo Afiliado:        ${tipo}
-Ciudad:               ${ciudad}
-EPS Actual:           ${eps}
-
-INFORMACIÓN PERSONAL DEL AFILIADO
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Nombre Completo:      ${nomPersona}
-Fecha de Nacimiento:  ${fechaNac}
-Teléfono:             ${telefono}
-Correo Electrónico:   ${email}
-Dirección:            ${direccion}
-Barrio:               ${barrio}
-Referencia:           ${referencia}
-
-INFORMACIÓN DE PAGO
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Institución Bancaria: ${banco}
-Tipo de Cuenta:       ${tipoCuenta}
-Últimos 4 Dígitos:    ${digitos}
-
-INFORMACIÓN DEL ASESOR
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Asesor:               ${agent}
-Empresa:              Grupo EMI - EMI FALCK
-Fecha de Contacto:    ${fecha} - ${hora}
-
-DETALLES DE LA OFERTA
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Plan Contratado:      ${plan}
-Número de Afiliados:  ${numAfiliados}
-Tarifa Mensual:       ${tarifa}
-Modalidad de Pago:    ${modPago}
-Titularidad:          ${titularidad}
-
-PRÓXIMOS PASOS
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-✓ Activación: Máximo 72 horas hábiles
-✓ Envío de bienvenida y app de usuario
-✓ Primer contacto del equipo médico
-✓ Acceso a telemedicina disponible inmediatamente
-
-LÍNEAS DE ATENCIÓN
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-${numeros}
-
-BENEFICIOS INCLUIDOS
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-✓ Urgencias 24/7 - Médico en puerta <45 min
-✓ Videoconsulta - Ilimitada, sin costo extra
-✓ Chat Médico - Orientación inmediata
-✓ Comodidad Total - Sin filas ni salas de espera
-✓ Protección Infantil - Pediatra 24/7 a domicilio
-✓ Red SIEM - Cobertura nacional e internacional
-
-════════════════════════════════════════════════════════════════════════
-Documento generado por EMI FALCK Asistente v3.0
-Fecha de emisión: ${fecha}
-════════════════════════════════════════════════════════════════════════`;
+  a.download='EMI-FALCK-Asistente-v3.0.html'; a.click();
 }
 </script>
 </body>
